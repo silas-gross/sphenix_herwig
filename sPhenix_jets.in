@@ -30,12 +30,34 @@ set /Herwig/Shower/Evolver:IntrinsicPtGaussian 2.2*GeV
 set RHICGenerator:EventHandler:LuminosityFunction:Energy 200.0
 
 ############################################
+# seting gold gold collisions		  ##
+############################################
+#
+#set RHICGenerator:EventHandler:Collision:Collision:newIncoming Au Au
+#set 
+############################################
+# turning on final state parton shower	  ##
+############################################
+
+cd /Herwig/Shower
+set RHICGenerator:ISR Yes
+set RHICGenerator:FSR Yes
+############################################
 # Matrix Elements for AuAu collisions	  ##
 ############################################
 cd /Herwig/MatrixElements
 
 #will return to this, need to identify proper matrix elements to use
-insert SimpleQCD:MatrixElements
+insert SimpleQCD:MatrixElements[0] MEQCD2to2
+insert SimpleQCD:MatrixElements[0] MEMinBias
+insert SimpleQCD:MatrixElements[0] MEZJet
+insert SimpleQCD:MatrixElements[0] MEWJet
+insert SimpleQCD:MatrixElements[0] MEHeavyQuark
+insert SimpleQCD:MatrixElements[0] MEGammaJet
+insert SimpleQCD:MatrixElements[0] MEGammaGamma
+insert SimpleQCD:MatrixElements[0] MEGG2GG
+
+
 cd /Herwig/Generators
 
 ############################################
