@@ -1,0 +1,55 @@
+############################################
+# Herwig generator for sphenix 	          ##
+#                                         ##
+#	version:1.0			  ##
+#	author:Silas Grossberndt	  ##
+#	date: 7 Oct 2022		  ##
+#					  ##
+############################################
+
+############################################
+# Technical parameters for this run       ##
+############################################
+
+cd /Herwig/Generators
+set RHICGenerator:NumberOfEvents 1000000
+set RHICGenerator:RandomNumberGenerator:Seed 3112201
+set RHICGenerator:PrintEvent 10
+set RHICGenerator:MaxErrors 10000
+
+############################################
+# RHIC Physics parameters		  ##
+############################################
+
+# Intrinsic pT tune extrapolated to RHIC energy (using LHC)
+set /Herwig/Shower/Evolver:IntrinsicPtGaussian 2.2*GeV
+
+############################################
+# sqrt(s)=200 GeV 			  ##
+############################################
+set RHICGenerator:EventHandler:LuminosityFunction:Energy 200.0
+
+############################################
+# Matrix Elements for AuAu collisions	  ##
+############################################
+cd /Herwig/MatrixElements
+
+#will return to this, need to identify proper matrix elements to use
+insert SimpleQCD:MatrixElements
+cd /Herwig/Generators
+
+############################################
+# HepMC outputs 			  ##
+############################################
+insert RHICGenerator:AnalysisHandlers 0 /Herwig/Analysis/Plot
+insert RHICGenerator:AnalysisHandlers 0 /Herwig/Analysis/HepMCFile
+set /Herwig/Analysis/HepMCFile:PrintEvent 100
+set /Herwig/Analysis/HepMCFile:Format GenEvent
+set /Herwig/Analysis/HepMCFile:Units GeV_mm
+
+###########################################
+# Save run for later usage		 ##
+###########################################
+saverun RHIC RHICGenerator
+
+
