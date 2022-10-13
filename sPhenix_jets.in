@@ -9,11 +9,11 @@
 ############################################
 # Defining Gold Nuclei			  ##
 ############################################
-read Particles.in
+#read Particles.in
 
-cd /Herwig/Particles
-create ThePEG::BeamParticleData Au
-setup Au 27 Au 197 0. 0 0 0 0 3 0
+#cd /Herwig/Particles
+#create ThePEG::BeamParticleData Au
+#setup Au 27 Au 197 0. 0 0 0 0 3 0
 
 
 ############################################
@@ -26,8 +26,8 @@ create ThePEG::FixedCMSLuminosity FixedRHICLuminosity
 newdef FixedRHICLuminosity:Energy 200.0
 insert RHICHandler:SubProcessHandlers[0] /Herwig/MatrixElements/SimpleQCD
 newdef RHICHandler:LuminosityFunction FixedRHICLuminosity
-newdef RHICHandler:BeamA /Herwig/Particles/Au
-newdef RHICHandler:BeamB /Herwig/Particles/AU
+newdef RHICHandler:BeamA /Herwig/Particles/p
+newdef RHICHandler:BeamB /Herwig/Particles/p
 newdef RHICHandler:Sampler /Herwig/ACDCSampler
 newdef RHICHandler:CascadeSampler /Herwig/Shower/ShowerHandler
 newdef RHICHandler:BinStrategy 2
