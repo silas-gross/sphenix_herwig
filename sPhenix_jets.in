@@ -6,6 +6,7 @@
 #	date: 7 Oct 2022		  ##
 #					  ##
 ############################################
+DISABLEREADONLY
 ############################################
 # Defining Gold Nuclei			  ##
 ############################################
@@ -26,12 +27,12 @@ create ThePEG::FixedCMSLuminosity FixedRHICLuminosity
 newdef FixedRHICLuminosity:Energy 200.0
 insert RHICHandler:SubProcessHandlers[0] /Herwig/MatrixElements/SimpleQCD
 newdef RHICHandler:LuminosityFunction FixedRHICLuminosity
-newdef RHICHandler:BeamA /Herwig/Particles/p
-newdef RHICHandler:BeamB /Herwig/Particles/p
+newdef RHICHandler:BeamA /Herwig/Particles/p+
+newdef RHICHandler:BeamB /Herwig/Particles/p+
 newdef RHICHandler:Sampler /Herwig/ACDCSampler
-newdef RHICHandler:CascadeSampler /Herwig/Shower/ShowerHandler
+newdef RHICHandler:CascadeHandler /Herwig/Shower/ShowerHandler
 newdef RHICHandler:BinStrategy 2
-newdef RHICHandler:HadronizationHandler /Herwig/Hadronization/ClusterHad/Handler
+newdef RHICHandler:HadronizationHandler /Herwig/Hadronization/ClusterHadHandler
 newdef RHICHandler:DecayHandler /Herwig/Decays/DecayHandler
 insert RHICHandler:PreCascadeHandlers 0 /Herwig/NewPhysics/DecayHandler
 
@@ -46,8 +47,12 @@ newdef RHICGenerator:EventHandler /Herwig/EventHandlers/RHICHandler
 newdef RHICGenerator:Strategy DefaultStrategy
 newdef RHICGenerator:DumpPeriod -1
 
-read Cuts.in 
+#cd /Herwig/Defaults
+#cd /Herwig/Cuts
+#read Cuts.in 
 cd /Herwig/Generators
+#cd /Herwig/Cuts
+#ls
 newdef RHICGenerator:EventHandler:Cuts /Herwig/Cuts/QCDCuts
 
 ############################################
@@ -66,7 +71,7 @@ set RHICGenerator:MaxErrors 10000
 
 # Intrinsic pT tune extrapolated to RHIC energy (using LHC)
 set /Herwig/Shower/Evolver:IntrinsicPtGaussian 2.2*GeV
-
+set /Herwig/Shower/Evolver:HardEmissionMode POWHEG
 ############################################
 # sqrt(s)=200 GeV 			  ##
 ############################################
@@ -82,9 +87,9 @@ set RHICGenerator:EventHandler:LuminosityFunction:Energy 200.0
 # turning on final state parton shower	  ##
 ############################################
 
-cd /Herwig/Shower
-set RHICGenerator:ISR Yes
-set RHICGenerator:FSR Yes
+#cd /Herwig/Shower
+#set RHICGenerator:ISR Yes
+#set RHICGenerator:FSR Yes
 ############################################
 # Matrix Elements for AuAu collisions	  ##
 ############################################
@@ -92,13 +97,13 @@ cd /Herwig/MatrixElements
 
 #will return to this, need to identify proper matrix elements to use
 insert SimpleQCD:MatrixElements[0] MEQCD2to2
-insert SimpleQCD:MatrixElements[0] MEMinBias
-insert SimpleQCD:MatrixElements[0] MEZJet
-insert SimpleQCD:MatrixElements[0] MEWJet
-insert SimpleQCD:MatrixElements[0] MEHeavyQuark
+#insert SimpleQCD:MatrixElements[0] MEMinBias
+#insert SimpleQCD:MatrixElements[0] MEZJet
+#insert SimpleQCD:MatrixElements[0] MEWJet
+#insert SimpleQCD:MatrixElements[0] MEHeavyQuark
 insert SimpleQCD:MatrixElements[0] MEGammaJet
-insert SimpleQCD:MatrixElements[0] MEGammaGamma
-insert SimpleQCD:MatrixElements[0] MEGG2GG
+#insert SimpleQCD:MatrixElements[0] MEGammaGamma
+#insert SimpleQCD:MatrixElements[0] MEGG2GG
 
 
 cd /Herwig/Generators
@@ -107,7 +112,7 @@ cd /Herwig/Generators
 # HepMC outputs 			  ##
 ############################################
 insert RHICGenerator:AnalysisHandlers 0 /Herwig/Analysis/Plot
-insert RHICGenerator:AnalysisHandlers 0 /Herwig/Analysis/HepMCFile
+#insert RHICGenerator:AnalysisHandlers 0 /Herwig/Analysis/HepMCFile
 set /Herwig/Analysis/HepMCFile:PrintEvent 100
 set /Herwig/Analysis/HepMCFile:Format GenEvent
 set /Herwig/Analysis/HepMCFile:Units GeV_mm

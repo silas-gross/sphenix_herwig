@@ -1,0 +1,7 @@
+*.svg
+*.pdf
+*.tex
+*.out
+*.log
+*.run
+*.dot
