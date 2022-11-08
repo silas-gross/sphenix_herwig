@@ -23,18 +23,18 @@ DISABLEREADONLY
 cd /Herwig/EventHandlers
 
 create ThePEG::StandardEventHandler RHICHandler
-create ThePEG::FixedCMSLuminosity FixedRHICLuminosity
+create ThePEG::FixedCMSLuminosity FixedRHICLuminosity FixedCMSLuminosity.so
 newdef FixedRHICLuminosity:Energy 200.0
-insert RHICHandler:SubProcessHandlers[0] /Herwig/MatrixElements/SimpleQCD
+#insert RHICHandler:SubProcessHandlers[0] /Herwig/MatrixElements
 newdef RHICHandler:LuminosityFunction FixedRHICLuminosity
 newdef RHICHandler:BeamA /Herwig/Particles/p+
 newdef RHICHandler:BeamB /Herwig/Particles/p+
 newdef RHICHandler:Sampler /Herwig/ACDCSampler
 newdef RHICHandler:CascadeHandler /Herwig/Shower/ShowerHandler
-newdef RHICHandler:BinStrategy 2
+#newdef RHICHandler:BinStrategy 2
 newdef RHICHandler:HadronizationHandler /Herwig/Hadronization/ClusterHadHandler
 newdef RHICHandler:DecayHandler /Herwig/Decays/DecayHandler
-insert RHICHandler:PreCascadeHandlers 0 /Herwig/NewPhysics/DecayHandler
+#insert RHICHandler:PreCascadeHandlers 0 /Herwig/NewPhysics/DecayHandler
 
 #############################################
 # Defining the Event Generator 		   ##
@@ -51,9 +51,12 @@ newdef RHICGenerator:DumpPeriod -1
 #cd /Herwig/Cuts
 #read Cuts.in 
 cd /Herwig/Generators
-#cd /Herwig/Cuts
+cd /Herwig/Cuts
 #ls
-newdef RHICGenerator:EventHandler:Cuts /Herwig/Cuts/QCDCuts
+newdef RHICGenerator:EventHandler:Cuts 
+set Cuts:ScaleMin 2.0*GeV2
+set Cuts:X1Min 1.0e-5
+set Cuts:X2Min 1.0e-5
 
 ############################################
 # Technical parameters for this run       ##
@@ -70,8 +73,8 @@ set RHICGenerator:MaxErrors 10000
 ############################################
 
 # Intrinsic pT tune extrapolated to RHIC energy (using LHC)
-set /Herwig/Shower/Evolver:IntrinsicPtGaussian 2.2*GeV
-set /Herwig/Shower/Evolver:HardEmissionMode POWHEG
+#set /Herwig/Shower/Evolver:IntrinsicPtGaussian 2.2*GeV
+#set /Herwig/Shower/Evolver:HardEmissionMode POWHEG
 ############################################
 # sqrt(s)=200 GeV 			  ##
 ############################################
@@ -96,12 +99,12 @@ set RHICGenerator:EventHandler:LuminosityFunction:Energy 200.0
 cd /Herwig/MatrixElements
 
 #will return to this, need to identify proper matrix elements to use
-insert SimpleQCD:MatrixElements[0] MEQCD2to2
-#insert SimpleQCD:MatrixElements[0] MEMinBias
+insert SubProcess:MatrixElements[0] MEQCD2to2
+insert SubProcess:MatrixElements[0] MEMinBias
 #insert SimpleQCD:MatrixElements[0] MEZJet
 #insert SimpleQCD:MatrixElements[0] MEWJet
 #insert SimpleQCD:MatrixElements[0] MEHeavyQuark
-insert SimpleQCD:MatrixElements[0] MEGammaJet
+insert SubProcess:MatrixElements[0] MEGammaJet
 #insert SimpleQCD:MatrixElements[0] MEGammaGamma
 #insert SimpleQCD:MatrixElements[0] MEGG2GG
 
@@ -112,7 +115,7 @@ cd /Herwig/Generators
 # HepMC outputs 			  ##
 ############################################
 insert RHICGenerator:AnalysisHandlers 0 /Herwig/Analysis/Plot
-#insert RHICGenerator:AnalysisHandlers 0 /Herwig/Analysis/HepMCFile
+insert RHICGenerator:AnalysisHandlers 0 /Herwig/Analysis/HepMCFile
 set /Herwig/Analysis/HepMCFile:PrintEvent 100
 set /Herwig/Analysis/HepMCFile:Format GenEvent
 set /Herwig/Analysis/HepMCFile:Units GeV_mm
