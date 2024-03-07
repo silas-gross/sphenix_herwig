@@ -98,6 +98,28 @@ int HerwigJetSpectra::InitRun(PHCompositeNode *topNode)
 int HerwigJetSpectra::process_event(PHCompositeNode *topNode)
 {
   std::cout << "HerwigJetSpectra::process_event(PHCompositeNode *topNode) Processing Event" << std::endl;
+  PHHepMCGenEventMap *phg=findNode::getClass<PHHepMCGenEventMap>(topNode, "PHHepMCGenEventMap");
+  for ( PHHepMCGenEventMap::ConstIter eventIter=phg->begin(); eventIter != phg->end(); ++eventIter)
+  {
+	PHHepMCGenEvent* hpev=eventIter->second;
+	if(hepev){
+		HepMC::GenEvent* ev=hpev->getEvent();
+		if(!ev) return 1;
+		PHHepMCGenEvent* origvtx=hpev->get(0);
+		float x_vtx->origvtx->get_collision_vertex().x(), y_vtx->origvtx->get_collision_vertex.y(), z_vtx=origvtx->get_collision_vertex().z(); //here is the vertex
+		//Now need to get the produced particles and differentiate from the end particles
+		for(HepMC::GenEvent::particle_const_iter iter=ev->particles_begin(); iter !=truthevent->particles_end(); ++iter){
+	if(!(*iter)->end_vertex() && (*iter)->status() == 1 && (*iter)->get_embedding_id() >= 0){
+		double px=(*iter)->momentum().px();
+		double py=(*iter)->momentum().py();
+		double pz=(*iter)->momentum().pz();
+		double phi=atan2(py, px);
+		double pt=sqrt(px*px+py*py);
+		double eta=asinh(pz/pt);
+		if(
+		
+		
+  }
   return Fun4AllReturnCodes::EVENT_OK;
 }
 

@@ -4,8 +4,30 @@
 #define HERWIGJETSPECTRA_H
 
 #include <fun4all/SubsysReco.h>
+#include <fun4all/Fun4ALLBase.h>
+#include <fun4all/Fun4ALLInputManager.h>
+#include <fun4all/Fun4AllReturnCodes.h>
+#include <ffaobjects/EventHeaderv1.h>
+#include <Event/Event.h>
+#include <Event/EventTypes.h>
 
 #include <string>
+#include <vector>
+#include <map>
+#include <math.h>
+
+#include <TH1.h>
+#include <TFile.h>
+
+#include <g4main/PHG4VtxPoint.h>
+#include <g4main/PHG4TruthInfoContainer.h>
+#include <g4main/PHG4Particle.h>
+#include <phhepmc/PHHepMCGenEvent.h>
+#include <phhepmc/PHHepMCGenEventMap.h>
+#include <HepMC/GenEvent.h>
+#include <phool/phool.h>
+#include <phool/getGlass.h>
+#include <phool/PHCompositeNode.h>
 
 class PHCompositeNode;
 
@@ -13,7 +35,8 @@ class HerwigJetSpectra : public SubsysReco
 {
  public:
 
-  HerwigJetSpectra(const std::string &name = "HerwigJetSpectra");
+  HerwigJetSpectra(const std::string &name = "HerwigJetSpectra", 
+			const std::string &fname="HerwigJetSpectra.root");
 
   ~HerwigJetSpectra() override;
 
@@ -51,6 +74,7 @@ class HerwigJetSpectra : public SubsysReco
   void Print(const std::string &what = "ALL") const override;
 
  private:
+	TH1F *phi, *eta, *pt, *mass, 
 };
 
 #endif // HERWIGJETSPECTRA_H
