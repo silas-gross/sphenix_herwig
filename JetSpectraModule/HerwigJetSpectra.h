@@ -2,10 +2,12 @@
 //  -*- C++ -*-.
 #ifndef HERWIGJETSPECTRA_H
 #define HERWIGJETSPECTRA_H
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 
 #include <fun4all/SubsysReco.h>
-#include <fun4all/Fun4ALLBase.h>
-#include <fun4all/Fun4ALLInputManager.h>
+#include <fun4all/Fun4AllBase.h>
+#include <fun4all/Fun4AllInputManager.h>
 #include <fun4all/Fun4AllReturnCodes.h>
 #include <ffaobjects/EventHeaderv1.h>
 #include <Event/Event.h>
@@ -22,12 +24,17 @@
 #include <g4main/PHG4VtxPoint.h>
 #include <g4main/PHG4TruthInfoContainer.h>
 #include <g4main/PHG4Particle.h>
+#include <g4main/PHG4Hit.h>
+#include <g4main/PHG4HitContainer.h>
+
 #include <phhepmc/PHHepMCGenEvent.h>
 #include <phhepmc/PHHepMCGenEventMap.h>
 #include <HepMC/GenEvent.h>
+
 #include <phool/phool.h>
-#include <phool/getGlass.h>
+#include <phool/getClass.h>
 #include <phool/PHCompositeNode.h>
+#include <phool/PHObject.h>
 
 class PHCompositeNode;
 
@@ -41,12 +48,12 @@ class HerwigJetSpectra : public SubsysReco
 	h_phi=new TH1F("phi", "#varphi distribution of all particles produced in the decay chain of Hepmc record; #varphi; #sum_{particles} E [GeV]", 64, -3.1416, 3.14);
 	h_eta=new TH1F("eta", "#eta distribution of all particles produced in decay chain of Hepmc record in sPHENIX acceptance; #eta; #sum_{particles} E [GeV]", 24, -1.12, 1.1); 
 	h_pt=new TH1F("pt", "p_{T} distribution of all particles produced in decay chain of Hepmc record; p_{T} [GeV]; N_{part}", 100,-0.5, 99.5);
-	h_n_part=new TH1F("n_part", "Number of total particles produced in decay chain of a Hepmc event; n_{part}; N_{event}", 1000, -0,5, 999.5);
+	h_n_part=new TH1F("n_part", "Number of total particles produced in decay chain of a Hepmc event; n_{part}; N_{event}", 1000, -0.5, 999.5);
 	h_mass=new TH1F("mass", "Particle masses of all particle in decay chain of Hepmc record; m [GeV]; N_{part}", 1000, 0, 1000);
 	h_phi_orig=new TH1F("phi_orig", "#varphi distribution of primary particles produced in Hepmc record; #varphi; #sum_{particles} E [GeV]", 64, -3.1416, 3.14);
 	h_eta_orig=new TH1F("eta_orig", "#eta distribution of primary particles produced in decay chain of Hepmc record in sPHENIX acceptance; #eta; #sum_{particles} E [GeV]", 24, -1.12, 1.1); 
 	h_pt_orig=new TH1F("pt_orig", "p_{T} distribution of primary particles produced in decay chain of Hepmc record; p_{T} [GeV]; N_{part}", 100,-0.5, 99.5);
-	h_n_part_orig=new TH1F("n_part_orig", "Number of total primary particles produced in decay chain of a Hepmc event; n_{part}; N_{event}", 1000, -0,5, 999.5);
+	h_n_part_orig=new TH1F("n_part_orig", "Number of total primary particles produced in decay chain of a Hepmc event; n_{part}; N_{event}", 1000, -0.5, 999.5);
 	h_mass_orig=new TH1F("mass_orig", "Particle masses of primary particle in decay chain of Hepmc record; m [GeV]; N_{part}", 1000, 0, 1000);
 	h_pt_leading=new TH1F("pt_leading", "p_{T} of leading primary particle in Hepmc record; p_{T}[GeV]; N_{part}", 1000, -0.5, 200);
 	}

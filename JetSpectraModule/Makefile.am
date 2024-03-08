@@ -21,7 +21,10 @@ libHerwigJetSpectra_la_SOURCES = \
 
 libHerwigJetSpectra_la_LIBADD = \
   -lphool \
-  -lSubsysReco
+  -lSubsysReco \
+  -lfun4all \
+  -lg4dst \
+  -lg4eval
 
 BUILT_SOURCES = testexternals.cc
 

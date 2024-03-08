@@ -104,14 +104,14 @@ int HerwigJetSpectra::process_event(PHCompositeNode *topNode)
   for ( PHHepMCGenEventMap::ConstIter eventIter=phg->begin(); eventIter != phg->end(); ++eventIter)
   {
 	PHHepMCGenEvent* hpev=eventIter->second;
-	if(hepev){
+	if(hpev){
 		HepMC::GenEvent* ev=hpev->getEvent();
 		if(!ev) return 1;
-		PHHepMCGenEvent* origvtx=hpev->get(0);
-		float x_vtx->origvtx->get_collision_vertex().x(), y_vtx->origvtx->get_collision_vertex.y(), z_vtx=origvtx->get_collision_vertex().z(); //here is the vertex
+		//PHHepMCGenEvent* origvtx=phg->get(0);
+		//float x_vtx=origvtx->get_collision_vertex().x(), y_vtx=origvtx->get_collision_vertex().y(), z_vtx=origvtx->get_collision_vertex().z(); //here is the vertex
 		//Now need to get the produced particles and differentiate from the end particles
-		for(HepMC::GenEvent::particle_const_iter iter=ev->particles_begin(); iter !=truthevent->particles_end(); ++iter){
-	if(!(*iter)->end_vertex() && (*iter)->status() == 1 && (*iter)->get_embedding_id() >= 0){
+		for(HepMC::GenEvent::particle_const_iterator iter=ev->particles_begin(); iter !=ev->particles_end(); ++iter){
+	if(!(*iter)->end_vertex() && (*iter)->status() == 1 && hpev->get_embedding_id() >= 0){
 		double px=(*iter)->momentum().px();
 		double py=(*iter)->momentum().py();
 		double pz=(*iter)->momentum().pz();
@@ -120,26 +120,28 @@ int HerwigJetSpectra::process_event(PHCompositeNode *topNode)
 		double eta=asinh(pz/pt);
 		double mass=(*iter)->generated_mass(); 
 		double E=(*iter)->momentum().e();
+		//px=px+x_vtx+y_vtx+z_vtx; //temporary holding in order to avoid an unused variable error
 		np++;
 		h_phi->Fill(phi, E);
 		h_eta->Fill(eta, E);
 		h_pt->Fill(pt);
 		h_mass->Fill(mass);
-		if((*iter)->primary()){
-			if(pt>pt_leading) pt_leading=pt;
+		if((*iter)->status()==1 ){ //only pickup particles from the primary vertex, there are some other cases to consider later
+			if(pt>pt_lead) pt_lead=pt;
 			h_phi_orig->Fill(phi, E);
 			h_eta_orig->Fill(eta, E);
 			h_pt_orig->Fill(pt);
 			h_mass_orig->Fill(mass);
 			np_orig++;
 		
-		}
+					}
+				}
+ 	 		}
+ 		}
 	}
-  }
- }
 	h_n_part->Fill(np);
 	h_n_part_orig->Fill(np_orig);
-	h_pt_leading->Fill(pt_leading);
+	h_pt_leading->Fill(pt_lead);
   return Fun4AllReturnCodes::EVENT_OK;
 }
 
