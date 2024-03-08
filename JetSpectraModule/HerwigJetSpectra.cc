@@ -68,12 +68,12 @@
 #include <phool/PHCompositeNode.h>
 
 //____________________________________________________________________________..
-HerwigJetSpectra::HerwigJetSpectra(const std::string &name):
+/*HerwigJetSpectra::HerwigJetSpectra(const std::string &name):
  SubsysReco(name)
 {
   std::cout << "HerwigJetSpectra::HerwigJetSpectra(const std::string &name) Calling ctor" << std::endl;
 }
-
+*/
 //____________________________________________________________________________..
 HerwigJetSpectra::~HerwigJetSpectra()
 {
@@ -99,6 +99,8 @@ int HerwigJetSpectra::process_event(PHCompositeNode *topNode)
 {
   std::cout << "HerwigJetSpectra::process_event(PHCompositeNode *topNode) Processing Event" << std::endl;
   PHHepMCGenEventMap *phg=findNode::getClass<PHHepMCGenEventMap>(topNode, "PHHepMCGenEventMap");
+  int np=0, np_orig=0;
+  double pt_lead=0;
   for ( PHHepMCGenEventMap::ConstIter eventIter=phg->begin(); eventIter != phg->end(); ++eventIter)
   {
 	PHHepMCGenEvent* hpev=eventIter->second;
@@ -116,10 +118,28 @@ int HerwigJetSpectra::process_event(PHCompositeNode *topNode)
 		double phi=atan2(py, px);
 		double pt=sqrt(px*px+py*py);
 		double eta=asinh(pz/pt);
-		if(
+		double mass=(*iter)->generated_mass(); 
+		double E=(*iter)->momentum().e();
+		np++;
+		h_phi->Fill(phi, E);
+		h_eta->Fill(eta, E);
+		h_pt->Fill(pt);
+		h_mass->Fill(mass);
+		if((*iter)->primary()){
+			if(pt>pt_leading) pt_leading=pt;
+			h_phi_orig->Fill(phi, E);
+			h_eta_orig->Fill(eta, E);
+			h_pt_orig->Fill(pt);
+			h_mass_orig->Fill(mass);
+			np_orig++;
 		
-		
+		}
+	}
   }
+ }
+	h_n_part->Fill(np);
+	h_n_part_orig->Fill(np_orig);
+	h_pt_leading->Fill(pt_leading);
   return Fun4AllReturnCodes::EVENT_OK;
 }
 
@@ -141,6 +161,19 @@ int HerwigJetSpectra::EndRun(const int runnumber)
 int HerwigJetSpectra::End(PHCompositeNode *topNode)
 {
   std::cout << "HerwigJetSpectra::End(PHCompositeNode *topNode) This is the End..." << std::endl;
+  TFile* f=new TFile("herwig_output.root", "RECREATE");
+  h_pt->Write();
+  h_phi->Write();
+  h_eta->Write();
+  h_mass->Write();
+  h_n_part->Write();
+  h_pt_orig->Write();
+  h_phi_orig->Write();
+  h_eta_orig->Write();
+  h_mass_orig->Write();
+  h_n_part_orig->Write();
+  h_pt_leading->Write(); 
+  f->Write();
   return Fun4AllReturnCodes::EVENT_OK;
 }
 

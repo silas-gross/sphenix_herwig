@@ -36,8 +36,20 @@ class HerwigJetSpectra : public SubsysReco
  public:
 
   HerwigJetSpectra(const std::string &name = "HerwigJetSpectra", 
-			const std::string &fname="HerwigJetSpectra.root");
-
+			const std::string &fname="HerwigJetSpectra.root")
+{
+	h_phi=new TH1F("phi", "#varphi distribution of all particles produced in the decay chain of Hepmc record; #varphi; #sum_{particles} E [GeV]", 64, -3.1416, 3.14);
+	h_eta=new TH1F("eta", "#eta distribution of all particles produced in decay chain of Hepmc record in sPHENIX acceptance; #eta; #sum_{particles} E [GeV]", 24, -1.12, 1.1); 
+	h_pt=new TH1F("pt", "p_{T} distribution of all particles produced in decay chain of Hepmc record; p_{T} [GeV]; N_{part}", 100,-0.5, 99.5);
+	h_n_part=new TH1F("n_part", "Number of total particles produced in decay chain of a Hepmc event; n_{part}; N_{event}", 1000, -0,5, 999.5);
+	h_mass=new TH1F("mass", "Particle masses of all particle in decay chain of Hepmc record; m [GeV]; N_{part}", 1000, 0, 1000);
+	h_phi_orig=new TH1F("phi_orig", "#varphi distribution of primary particles produced in Hepmc record; #varphi; #sum_{particles} E [GeV]", 64, -3.1416, 3.14);
+	h_eta_orig=new TH1F("eta_orig", "#eta distribution of primary particles produced in decay chain of Hepmc record in sPHENIX acceptance; #eta; #sum_{particles} E [GeV]", 24, -1.12, 1.1); 
+	h_pt_orig=new TH1F("pt_orig", "p_{T} distribution of primary particles produced in decay chain of Hepmc record; p_{T} [GeV]; N_{part}", 100,-0.5, 99.5);
+	h_n_part_orig=new TH1F("n_part_orig", "Number of total primary particles produced in decay chain of a Hepmc event; n_{part}; N_{event}", 1000, -0,5, 999.5);
+	h_mass_orig=new TH1F("mass_orig", "Particle masses of primary particle in decay chain of Hepmc record; m [GeV]; N_{part}", 1000, 0, 1000);
+	h_pt_leading=new TH1F("pt_leading", "p_{T} of leading primary particle in Hepmc record; p_{T}[GeV]; N_{part}", 1000, -0.5, 200);
+	}
   ~HerwigJetSpectra() override;
 
   /** Called during initialization.
@@ -74,7 +86,7 @@ class HerwigJetSpectra : public SubsysReco
   void Print(const std::string &what = "ALL") const override;
 
  private:
-	TH1F *phi, *eta, *pt, *mass, 
+	TH1F *h_phi, *h_eta, *h_pt, *h_mass, *h_phi_orig, *h_eta_orig, *h_pt_orig, *h_mass_orig, *h_n_part, *h_n_part_orig, *h_pt_leading;
 };
 
 #endif // HERWIGJETSPECTRA_H
