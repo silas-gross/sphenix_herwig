@@ -43,6 +43,7 @@ int Herwig_hep_test(std::string filename="")
 	se->registerSubsystem(ts);	
 	se->run();
 	ts->Print();
+	std::cout<<"Ran over "<<ts->n_evt<<" events" <<std::endl;
 	return 0;
 }	
 #endif

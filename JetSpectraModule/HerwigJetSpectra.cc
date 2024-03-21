@@ -98,11 +98,13 @@ int HerwigJetSpectra::InitRun(PHCompositeNode *topNode)
 int HerwigJetSpectra::process_event(PHCompositeNode *topNode)
 {
   std::cout << "HerwigJetSpectra::process_event(PHCompositeNode *topNode) Processing Event" << std::endl;
+  n_evt++;
   PHHepMCGenEventMap *phg=findNode::getClass<PHHepMCGenEventMap>(topNode, "PHHepMCGenEventMap");
-  int np=0, np_orig=0;
-  double pt_lead=0;
+  int np=0, np_orig=0, hep_ev=0;
+  double pt_lead=0, E_total=0;
   for ( PHHepMCGenEventMap::ConstIter eventIter=phg->begin(); eventIter != phg->end(); ++eventIter)
   {
+	hep_ev++;
 	PHHepMCGenEvent* hpev=eventIter->second;
 	if(hpev){
 		HepMC::GenEvent* ev=hpev->getEvent();
@@ -129,8 +131,10 @@ int HerwigJetSpectra::process_event(PHCompositeNode *topNode)
 				h_eta_orig->Fill(eta, E);
 				h_pt_orig->Fill(pt);
 				h_mass_orig->Fill(mass);
+				h_E_orig->Fill(E);
 				np_orig++;
 				if(pt>pt_lead) pt_lead=pt;
+				h_status_orig->Fill((*iter)->status());
 			
 		}	
 		//Now need to get the produced particles and differentiate from the end particles
@@ -146,10 +150,13 @@ int HerwigJetSpectra::process_event(PHCompositeNode *topNode)
 		double E=(*iter)->momentum().e();
 		//px=px+x_vtx+y_vtx+z_vtx; //temporary holding in order to avoid an unused variable error
 		np++;
+		E_total+=E;
 		h_phi->Fill(phi, E);
 		h_eta->Fill(eta, E);
 		h_pt->Fill(pt);
 		h_mass->Fill(mass);
+		h_E->Fill(E);
+		h_status->Fill((*iter)->status());
 	}
 	
  	}
@@ -158,6 +165,8 @@ int HerwigJetSpectra::process_event(PHCompositeNode *topNode)
 	h_n_part->Fill(np);
 	h_n_part_orig->Fill(np_orig);
 	h_pt_leading->Fill(pt_lead);
+	h_E_total->Fill(E_total);
+	h_ev->Fill(hep_ev);
   return Fun4AllReturnCodes::EVENT_OK;
 }
 
@@ -179,19 +188,6 @@ int HerwigJetSpectra::EndRun(const int runnumber)
 int HerwigJetSpectra::End(PHCompositeNode *topNode)
 {
   std::cout << "HerwigJetSpectra::End(PHCompositeNode *topNode) This is the End..." << std::endl;
-  TFile* f=new TFile(Form("herwig_output_%s.root", trig.c_str()), "RECREATE");
-  h_pt->Write();
-  h_phi->Write();
-  h_eta->Write();
-  h_mass->Write();
-  h_n_part->Write();
-  h_pt_orig->Write();
-  h_phi_orig->Write();
-  h_eta_orig->Write();
-  h_mass_orig->Write();
-  h_n_part_orig->Write();
-  h_pt_leading->Write(); 
-  f->Write();
   return Fun4AllReturnCodes::EVENT_OK;
 }
 
@@ -206,4 +202,27 @@ int HerwigJetSpectra::Reset(PHCompositeNode *topNode)
 void HerwigJetSpectra::Print(const std::string &what) const
 {
   std::cout << "HerwigJetSpectra::Print(const std::string &what) const Printing info for " << what << std::endl;
+  TFile* f=new TFile(Form("herwig_output_%s.root", trig.c_str()), "RECREATE");
+  h_pt->Write();
+  h_phi->Write();
+  h_eta->Write();
+  h_mass->Write();
+  h_E->Write();
+  h_n_part->Write();
+  h_phi_hit->Write();
+  h_eta_hit->Write();
+  h_pt_orig->Write();
+  h_phi_orig->Write();
+  h_eta_orig->Write();
+  h_phi_hit_orig->Write();
+  h_eta_orig->Write();
+  h_mass_orig->Write();
+  h_E_orig->Write();
+  h_n_part_orig->Write();
+  h_status_orig->Write();
+  h_pt_leading->Write();
+  h_ev->Write();
+  h_E_total->Write();
+  h_vertex->Write(); 
+  f->Write();
 }
