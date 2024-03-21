@@ -16,3 +16,4 @@
 **/ltmain.sh
 **/missing
 **/.libs
+**/*.job
