@@ -6,27 +6,46 @@
 ##################################################
 
 read snippets/PPCollider.in
+read snippets/MB.in
+##################################################
+#switch pdfs to comparable to Pythia		##
+##################################################
+#read snippets/PDF-NNPDF30NLO.in 
 
 ##################################################
 # Technical parameters for this run
 ##################################################
 cd /Herwig/Generators
+#set EventGenerator:NumberOfEvents 100000
 
 ##################################################
-# LHC physics parameters (override defaults here) 
+#RHIC physics parameters (override defaults here) 
 ##################################################
 
 
 ########################
-## sqrt(s) = 13000 GeV ##
+## sqrt(s) = 200 GeV ##
 ########################
-set EventGenerator:EventHandler:LuminosityFunction:Energy 200.0
+set EventGenerator:EventHandler:LuminosityFunction:Energy 200.0*GeV
+ 
+##################################################
+# Cuts to jets					##
+##################################################
 
+#cd /Herwig/Cuts
+#set /Herwig/Cuts/JetKtCut:MinEta -1
+#set /Herwig/Cuts/JetKtCut:MaxEta 1
+#set /Herwig/Cuts/JetKtCut:MinKT 30*GeV
+#This is the Matchbox stuff
+#set /Herwig/Cuts/JetFinder:Variant Kt
+#set /Herwig/Cuts/JetFinder:ConeRadius 0.4
+#insert JetFinder:JetRegion FirstJet
+#set /Herwig/Cuts/FirstJet:PtMin 30*GeV
 ##################################################
 # Matrix Elements for hadron-hadron collisions 
 # (by default only gamma/Z switched on)
 ##################################################
-cd /Herwig/MatrixElements/
+#cd /Herwig/MatrixElements/
 
 #
 #  Electroweak boson W/Z processes
@@ -57,7 +76,7 @@ cd /Herwig/MatrixElements/
 #  QCD and gamma processes
 #
 # QCD 2-2 scattering
- insert SubProcess:MatrixElements[0] MEQCD2to2
+# insert SubProcess:MatrixElements[0] MEQCD2to2
 #
 # gamma+jet
 # insert SubProcess:MatrixElements[0] MEGammaJet
@@ -111,7 +130,7 @@ cd /Herwig/MatrixElements/
 # b bbar Higgs
 # insert SubProcess:MatrixElements[0] MEPP2bbbarH
 
-cd /Herwig/Generators
+#cd /Herwig/Generators
 
 ##################################################
 #  Useful analysis handlers for hadron-hadron physics
@@ -121,9 +140,9 @@ cd /Herwig/Generators
 # analysis of top-antitop events
 # insert EventGenerator:AnalysisHandlers 0 /Herwig/Analysis/TTbar
 # analysis of gamma+jet events
- insert EventGenerator:AnalysisHandlers 0 /Herwig/Analysis/GammaJet
+# insert EventGenerator:AnalysisHandlers 0 /Herwig/Analysis/GammaJet
 # analysis of gamma-gamma events
- insert EventGenerator:AnalysisHandlers 0 /Herwig/Analysis/GammaGamma
+# insert EventGenerator:AnalysisHandlers 0 /Herwig/Analysis/GammaGamma
 # analysis of higgs-jet events
 # insert EventGenerator:AnalysisHandlers 0 /Herwig/Analysis/HiggsJet
 #analsis of hard QCD 
@@ -145,4 +164,4 @@ read snippets/HepMC.in
 ##################################################
 # Save run for later usage with 'Herwig run'
 ##################################################
-saverun first_sphenix EventGenerator
+saverun sphenix_MB EventGenerator

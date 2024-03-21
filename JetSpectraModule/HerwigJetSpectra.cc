@@ -107,11 +107,35 @@ int HerwigJetSpectra::process_event(PHCompositeNode *topNode)
 	if(hpev){
 		HepMC::GenEvent* ev=hpev->getEvent();
 		if(!ev) return 1;
-		//PHHepMCGenEvent* origvtx=phg->get(0);
-		//float x_vtx=origvtx->get_collision_vertex().x(), y_vtx=origvtx->get_collision_vertex().y(), z_vtx=origvtx->get_collision_vertex().z(); //here is the vertex
+		PHHepMCGenEvent* origvtx=phg->get(0);
+		float x_vtx=origvtx->get_collision_vertex().x(), y_vtx=origvtx->get_collision_vertex().y(), z_vtx=origvtx->get_collision_vertex().z(); //here is the vertex
+		float r=sqrt(x_vtx*x_vtx+y_vtx*y_vtx);
+		h_vertex->Fill(r, z_vtx);
+		HepMC::GenParticle* pb=ev->beam_particles().first;
+		HepMC::GenVertex* ov=pb->end_vertex();
+		for(HepMC::GenVertex::particles_out_const_iterator iter=ov->particles_out_const_begin(); iter !=ov->particles_out_const_end(); ++iter)
+		{
+			
+		 	
+				double px=(*iter)->momentum().px();
+				double py=(*iter)->momentum().py();
+				double pz=(*iter)->momentum().pz();
+				double phi=atan2(py, px);
+				double pt=sqrt(px*px+py*py);
+				double eta=asinh(pz/pt);
+				double mass=(*iter)->generated_mass(); 
+				double E=(*iter)->momentum().e();
+				h_phi_orig->Fill(phi, E);
+				h_eta_orig->Fill(eta, E);
+				h_pt_orig->Fill(pt);
+				h_mass_orig->Fill(mass);
+				np_orig++;
+				if(pt>pt_lead) pt_lead=pt;
+			
+		}	
 		//Now need to get the produced particles and differentiate from the end particles
 		for(HepMC::GenEvent::particle_const_iterator iter=ev->particles_begin(); iter !=ev->particles_end(); ++iter){
-	if(!(*iter)->end_vertex() && (*iter)->status() == 1 && hpev->get_embedding_id() >= 0){
+	if(!(*iter)->end_vertex() && hpev->get_embedding_id() >= 0){
 		double px=(*iter)->momentum().px();
 		double py=(*iter)->momentum().py();
 		double pz=(*iter)->momentum().pz();
@@ -126,17 +150,9 @@ int HerwigJetSpectra::process_event(PHCompositeNode *topNode)
 		h_eta->Fill(eta, E);
 		h_pt->Fill(pt);
 		h_mass->Fill(mass);
-		if((*iter)->status()==1 ){ //only pickup particles from the primary vertex, there are some other cases to consider later
-			if(pt>pt_lead) pt_lead=pt;
-			h_phi_orig->Fill(phi, E);
-			h_eta_orig->Fill(eta, E);
-			h_pt_orig->Fill(pt);
-			h_mass_orig->Fill(mass);
-			np_orig++;
-		
-					}
-				}
- 	 		}
+	}
+	
+ 	}
  		}
 	}
 	h_n_part->Fill(np);
@@ -163,7 +179,7 @@ int HerwigJetSpectra::EndRun(const int runnumber)
 int HerwigJetSpectra::End(PHCompositeNode *topNode)
 {
   std::cout << "HerwigJetSpectra::End(PHCompositeNode *topNode) This is the End..." << std::endl;
-  TFile* f=new TFile("herwig_output.root", "RECREATE");
+  TFile* f=new TFile(Form("herwig_output_%s.root", trig.c_str()), "RECREATE");
   h_pt->Write();
   h_phi->Write();
   h_eta->Write();
