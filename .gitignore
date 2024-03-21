@@ -5,6 +5,8 @@
 **/*.dot
 **/*.hepmc
 **/*.out
+**/*.log
+**/*.err
 **/build*
 **/install*
 **/configure*
@@ -17,3 +19,4 @@
 **/missing
 **/.libs
 **/*.job
+**/*.root

@@ -46,6 +46,7 @@ class HerwigJetSpectra : public SubsysReco
   HerwigJetSpectra(const std::string &name = "HerwigJetSpectra", 
 			const std::string &fname="HerwigJetSpectra.root")
 {
+	std::cout <<"This is running on the "<<name<<" module with jet trigger at " <<trig<<std::endl;
 	h_phi=new TH1F("phi", "Energy #varphi distribution of all particles produced in the decay chain of Hepmc record; #varphi; #sum_{particles} E [GeV]", 64, -3.1416, 3.14);
 	h_eta=new TH1F("eta", "Energy #eta distribution of all particles produced in decay chain of Hepmc record in sPHENIX acceptance; #eta; #sum_{particles} E [GeV]", 24, -1.12, 1.1); 
 	h_phi_hit=new TH1F("phi_hit", "hit distribution #varphi distribution of all particles produced in the decay chain of Hepmc record; #varphi; #sum_{particles} E [GeV]", 64, -3.1416, 3.14);

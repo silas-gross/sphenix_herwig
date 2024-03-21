@@ -24,7 +24,8 @@ libHerwigJetSpectra_la_LIBADD = \
   -lSubsysReco \
   -lfun4all \
   -lg4dst \
-  -lg4eval
+  -lg4eval \
+  -lphhepmc 
 
 BUILT_SOURCES = testexternals.cc
 
