@@ -10,4 +10,9 @@
 **/configure*
 **/.o
 **/testexternals*
-
+**/*m4*
+**/config.*
+**/depcomp
+**/ltmain.sh
+**/missing
+**/.libs
