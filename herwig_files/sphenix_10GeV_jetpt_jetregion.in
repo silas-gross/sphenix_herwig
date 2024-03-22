@@ -32,11 +32,11 @@ set EventGenerator:EventHandler:LuminosityFunction:Energy 200.0*GeV
 ##################################################
 
 cd /Herwig/Cuts
-#set /Herwig/Cuts/JetKtCut:MinKT 30*GeV
+set /Herwig/Cuts/JetKtCut:MinKT 10*GeV
 #This is the Matchbox stuff
 #create JetCuts:JetRegions FirstJet
 #create ThePEG::JetFinder 
-read Matchbox/DefaultPPJets.in
+#read Matchbox/DefaultPPJets.in
 set Cuts:JetFinder JetFinder
 set JetFinder:Variant Kt
 set JetFinder:ConeRadius 0.4

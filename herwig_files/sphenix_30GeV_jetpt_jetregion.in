@@ -41,6 +41,7 @@ set EventGenerator:EventHandler:LuminosityFunction:Energy 200.0*GeV
 
 cd /Herwig/Cuts
 #This is the Matchbox stuff
+set Cuts:JetFinder JetFinder
 set /Herwig/Cuts/JetFinder:Variant Kt
 set /Herwig/Cuts/JetFinder:ConeRadius 0.4
 insert JetCuts:JetRegions 0 FirstJet
