@@ -35,13 +35,14 @@ cd /Herwig/Cuts
 #set /Herwig/Cuts/JetKtCut:MinKT 30*GeV
 #This is the Matchbox stuff
 #create JetCuts:JetRegions FirstJet
-create ThePEG::JetFinder 
+#create ThePEG::JetFinder 
+read Matchbox/DefaultPPJets.in
 set Cuts:JetFinder JetFinder
 set JetFinder:Variant Kt
 set JetFinder:ConeRadius 0.4
-create ThePEG::JetRegion 0 FirstJet
+#create ThePEG::JetRegions
 #insert ThePEG::JetRegion FirstJet
-insert JetFinder:JetRegion FirstJet
+insert JetCuts:JetRegions 0 FirstJet
 set FirstJet:PtMin 10*GeV
 ##################################################
 # Matrix Elements for hadron-hadron collisions 
