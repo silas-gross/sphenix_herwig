@@ -130,6 +130,8 @@ int HerwigJetSpectra::process_event(PHCompositeNode *topNode)
 				h_phi_orig->Fill(phi, E);
 				h_eta_orig->Fill(eta, E);
 				h_pt_orig->Fill(pt);
+				h_eta_hit_orig->Fill(eta);
+				h_phi_hit_orig->Fill(phi);
 				h_mass_orig->Fill(mass);
 				h_E_orig->Fill(E);
 				np_orig++;
@@ -150,9 +152,11 @@ int HerwigJetSpectra::process_event(PHCompositeNode *topNode)
 		double E=(*iter)->momentum().e();
 		//px=px+x_vtx+y_vtx+z_vtx; //temporary holding in order to avoid an unused variable error
 		np++;
-		E_total+=E;
+		if((*iter)->status()== 1) E_total+=E;
 		h_phi->Fill(phi, E);
 		h_eta->Fill(eta, E);
+		h_eta_hit->Fill(eta);
+		h_phi_hit->Fill(phi);
 		h_pt->Fill(pt);
 		h_mass->Fill(mass);
 		h_E->Fill(E);
@@ -209,13 +213,14 @@ void HerwigJetSpectra::Print(const std::string &what) const
   h_mass->Write();
   h_E->Write();
   h_n_part->Write();
+  h_status->Write();
   h_phi_hit->Write();
   h_eta_hit->Write();
   h_pt_orig->Write();
   h_phi_orig->Write();
   h_eta_orig->Write();
   h_phi_hit_orig->Write();
-  h_eta_orig->Write();
+  h_eta_hit_orig->Write();
   h_mass_orig->Write();
   h_E_orig->Write();
   h_n_part_orig->Write();

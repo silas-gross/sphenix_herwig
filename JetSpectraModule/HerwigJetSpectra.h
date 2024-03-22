@@ -66,7 +66,7 @@ class HerwigJetSpectra : public SubsysReco
 	h_status_orig=new TH1F("status_orig", "HepMC status of primary partons; status", 30, -0.5, 29.5);
 	h_E_orig=new TH1F("energy_orig", "Energy of primary partons, E[GeV], N_{part}", 100, -0.5, 99.5);
 	h_pt_leading=new TH1F("pt_leading", "p_{T} of leading primary particle in Hepmc record; p_{T}[GeV]; N_{part}", 100, -0.5, 99.5);
-	h_E_total=new TH1F("energy_total", "Total energy of event, E[GeV], N_{event}", 200, -0.5, 199.5);
+	h_E_total=new TH1F("energy_total", "Total energy of event, E[GeV], N_{event}", 200, -0.5, 1999.5);
 	h_vertex=new TH2F("vertex", "Vertex position, r [cm], z[cm], N_{event}", 100, -1, 1, 100, -1, 1);
 	h_ev=new TH1F("event", "Number of HepMC Events per Fun4All event; N_{event}", 100, -0.5, 99.5); 
 	n_evt=0;

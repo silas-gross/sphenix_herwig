@@ -32,14 +32,14 @@ set EventGenerator:EventHandler:LuminosityFunction:Energy 200.0*GeV
 ##################################################
 
 cd /Herwig/Cuts
-set /Herwig/Cuts/JetKtCut:MinEta -1
-set /Herwig/Cuts/JetKtCut:MaxEta 1
-set /Herwig/Cuts/JetKtCut:MinKT 30*GeV
+#set /Herwig/Cuts/JetKtCut:MinKT 30*GeV
 #This is the Matchbox stuff
-#set /Herwig/Cuts/JetFinder:Variant Kt
-#set /Herwig/Cuts/JetFinder:ConeRadius 0.4
+create ThePEG::JetRegion 0 FirstJet
+set Cuts:JetFinder JetFinder
+set /Herwig/Cuts/JetFinder:Variant Kt
+set /Herwig/Cuts/JetFinder:ConeRadius 0.4
 #insert JetFinder:JetRegion FirstJet
-#set /Herwig/Cuts/FirstJet:PtMin 30*GeV
+set /Herwig/Cuts/FirstJet:PtMin 10*GeV
 ##################################################
 # Matrix Elements for hadron-hadron collisions 
 # (by default only gamma/Z switched on)
@@ -163,4 +163,4 @@ read snippets/HepMC.in
 ##################################################
 # Save run for later usage with 'Herwig run'
 ##################################################
-saverun sphenix_30GeV_jetpt EventGenerator
+saverun sphenix_10GeV_jetpt_Matchbox EventGenerator
