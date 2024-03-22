@@ -37,10 +37,10 @@ read Matchbox/DiagonalCKM.in
 
 cd /Herwig/MatrixElements/Matchbox
 
-set Factory:OrderInAlphaS 0
-set Factory:OrderInAlphaEW 2
+set Factory:OrderInAlphaS 3
+set Factory:OrderInAlphaEW 3
 
-do Factory:Process p p -> e+ e-  
+do Factory:Process p p -> j j 
 ##################################################
 # Cuts to jets					##
 ##################################################
@@ -58,8 +58,8 @@ set /Herwig/Cuts/FirstJet:PtMin 10*GeV
 # Matrix Elements for hadron-hadron collisions 
 # (by default only gamma/Z switched on)
 ##################################################
-#cd /Herwig/MatrixElements/Matchbox
-#set Factory:ScaleChoice /Herwig/MatrixElements/Matchbox/Scales/ParticlePtScale
+cd /Herwig/MatrixElements/Matchbox
+set Factory:ScaleChoice /Herwig/MatrixElements/Matchbox/Scales/MaxJetPtScale
 cd /Herwig/MatrixElements/
 
 #
