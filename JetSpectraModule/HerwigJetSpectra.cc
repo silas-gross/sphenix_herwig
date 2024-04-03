@@ -141,7 +141,7 @@ int HerwigJetSpectra::process_event(PHCompositeNode *topNode)
 		}	
 		//Now need to get the produced particles and differentiate from the end particles
 		for(HepMC::GenEvent::particle_const_iterator iter=ev->particles_begin(); iter !=ev->particles_end(); ++iter){
-	if(!(*iter)->end_vertex() && hpev->get_embedding_id() >= 0){
+	if(!(*iter)->end_vertex() && hpev->get_embedding_id() >= 0 && (*iter)->status() == 1){
 		double px=(*iter)->momentum().px();
 		double py=(*iter)->momentum().py();
 		double pz=(*iter)->momentum().pz();
