@@ -39,7 +39,7 @@ int Herwig_hep_test(std::string filename="")
         se->fileopen(in->Name().c_str(), filename);
 	HerwigJetSpectra* ts=new HerwigJetSpectra("HerwigJetSpectra");
 	ts->trig=type;
-	std::cout<<"The spectra analyzer is runnig over generators with jet trigger set to " <<ts->trig <<std::endl;
+	std::cout<<"The spectra analyzer is running over generators with jet trigger set to " <<ts->trig <<std::endl;
 	se->registerSubsystem(ts);	
 	se->run();
 	ts->Print();

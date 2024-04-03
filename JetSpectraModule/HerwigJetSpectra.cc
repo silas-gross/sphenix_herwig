@@ -206,7 +206,7 @@ int HerwigJetSpectra::Reset(PHCompositeNode *topNode)
 void HerwigJetSpectra::Print(const std::string &what) const
 {
   std::cout << "HerwigJetSpectra::Print(const std::string &what) const Printing info for " << what << std::endl;
-  TFile* f=new TFile(Form("herwig_output_%s.root", trig.c_str()), "RECREATE");
+  TFile* f=new TFile(Form("herwig_output_%s_jetpt.root", trig.c_str()), "RECREATE");
   h_pt->Write();
   h_phi->Write();
   h_eta->Write();
