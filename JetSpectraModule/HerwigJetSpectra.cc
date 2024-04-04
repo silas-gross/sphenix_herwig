@@ -97,9 +97,13 @@ int HerwigJetSpectra::InitRun(PHCompositeNode *topNode)
 //____________________________________________________________________________..
 int HerwigJetSpectra::process_event(PHCompositeNode *topNode)
 {
-  std::cout << "HerwigJetSpectra::process_event(PHCompositeNode *topNode) Processing Event" << std::endl;
   n_evt++;
+//  std::cout << "HerwigJetSpectra::process_event(PHCompositeNode *topNode) Processing Event" << n_evt << std::endl;
   PHHepMCGenEventMap *phg=findNode::getClass<PHHepMCGenEventMap>(topNode, "PHHepMCGenEventMap");
+  if(!phg){
+	std::cout<<"Did not find event map"<<std::endl;
+	return 1;
+	}
   int np=0, np_orig=0, hep_ev=0;
   double pt_lead=0, E_total=0;
   for ( PHHepMCGenEventMap::ConstIter eventIter=phg->begin(); eventIter != phg->end(); ++eventIter)
@@ -108,7 +112,10 @@ int HerwigJetSpectra::process_event(PHCompositeNode *topNode)
 	PHHepMCGenEvent* hpev=eventIter->second;
 	if(hpev){
 		HepMC::GenEvent* ev=hpev->getEvent();
-		if(!ev) return 1;
+		if(!ev){
+			std::cout<<"Did not find any event" <<std::endl;
+			continue;
+		}
 		PHHepMCGenEvent* origvtx=phg->get(0);
 		float x_vtx=origvtx->get_collision_vertex().x(), y_vtx=origvtx->get_collision_vertex().y(), z_vtx=origvtx->get_collision_vertex().z(); //here is the vertex
 		float r=sqrt(x_vtx*x_vtx+y_vtx*y_vtx);
@@ -141,7 +148,7 @@ int HerwigJetSpectra::process_event(PHCompositeNode *topNode)
 		}	
 		//Now need to get the produced particles and differentiate from the end particles
 		for(HepMC::GenEvent::particle_const_iterator iter=ev->particles_begin(); iter !=ev->particles_end(); ++iter){
-	if(!(*iter)->end_vertex() && hpev->get_embedding_id() >= 0 && (*iter)->status() == 1){
+	//if(!(*iter)->end_vertex() && (*iter)->status() == 1){
 		double px=(*iter)->momentum().px();
 		double py=(*iter)->momentum().py();
 		double pz=(*iter)->momentum().pz();
@@ -161,7 +168,7 @@ int HerwigJetSpectra::process_event(PHCompositeNode *topNode)
 		h_mass->Fill(mass);
 		h_E->Fill(E);
 		h_status->Fill((*iter)->status());
-	}
+	//}
 	
  	}
  		}
@@ -177,21 +184,23 @@ int HerwigJetSpectra::process_event(PHCompositeNode *topNode)
 //____________________________________________________________________________..
 int HerwigJetSpectra::ResetEvent(PHCompositeNode *topNode)
 {
-  std::cout << "HerwigJetSpectra::ResetEvent(PHCompositeNode *topNode) Resetting internal structures, prepare for next event" << std::endl;
+//  std::cout << "HerwigJetSpectra::ResetEvent(PHCompositeNode *topNode) Resetting internal structures, prepare for next event" << std::endl;
   return Fun4AllReturnCodes::EVENT_OK;
 }
 
 //____________________________________________________________________________..
 int HerwigJetSpectra::EndRun(const int runnumber)
 {
-  std::cout << "HerwigJetSpectra::EndRun(const int runnumber) Ending Run for Run " << runnumber << std::endl;
+ 
+	std::cout << "HerwigJetSpectra::EndRun(const int runnumber) Ending Run for Run " << runnumber << std::endl;
   return Fun4AllReturnCodes::EVENT_OK;
 }
 
 //____________________________________________________________________________..
 int HerwigJetSpectra::End(PHCompositeNode *topNode)
-{
-  std::cout << "HerwigJetSpectra::End(PHCompositeNode *topNode) This is the End..." << std::endl;
+{ 
+ std::cout << "HerwigJetSpectra::End(PHCompositeNode *topNode) This is the End..." << std::endl;
+ std::cout<<"Ran over " <<n_evt<<" events" <<std::endl;
   return Fun4AllReturnCodes::EVENT_OK;
 }
 
@@ -206,7 +215,7 @@ int HerwigJetSpectra::Reset(PHCompositeNode *topNode)
 void HerwigJetSpectra::Print(const std::string &what) const
 {
   std::cout << "HerwigJetSpectra::Print(const std::string &what) const Printing info for " << what << std::endl;
-  TFile* f=new TFile(Form("herwig_output_%s_jetpt.root", trig.c_str()), "RECREATE");
+  TFile* f=new TFile(Form("herwig_output_%s_jetpt_all_particles.root", trig.c_str()), "RECREATE");
   h_pt->Write();
   h_phi->Write();
   h_eta->Write();
