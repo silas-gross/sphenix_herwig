@@ -117,6 +117,7 @@ int HerwigJetSpectra::process_event(PHCompositeNode *topNode)
 			continue;
 		}
 		PHHepMCGenEvent* origvtx=phg->get(0);
+		for(auto w:ev->weights()) h_weight->Fill(w);
 		float x_vtx=origvtx->get_collision_vertex().x(), y_vtx=origvtx->get_collision_vertex().y(), z_vtx=origvtx->get_collision_vertex().z(); //here is the vertex
 		float r=sqrt(x_vtx*x_vtx+y_vtx*y_vtx);
 		h_vertex->Fill(r, z_vtx);
@@ -124,8 +125,9 @@ int HerwigJetSpectra::process_event(PHCompositeNode *topNode)
 		HepMC::GenVertex* ov=pb->end_vertex();
 		for(HepMC::GenVertex::particles_out_const_iterator iter=ov->particles_out_const_begin(); iter !=ov->particles_out_const_end(); ++iter)
 		{
-			
-		 	
+				jetobj* Jet=new jetobj;
+				Jet->originating_parton=(*iter);
+		 		Jet->jet_particles=IDJets(topNode, (*iter)); //ids all the daughter particles coming from the originating partons 
 				double px=(*iter)->momentum().px();
 				double py=(*iter)->momentum().py();
 				double pz=(*iter)->momentum().pz();
@@ -134,8 +136,9 @@ int HerwigJetSpectra::process_event(PHCompositeNode *topNode)
 				double eta=asinh(pz/pt);
 				double mass=(*iter)->generated_mass(); 
 				double E=(*iter)->momentum().e();
-				h_phi_orig->Fill(phi, E);
-				h_eta_orig->Fill(eta, E);
+				double ET=sqrt(mass*mass + pt*pt); 
+				h_phi_orig->Fill(phi, ET);
+				h_eta_orig->Fill(eta, ET);
 				h_pt_orig->Fill(pt);
 				h_eta_hit_orig->Fill(eta);
 				h_phi_hit_orig->Fill(phi);
@@ -144,11 +147,29 @@ int HerwigJetSpectra::process_event(PHCompositeNode *topNode)
 				np_orig++;
 				if(pt>pt_lead) pt_lead=pt;
 				h_status_orig->Fill((*iter)->status());
-			
+				h_ET_orig->Fill(ET);
+				float mj=0, R=0, pxj=0, pyj=0, etj=0;
+				for(auto p:Jet->jet_particles){
+					mj+=p->momentum().m();
+					pxj+=p->momentum().px();
+					pyj+=p->momentum().py();
+					etj+=p->momentum().e()/p->momentum().eta();
+					float rt=sqrt(pow(p->momentum().eta()-eta, 2) + pow(p->momentum().phi()-phi, 2));
+					if(rt>R) R=rt;
+				}	
+				Jet->mass=mj;
+				Jet->ET=etj;
+				Jet->pt=sqrt(pow(pxj,2)+pow(pyj,2));
+				Jet->R=R;
+				Jet->phi=phi;
+				Jet->eta=eta;
+				h_Jet_pt->Fill(Jet->pt);
+				h_Jet_R->Fill(Jet->R);
+				h_Jet_npart->Fill(Jet->jet_particles.size());
 		}	
 		//Now need to get the produced particles and differentiate from the end particles
 		for(HepMC::GenEvent::particle_const_iterator iter=ev->particles_begin(); iter !=ev->particles_end(); ++iter){
-	//if(!(*iter)->end_vertex() && (*iter)->status() == 1){
+	if(!(*iter)->end_vertex() && (*iter)->status() == 1){ //only pick up final state particles
 		double px=(*iter)->momentum().px();
 		double py=(*iter)->momentum().py();
 		double pz=(*iter)->momentum().pz();
@@ -157,6 +178,7 @@ int HerwigJetSpectra::process_event(PHCompositeNode *topNode)
 		double eta=asinh(pz/pt);
 		double mass=(*iter)->generated_mass(); 
 		double E=(*iter)->momentum().e();
+		double ET=sqrt(mass*mass + pt*pt); 
 		//px=px+x_vtx+y_vtx+z_vtx; //temporary holding in order to avoid an unused variable error
 		np++;
 		if((*iter)->status()== 1) E_total+=E;
@@ -167,8 +189,9 @@ int HerwigJetSpectra::process_event(PHCompositeNode *topNode)
 		h_pt->Fill(pt);
 		h_mass->Fill(mass);
 		h_E->Fill(E);
+		h_ET->Fill(ET);
 		h_status->Fill((*iter)->status());
-	//}
+	}
 	
  	}
  		}
@@ -180,7 +203,76 @@ int HerwigJetSpectra::process_event(PHCompositeNode *topNode)
 	h_ev->Fill(hep_ev);
   return Fun4AllReturnCodes::EVENT_OK;
 }
-
+//__________________________________________________________________________
+std::vector<HepMC::GenParticle*> HerwigJetSpectra::IDJets(PHCompositeNode *topNode, HepMC::GenParticle* originating_parton)
+{
+	//this is intended to identify all final state particles coming from each originating parton 
+	std::vector<HepMC::GenParticle*> final_state_jet;
+	HepMC::GenVertex* decay=originating_parton->end_vertex();
+	if(!decay){
+		final_state_jet.push_back(originating_parton); //if the original state does not decay
+	}
+	else{
+		std::unordered_set<int> final_state_barcodes;
+		std::unordered_set<int> branches;
+		HepMC::GenVertex* active_vertex=decay;
+		HepMC::GenVertex* parent_vertex=decay;
+		HepMC::GenVertex::particles_out_const_iterator par=decay->particles_out_const_begin(); 
+		HepMC::GenVertex::particles_out_const_iterator parent_par=par;
+		while(par != decay->particles_out_const_end()){ //loops over all particles in the decay chain and preserves the final state particle to get the jet cones
+			++par;
+			if((*par)->status() == 1 && !(*par)->end_vertex()){
+				int bc=(*par)->barcode();
+				if(final_state_barcodes.find(bc)== final_state_barcodes.end())
+				{ 
+					final_state_jet.push_back((*par));
+					final_state_barcodes.insert(bc);
+				}
+			}
+			else if ((*par)->end_vertex()){
+				parent_vertex=(*par)->production_vertex();
+				active_vertex=(*par)->end_vertex();
+				parent_par=par;
+				par=active_vertex->particles_out_const_begin();
+			}
+			auto next_par=par;
+			next_par++;
+			if(next_par == active_vertex->particles_out_const_end()){ //checks to see if we reach the end of a vertes
+				par=parent_par; 
+				branches.insert(active_vertex->barcode());
+				++parent_par;
+				//move onto the next particle in the previous vertex
+				if(parent_par==parent_vertex->particles_out_const_end()){
+					//checks if the parent vertex is used up and then propagates backwards to find the next vertex that hasn't been searched
+					branches.insert(parent_vertex->barcode());
+					bool still_good=false;
+					while(!still_good){
+						auto gp=parent_vertex->particles_in_const_begin();
+						++gp;
+//						auto gparent_vertex=(*gp)->production_vertex();
+						while (gp != parent_vertex->particles_in_const_end()){
+							if((*gp)->end_vertex()){
+								if(branches.find((*gp)->end_vertex()->barcode()) != branches.end()){
+									parent_par=gp;
+									still_good=true;
+								}
+								else ++gp;
+							}
+						}
+						if( gp == parent_vertex->particles_in_const_end()) parent_vertex=(*gp)->production_vertex();
+					}
+				
+					par=parent_par;
+					if((*par)->barcode() == originating_parton->barcode()) break;
+					active_vertex=parent_vertex;
+					parent_vertex=(*par)->production_vertex();
+				}
+			}
+		}
+	}		
+	return final_state_jet;		 
+				 
+}
 //____________________________________________________________________________..
 int HerwigJetSpectra::ResetEvent(PHCompositeNode *topNode)
 {
@@ -238,5 +330,11 @@ void HerwigJetSpectra::Print(const std::string &what) const
   h_ev->Write();
   h_E_total->Write();
   h_vertex->Write(); 
+  h_weight->Write();
+  h_ET->Write();
+  h_ET_orig->Write();
+  h_Jet_pt->Write();
+  h_Jet_R->Write();
+  h_Jet_npart->Write();
   f->Write();
 }
