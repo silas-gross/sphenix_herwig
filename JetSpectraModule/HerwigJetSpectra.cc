@@ -98,7 +98,7 @@ int HerwigJetSpectra::InitRun(PHCompositeNode *topNode)
 int HerwigJetSpectra::process_event(PHCompositeNode *topNode)
 {
   n_evt++;
-//  std::cout << "HerwigJetSpectra::process_event(PHCompositeNode *topNode) Processing Event" << n_evt << std::endl;
+  std::cout << "HerwigJetSpectra::process_event(PHCompositeNode *topNode) Processing Event" << n_evt << std::endl;
   PHHepMCGenEventMap *phg=findNode::getClass<PHHepMCGenEventMap>(topNode, "PHHepMCGenEventMap");
   if(!phg){
 	std::cout<<"Did not find event map"<<std::endl;
@@ -116,6 +116,7 @@ int HerwigJetSpectra::process_event(PHCompositeNode *topNode)
 			std::cout<<"Did not find any event" <<std::endl;
 			continue;
 		}
+		std::cout<<"Begin processing event"<<std::endl;
 		PHHepMCGenEvent* origvtx=phg->get(0);
 		for(auto w:ev->weights()) h_weight->Fill(w);
 		float x_vtx=origvtx->get_collision_vertex().x(), y_vtx=origvtx->get_collision_vertex().y(), z_vtx=origvtx->get_collision_vertex().z(); //here is the vertex
@@ -127,7 +128,9 @@ int HerwigJetSpectra::process_event(PHCompositeNode *topNode)
 		{
 				jetobj* Jet=new jetobj;
 				Jet->originating_parton=(*iter);
+				std::cout<<"have loaded the originating particle into the Jet object"<<std::endl;
 		 		Jet->jet_particles=IDJets(topNode, (*iter)); //ids all the daughter particles coming from the originating partons 
+				std::cout<<"Identified Jet"<<std::endl;
 				double px=(*iter)->momentum().px();
 				double py=(*iter)->momentum().py();
 				double pz=(*iter)->momentum().pz();
@@ -213,6 +216,7 @@ std::vector<HepMC::GenParticle*> HerwigJetSpectra::IDJets(PHCompositeNode *topNo
 		final_state_jet.push_back(originating_parton); //if the original state does not decay
 	}
 	else{
+		std::cout<<"Have the decay vertex of the originating parton, now searching for all daughters"<<std::endl;
 		std::unordered_set<int> final_state_barcodes;
 		std::unordered_set<int> branches;
 		HepMC::GenVertex* active_vertex=decay;
