@@ -236,6 +236,7 @@ std::vector<HepMC::GenParticle*> HerwigJetSpectra::IDJets(PHCompositeNode *topNo
 			++par;
 			n++;
 			std::cout<<"Working on the " <<n<<"-th edge" <<std::endl;
+			std::cout<<"final state particles: " <<final_state_jet.size() <<std::endl;
 			if((*par)->status() >= 0 && !(*par)->end_vertex()){
 				int bc=(*par)->barcode();
 				if(final_state_barcodes.find(bc)== final_state_barcodes.end())
@@ -261,7 +262,7 @@ std::vector<HepMC::GenParticle*> HerwigJetSpectra::IDJets(PHCompositeNode *topNo
 				break;
 			}
 			std::cout<<"The status of the next particle in line is "<<(*next_par)->status() <<std::endl;
-			try{
+			
 			if(!(*next_par) ){//== active_vertex->particles_out_const_end()){ //checks to see if we reach the end of a vertes
 				std::cout<<"Trying to find the next particle" <<std::endl;
 				par=parent_par; 
@@ -272,6 +273,7 @@ std::vector<HepMC::GenParticle*> HerwigJetSpectra::IDJets(PHCompositeNode *topNo
 				if(!(*parent_par)){//==parent_vertex->particles_out_const_end()){
 					//checks if the parent vertex is used up and then propagates backwards to find the next vertex that hasn't been searched
 					branches.insert(parent_vertex->barcode());
+					std::cout <<branches.size() <<std::endl;
 					bool still_good=false;
 					while(!still_good){
 						std::cout <<"Now looking for the next good particle" <<std::endl;
@@ -296,8 +298,7 @@ std::vector<HepMC::GenParticle*> HerwigJetSpectra::IDJets(PHCompositeNode *topNo
 					parent_vertex=(*par)->production_vertex();
 				}
 			}
-			}
-			catch(std::exception &e){ std::cout<<"have caught an exception " <<e.what() <<std::endl;}
+			
 			
 		}
 	}		
