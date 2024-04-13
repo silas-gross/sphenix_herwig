@@ -124,9 +124,13 @@ int HerwigJetSpectra::process_event(PHCompositeNode *topNode)
 		h_vertex->Fill(r, z_vtx);
 		HepMC::GenParticle* pb=ev->beam_particles().first;
 		HepMC::GenVertex* ov=pb->end_vertex();
+		std::cout<<"looking into the originating partons" <<std::endl;
+		
 		for(HepMC::GenVertex::particles_out_const_iterator iter=ov->particles_out_const_begin(); iter !=ov->particles_out_const_end(); ++iter)
 		{
+				std::cout<<"starting the analysis on the parton" <<std::endl;
 				jetobj* Jet=new jetobj;
+				std::cout<<"successfully created the jet object" <<std::endl;
 				Jet->originating_parton=(*iter);
 				std::cout<<"have loaded the originating particle into the Jet object"<<std::endl;
 		 		Jet->jet_particles=IDJets(topNode, (*iter)); //ids all the daughter particles coming from the originating partons 
@@ -152,6 +156,8 @@ int HerwigJetSpectra::process_event(PHCompositeNode *topNode)
 				h_status_orig->Fill((*iter)->status());
 				h_ET_orig->Fill(ET);
 				float mj=0, R=0, pxj=0, pyj=0, etj=0;
+				std::cout<<"Measuring the kinematics of the jet" <<std::endl;
+				if(Jet->jet_particles.size() == 0 ) continue;
 				for(auto p:Jet->jet_particles){
 					mj+=p->momentum().m();
 					pxj+=p->momentum().px();
@@ -169,7 +175,8 @@ int HerwigJetSpectra::process_event(PHCompositeNode *topNode)
 				h_Jet_pt->Fill(Jet->pt);
 				h_Jet_R->Fill(Jet->R);
 				h_Jet_npart->Fill(Jet->jet_particles.size());
-		}	
+		}
+		
 		//Now need to get the produced particles and differentiate from the end particles
 		for(HepMC::GenEvent::particle_const_iterator iter=ev->particles_begin(); iter !=ev->particles_end(); ++iter){
 	if(!(*iter)->end_vertex() && (*iter)->status() == 1){ //only pick up final state particles
@@ -218,39 +225,56 @@ std::vector<HepMC::GenParticle*> HerwigJetSpectra::IDJets(PHCompositeNode *topNo
 	else{
 		std::cout<<"Have the decay vertex of the originating parton, now searching for all daughters"<<std::endl;
 		std::unordered_set<int> final_state_barcodes;
+		int n=0;
 		std::unordered_set<int> branches;
 		HepMC::GenVertex* active_vertex=decay;
 		HepMC::GenVertex* parent_vertex=decay;
 		HepMC::GenVertex::particles_out_const_iterator par=decay->particles_out_const_begin(); 
 		HepMC::GenVertex::particles_out_const_iterator parent_par=par;
+		std::cout<<"have set up the structure needed, now entering while loop" <<std::endl;
 		while(par != decay->particles_out_const_end()){ //loops over all particles in the decay chain and preserves the final state particle to get the jet cones
 			++par;
-			if((*par)->status() == 1 && !(*par)->end_vertex()){
+			n++;
+			std::cout<<"Working on the " <<n<<"-th edge" <<std::endl;
+			if((*par)->status() >= 0 && !(*par)->end_vertex()){
 				int bc=(*par)->barcode();
 				if(final_state_barcodes.find(bc)== final_state_barcodes.end())
 				{ 
 					final_state_jet.push_back((*par));
 					final_state_barcodes.insert(bc);
 				}
+				std::cout<<"particle barcode " <<bc<<std::endl;
 			}
 			else if ((*par)->end_vertex()){
+				std::cout<<"going one level deeper" <<std::endl;
 				parent_vertex=(*par)->production_vertex();
 				active_vertex=(*par)->end_vertex();
 				parent_par=par;
 				par=active_vertex->particles_out_const_begin();
 			}
+			else std::cout<<"particle has status " <<(*par)->status() <<std::endl;
 			auto next_par=par;
-			next_par++;
-			if(next_par == active_vertex->particles_out_const_end()){ //checks to see if we reach the end of a vertes
+			std::cout<<"Have a spare copy of the next particle" <<std::endl;
+			if(!(*next_par)) continue;
+			try{++next_par;}
+			catch(std::exception &e){ std::cout<<"have caught an exception " <<e.what() <<std::endl;
+				break;
+			}
+			std::cout<<"The status of the next particle in line is "<<(*next_par)->status() <<std::endl;
+			try{
+			if(!(*next_par) ){//== active_vertex->particles_out_const_end()){ //checks to see if we reach the end of a vertes
+				std::cout<<"Trying to find the next particle" <<std::endl;
 				par=parent_par; 
 				branches.insert(active_vertex->barcode());
+				std::cout<<"have exhausted all the particles in " <<branches.size() <<" vertices" <<std::endl;
 				++parent_par;
 				//move onto the next particle in the previous vertex
-				if(parent_par==parent_vertex->particles_out_const_end()){
+				if(!(*parent_par)){//==parent_vertex->particles_out_const_end()){
 					//checks if the parent vertex is used up and then propagates backwards to find the next vertex that hasn't been searched
 					branches.insert(parent_vertex->barcode());
 					bool still_good=false;
 					while(!still_good){
+						std::cout <<"Now looking for the next good particle" <<std::endl;
 						auto gp=parent_vertex->particles_in_const_begin();
 						++gp;
 //						auto gparent_vertex=(*gp)->production_vertex();
@@ -272,8 +296,12 @@ std::vector<HepMC::GenParticle*> HerwigJetSpectra::IDJets(PHCompositeNode *topNo
 					parent_vertex=(*par)->production_vertex();
 				}
 			}
+			}
+			catch(std::exception &e){ std::cout<<"have caught an exception " <<e.what() <<std::endl;}
+			
 		}
 	}		
+	std::cout<<"The jet has "<<final_state_jet.size() <<" particles in the final state" <<std::endl;
 	return final_state_jet;		 
 				 
 }

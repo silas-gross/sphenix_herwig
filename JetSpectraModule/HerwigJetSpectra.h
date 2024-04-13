@@ -127,7 +127,7 @@ class HerwigJetSpectra : public SubsysReco
 		float mass;
 		float ET;
 		std::string parton_name;
-		int part_id=originating_parton->pdg_id();
+		int part_id; //=originating_parton->pdg_id();
 		float R;
 		float phi;
 		float eta;
