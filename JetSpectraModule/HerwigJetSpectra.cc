@@ -225,83 +225,52 @@ std::vector<HepMC::GenParticle*> HerwigJetSpectra::IDJets(PHCompositeNode *topNo
 	else{
 		std::cout<<"Have the decay vertex of the originating parton, now searching for all daughters"<<std::endl;
 		std::unordered_set<int> final_state_barcodes;
-		int n=0;
-		std::unordered_set<int> branches;
+		std::map<HepMC::GenVertex*, HepMC::GenVertex::particles_out_const_iterator> holding_part;
 		HepMC::GenVertex* active_vertex=decay;
-		HepMC::GenVertex* parent_vertex=decay;
 		HepMC::GenVertex::particles_out_const_iterator par=decay->particles_out_const_begin(); 
-		HepMC::GenVertex::particles_out_const_iterator parent_par=par;
+		HepMC::GenVertex::particles_out_const_iterator parent_par=decay->particles_out_const_begin();
 		std::cout<<"have set up the structure needed, now entering while loop" <<std::endl;
-		while(par != decay->particles_out_const_end()){ //loops over all particles in the decay chain and preserves the final state particle to get the jet cones
-			++par;
-			n++;
-			std::cout<<"Working on the " <<n<<"-th edge" <<std::endl;
-			std::cout<<"final state particles: " <<final_state_jet.size() <<std::endl;
-			if((*par)->status() >= 0 && !(*par)->end_vertex()){
-				int bc=(*par)->barcode();
-				if(final_state_barcodes.find(bc)== final_state_barcodes.end())
-				{ 
-					final_state_jet.push_back((*par));
-					final_state_barcodes.insert(bc);
-				}
-				std::cout<<"particle barcode " <<bc<<std::endl;
-			}
-			else if ((*par)->end_vertex()){
-				std::cout<<"going one level deeper" <<std::endl;
-				parent_vertex=(*par)->production_vertex();
-				active_vertex=(*par)->end_vertex();
-				parent_par=par;
-				par=active_vertex->particles_out_const_begin();
-			}
-			else std::cout<<"particle has status " <<(*par)->status() <<std::endl;
-			auto next_par=par;
-			std::cout<<"Have a spare copy of the next particle" <<std::endl;
-			if(!(*next_par)) continue;
-			try{++next_par;}
-			catch(std::exception &e){ std::cout<<"have caught an exception " <<e.what() <<std::endl;
-				break;
-			}
-			std::cout<<"The status of the next particle in line is "<<(*next_par)->status() <<std::endl;
-			
-			if(!(*next_par) ){//== active_vertex->particles_out_const_end()){ //checks to see if we reach the end of a vertes
-				std::cout<<"Trying to find the next particle" <<std::endl;
-				par=parent_par; 
-				branches.insert(active_vertex->barcode());
-				std::cout<<"have exhausted all the particles in " <<branches.size() <<" vertices" <<std::endl;
-				++parent_par;
-				//move onto the next particle in the previous vertex
-				if(!(*parent_par)){//==parent_vertex->particles_out_const_end()){
-					//checks if the parent vertex is used up and then propagates backwards to find the next vertex that hasn't been searched
-					branches.insert(parent_vertex->barcode());
-					std::cout <<branches.size() <<std::endl;
-					bool still_good=false;
-					while(!still_good){
-						std::cout <<"Now looking for the next good particle" <<std::endl;
-						auto gp=parent_vertex->particles_in_const_begin();
-						++gp;
-//						auto gparent_vertex=(*gp)->production_vertex();
-						while (gp != parent_vertex->particles_in_const_end()){
-							if((*gp)->end_vertex()){
-								if(branches.find((*gp)->end_vertex()->barcode()) != branches.end()){
-									parent_par=gp;
-									still_good=true;
-								}
-								else ++gp;
-							}
+		while(parent_par != decay->particles_out_const_end()){
+			//The goal is to go to the deepest level and collect all partilces that are final
+			if(par != active_vertex->particles_out_const_end())
+			{
+				if(!(*par)->end_vertex()){
+						if(final_state_barcodes.find((*par)->barcode()) != final_state_barcodes.end()) continue;
+						final_state_barcodes.emplace((*par)->barcode());
+						if((*par)->status() == 1 ){
+							final_state_jet.push_back((*par));
+							std::cout<<"found a final state particle, now have " <<final_state_jet.size() <<std::endl;
 						}
-						if( gp == parent_vertex->particles_in_const_end()) parent_vertex=(*gp)->production_vertex();
-					}
-				
-					par=parent_par;
-					if((*par)->barcode() == originating_parton->barcode()) break;
-					active_vertex=parent_vertex;
-					parent_vertex=(*par)->production_vertex();
+					
+					//recorded final states, now move to the next
+					++par; 
+					
+					continue;
+				}
+				else{
+					//stores what particle we are at in the vertex to return to when we exhaust the end 
+					holding_part[active_vertex]=par;
+					active_vertex=(*par)->end_vertex();
+					par=active_vertex->particles_out_const_begin();
+					std::cout<<"Going one level deeper" <<std::endl;
+					continue;
 				}
 			}
-			
-			
+			else{
+				while(holding_part.rbegin()->second == holding_part.rbegin()->first->particles_out_const_end()) holding_part.erase(holding_part.cend());
+				active_vertex=holding_part.rbegin()->first;
+				par=holding_part.rbegin()->second;
+				++par;
+				holding_part[active_vertex]=par;
+				//std::cout<<"Backing out by at least one level" <<std::endl;
+				continue;
+			}
+			if(active_vertex->barcode() == decay->barcode() ){
+				 ++parent_par;
+				continue;
+			}
 		}
-	}		
+	}	
 	std::cout<<"The jet has "<<final_state_jet.size() <<" particles in the final state" <<std::endl;
 	return final_state_jet;		 
 				 
