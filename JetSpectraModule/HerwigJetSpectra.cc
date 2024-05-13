@@ -133,7 +133,13 @@ int HerwigJetSpectra::process_event(PHCompositeNode *topNode)
 				std::cout<<"successfully created the jet object" <<std::endl;
 				Jet->originating_parton=(*iter);
 				std::cout<<"have loaded the originating particle into the Jet object"<<std::endl;
-		 		Jet->jet_particles=IDJets(topNode, (*iter)); //ids all the daughter particles coming from the originating partons 
+		 		try{
+					Jet->jet_particles=IDJets(topNode, (*iter)); //ids all the daughter particles coming from the originating partons 	
+				}
+				catch (std::exception& ex){
+					std::cout<<"caught an exception in the jetid stage as " <<ex.what() <<std::endl;
+				}
+				
 				std::cout<<"Identified Jet"<<std::endl;
 				double px=(*iter)->momentum().px();
 				double py=(*iter)->momentum().py();
@@ -175,6 +181,7 @@ int HerwigJetSpectra::process_event(PHCompositeNode *topNode)
 				h_Jet_pt->Fill(Jet->pt);
 				h_Jet_R->Fill(Jet->R);
 				h_Jet_npart->Fill(Jet->jet_particles.size());
+				delete Jet;
 		}
 		
 		//Now need to get the produced particles and differentiate from the end particles
@@ -225,16 +232,20 @@ std::vector<HepMC::GenParticle*> HerwigJetSpectra::IDJets(PHCompositeNode *topNo
 	else{
 		std::cout<<"Have the decay vertex of the originating parton, now searching for all daughters"<<std::endl;
 		std::unordered_set<int> final_state_barcodes;
-		std::map<HepMC::GenVertex*, HepMC::GenVertex::particles_out_const_iterator> holding_part;
+		std::map<HepMC::GenVertex*, int> holding_part;
 		HepMC::GenVertex* active_vertex=decay;
 		HepMC::GenVertex::particles_out_const_iterator par=decay->particles_out_const_begin(); 
 		HepMC::GenVertex::particles_out_const_iterator parent_par=decay->particles_out_const_begin();
 		std::cout<<"have set up the structure needed, now entering while loop" <<std::endl;
 		while(parent_par != decay->particles_out_const_end()){
 			//The goal is to go to the deepest level and collect all partilces that are final
-			if(par != active_vertex->particles_out_const_end())
+			
+			if( active_vertex && *par && par != active_vertex->particles_out_const_end())
 			{
-				if(!(*par)->end_vertex()){
+				try{
+					
+					if(par == active_vertex->particles_out_const_end() || parent_par == decay->particles_out_const_end() ) break;
+					if(!(*par)->end_vertex()){
 						if(final_state_barcodes.find((*par)->barcode()) != final_state_barcodes.end()) continue;
 						final_state_barcodes.emplace((*par)->barcode());
 						if((*par)->status() == 1 ){
@@ -243,35 +254,105 @@ std::vector<HepMC::GenParticle*> HerwigJetSpectra::IDJets(PHCompositeNode *topNo
 						}
 					
 					//recorded final states, now move to the next
-					++par; 
+					try{++par;}
+					catch(std::exception& e){ std::cout<<"Exception " <<e.what() <<std::endl;} 
 					
 					continue;
 				}
-				else{
+				else  {
 					//stores what particle we are at in the vertex to return to when we exhaust the end 
-					holding_part[active_vertex]=par;
+					holding_part[active_vertex]=(*par)->barcode();
 					active_vertex=(*par)->end_vertex();
-					par=active_vertex->particles_out_const_begin();
+					if(active_vertex->particles_out_size()) par=active_vertex->particles_out_const_begin();
 					std::cout<<"Going one level deeper" <<std::endl;
+					std::cout<<"Have a depth of " <<holding_part.size() <<std::endl;
 					continue;
 				}
+				}
+				catch(std::exception& e) { std::cout<<"Caught error " <<e.what() <<std::endl;}
 			}
-			else{
-				while(holding_part.rbegin()->second == holding_part.rbegin()->first->particles_out_const_end()) holding_part.erase(holding_part.cend());
+			else if ( active_vertex && *par){
+					
+				try{
+				HepMC::GenVertex* parent = holding_part.rbegin()->first;
+				bool alldone=false;
+				for(auto tp=parent->particles_out_const_begin(); tp != parent->particles_out_const_end(); ++tp){
+					if(holding_part.rbegin()->second == (*tp)->barcode()){
+						alldone=true;
+					}
+					else alldone=false;
+				}
+				delete parent;
+				if(holding_part.size()==0 ||  !holding_part.rbegin()->first) break; 
+				if(alldone || holding_part.rbegin()->first->particles_out_size() <= 1 ){
+					if(holding_part.size() <= 1 ) break;
+				 	holding_part.erase(--holding_part.cend());
+				}
+				std::cout<<"Backed out to depth of " <<holding_part.size() <<std::endl;
 				active_vertex=holding_part.rbegin()->first;
-				par=holding_part.rbegin()->second;
-				++par;
-				holding_part[active_vertex]=par;
-				//std::cout<<"Backing out by at least one level" <<std::endl;
+				if( !active_vertex || active_vertex->particles_out_size() == 0 ) continue;
+				std::cout<<"The active vertex has " <<active_vertex->particles_out_size() <<" outgoing particles " <<std::endl;	
+				bool out_of_vertexs=false;
+				while (active_vertex->particles_out_size() <= 1 ){
+					holding_part.erase(--holding_part.cend());
+					if(holding_part.size() < 1){
+						out_of_vertexs=true;
+						break;
+					}
+					active_vertex=holding_part.rbegin()->first;
+					std::cout<<"Threw out spent vertex, new one has " <<active_vertex->particles_out_size() <<std::endl;
+					if(holding_part.size() <= 1 ){
+						out_of_vertexs=true;
+						 break;
+					}
+				}
+				if(out_of_vertexs) break;
+				bool eov=false;
+				if( !active_vertex || active_vertex->particles_out_size() < 2 ) continue;
+				for(auto bc=active_vertex->particles_out_const_begin(); bc != active_vertex->particles_out_const_end(); ++bc){
+					std::cout<<"Barcode of the particle is " <<(*bc)->barcode() <<std::endl;
+					std::cout<<"barcode of the last particle in the chute was " <<holding_part.rbegin()->second <<std::endl; 
+					if(*bc && holding_part.rbegin()->first && (*bc)->barcode() == holding_part.rbegin()->second){
+						 par = ++bc;
+						if(par == active_vertex->particles_out_const_end()) eov=true;
+						break;
+						}
+					}
+				if(eov) continue;
+				}
+				catch(std::exception& e){ std::cout<<"Exception " <<e.what() <<std::endl;} 
+		//		std::cout<<"updating the holding vertex" <<std::endl;
+				holding_part[active_vertex]=(*par)->barcode();
+				std::cout<<"Backing out by at least one level" <<std::endl;
 				continue;
 			}
+			else{
+				break;
+				//par =active_vertex->particles_out_const_begin();
+			}
 			if(active_vertex->barcode() == decay->barcode() ){
-				 ++parent_par;
+				//break;
+				try{ ++parent_par;}
+				catch(std::exception& e){ 
+					std::cout<<"Exception " <<e.what() <<std::endl;
+					break;	
+				} 
 				continue;
 			}
 		}
+		//delete *par;
+		//delete *parent_par; 
+		std::cout<<"Got rid of the particle pointers"<<std::endl;
+		delete active_vertex;
+		delete decay;
+		std::cout<<"Got rid of the pointers" <<std::endl;
+		holding_part.clear();
+		final_state_barcodes.clear();
+		return final_state_jet;
 	}	
 	std::cout<<"The jet has "<<final_state_jet.size() <<" particles in the final state" <<std::endl;
+	delete decay;
+	std::cout<<"deleted the decay vertex" <<std::endl;
 	return final_state_jet;		 
 				 
 }

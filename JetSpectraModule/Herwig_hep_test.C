@@ -10,6 +10,7 @@
 #include <fun4allraw/Fun4AllPrdfInputManager.h>
 #include <fun4allraw/Fun4AllPrdfInputPoolManager.h>
 #include <fun4all/SubsysReco.h>
+#include <phool/PHRandomSeed.h>
 #include <sstream>
 #include <string.h>
 #include <G4_Global.C>
@@ -23,7 +24,7 @@ R__LOAD_LIBRARY(libffamodules.so);
 R__LOAD_LIBRARY(libffarawmodules.so);
 R__LOAD_LIBRARY(libphhepmc.so);
 
-int Herwig_hep_test(std::string filename="")
+int Herwig_hep_test(std::string filename="/sphenix/user/sgross/sphenix_herwig/herwig_files/sphenix_10GeV_jetpt.hepmc")
 {
 	SetsPhenixStyle();
 	Fun4AllServer* se=Fun4AllServer::instance();
@@ -40,9 +41,11 @@ int Herwig_hep_test(std::string filename="")
 	HerwigJetSpectra* ts=new HerwigJetSpectra("HerwigJetSpectra");
 	ts->trig=type;
 	std::cout<<"The spectra analyzer is running over generators with jet trigger set to " <<ts->trig <<std::endl;
-	se->registerSubsystem(ts);	
+	se->registerSubsystem(ts);
+	std::cout<<"Is the random seed here?" <<std::endl;	
+	//want to load in the random seed ideally
 	se->run();
-	ts->Print();
+//	ts->Print();
 	std::cout<<"Ran over "<<ts->n_evt<<" events" <<std::endl;
 	return 0;
 }	

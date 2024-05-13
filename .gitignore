@@ -1,6 +1,7 @@
 **/*.svg
 **/*.pdf
 **/*.tex
+**/*.txt
 **/*.run
 **/*.dot
 **/*.hepmc
@@ -10,13 +11,13 @@
 **/build*
 **/install*
 **/configure*
-**/.o
+**/*.o
 **/testexternals*
 **/*m4*
 **/config.*
 **/depcomp
 **/ltmain.sh
 **/missing
-**/.libs
+**/*.libs
 **/*.job
 **/*.root
