@@ -232,6 +232,8 @@ std::vector<HepMC::GenParticle*> HerwigJetSpectra::IDJets(PHCompositeNode *topNo
 	else{
 		std::cout<<"Have the decay vertex of the originating parton, now searching for all daughters"<<std::endl;
 		std::unordered_set<int> final_state_barcodes;
+		int last_part=0;
+		bool stuck=false;
 		std::map<HepMC::GenVertex*, int> holding_part;
 		HepMC::GenVertex* active_vertex=decay;
 		HepMC::GenVertex::particles_out_const_iterator par=decay->particles_out_const_begin(); 
@@ -240,12 +242,15 @@ std::vector<HepMC::GenParticle*> HerwigJetSpectra::IDJets(PHCompositeNode *topNo
 		while(parent_par != decay->particles_out_const_end()){
 			//The goal is to go to the deepest level and collect all partilces that are final
 			
-			if( active_vertex && *par && par != active_vertex->particles_out_const_end())
+			if(!stuck && active_vertex && *par && par != active_vertex->particles_out_const_end())
 			{
 				try{
 					
 					if(par == active_vertex->particles_out_const_end() || parent_par == decay->particles_out_const_end() ) break;
-					if(!(*par)->end_vertex()){
+					if( (*par)->barcode() == last_part ) stuck=true;
+					else stuck=false;
+					std::cout<<"The active particle has mass " <<(*par)->generated_mass() <<" and status " <<(*par)->status() <<" and  barcode " <<(*par)->barcode() <<std::endl;
+					if( !stuck && *par && !(*par)->end_vertex()){
 						if(final_state_barcodes.find((*par)->barcode()) != final_state_barcodes.end()) continue;
 						final_state_barcodes.emplace((*par)->barcode());
 						if((*par)->status() == 1 ){
@@ -254,16 +259,20 @@ std::vector<HepMC::GenParticle*> HerwigJetSpectra::IDJets(PHCompositeNode *topNo
 						}
 					
 					//recorded final states, now move to the next
-					try{++par;}
+					try{	
+						last_part=(*par)->barcode();
+						++par;
+						}
 					catch(std::exception& e){ std::cout<<"Exception " <<e.what() <<std::endl;} 
-					
+					last_part=(*par)->barcode();
 					continue;
 				}
 				else  {
 					//stores what particle we are at in the vertex to return to when we exhaust the end 
+					last_part=(*par)->barcode();
 					holding_part[active_vertex]=(*par)->barcode();
 					active_vertex=(*par)->end_vertex();
-					if(active_vertex->particles_out_size()) par=active_vertex->particles_out_const_begin();
+					if(active_vertex && active_vertex->particles_out_size() > 1) par=active_vertex->particles_out_const_begin();
 					std::cout<<"Going one level deeper" <<std::endl;
 					std::cout<<"Have a depth of " <<holding_part.size() <<std::endl;
 					continue;
@@ -313,7 +322,8 @@ std::vector<HepMC::GenParticle*> HerwigJetSpectra::IDJets(PHCompositeNode *topNo
 					std::cout<<"Barcode of the particle is " <<(*bc)->barcode() <<std::endl;
 					std::cout<<"barcode of the last particle in the chute was " <<holding_part.rbegin()->second <<std::endl; 
 					if(*bc && holding_part.rbegin()->first && (*bc)->barcode() == holding_part.rbegin()->second){
-						 par = ++bc;
+						last_part=(*par)->barcode();
+						par = ++bc;
 						if(par == active_vertex->particles_out_const_end()) eov=true;
 						break;
 						}
@@ -343,8 +353,13 @@ std::vector<HepMC::GenParticle*> HerwigJetSpectra::IDJets(PHCompositeNode *topNo
 		//delete *par;
 		//delete *parent_par; 
 		std::cout<<"Got rid of the particle pointers"<<std::endl;
-		delete active_vertex;
-		delete decay;
+		//if (active_vertex)
+		//{
+		//	 delete active_vertex;
+		//}
+		//if (decay){
+		//	 delete decay;
+		//}
 		std::cout<<"Got rid of the pointers" <<std::endl;
 		holding_part.clear();
 		final_state_barcodes.clear();
