@@ -232,7 +232,7 @@ std::vector<HepMC::GenParticle*> HerwigJetSpectra::IDJets(PHCompositeNode *topNo
 	else{
 		std::cout<<"Have the decay vertex of the originating parton, now searching for all daughters"<<std::endl;
 		std::unordered_set<int> final_state_barcodes;
-		int last_part=0;
+		int last_part=0, n_loop=0;
 		bool stuck=false;
 		std::map<HepMC::GenVertex*, int> holding_part;
 		HepMC::GenVertex* active_vertex=decay;
@@ -242,15 +242,22 @@ std::vector<HepMC::GenParticle*> HerwigJetSpectra::IDJets(PHCompositeNode *topNo
 		while(parent_par != decay->particles_out_const_end()){
 			//The goal is to go to the deepest level and collect all partilces that are final
 			
-			if(!stuck && active_vertex && *par && par != active_vertex->particles_out_const_end())
-			{
+			//if( *par )
+			//{
 				try{
 					
-					if(par == active_vertex->particles_out_const_end() || parent_par == decay->particles_out_const_end() ) break;
-					if( (*par)->barcode() == last_part ) stuck=true;
+					//if(par == active_vertex->particles_out_const_end() || parent_par == decay->particles_out_const_end() ) break;
+					if( (*par)->barcode() == last_part ) n_loop++;
+					else n_loop=0;
+					if (n_loop > 3 ) ++par; 
 					else stuck=false;
+					std::cout<<stuck<<std::endl;
 					std::cout<<"The active particle has mass " <<(*par)->generated_mass() <<" and status " <<(*par)->status() <<" and  barcode " <<(*par)->barcode() <<std::endl;
-					if( !stuck && *par && !(*par)->end_vertex()){
+					HepMC::GenVertex* testvt=(*par)->end_vertex(); 
+					std::cout<<"Have the end vertex located at z=" <<testvt->position().z() <<std::endl;
+					if( !testvt ){
+						
+						std::cout<<"Trying to find out if there are any particles in here?" <<std::endl;
 						if(final_state_barcodes.find((*par)->barcode()) != final_state_barcodes.end()) continue;
 						final_state_barcodes.emplace((*par)->barcode());
 						if((*par)->status() == 1 ){
@@ -279,8 +286,8 @@ std::vector<HepMC::GenParticle*> HerwigJetSpectra::IDJets(PHCompositeNode *topNo
 				}
 				}
 				catch(std::exception& e) { std::cout<<"Caught error " <<e.what() <<std::endl;}
-			}
-			else if ( active_vertex && *par){
+			//}
+			//else if ( active_vertex && *par){
 					
 				try{
 				HepMC::GenVertex* parent = holding_part.rbegin()->first;
@@ -335,11 +342,11 @@ std::vector<HepMC::GenParticle*> HerwigJetSpectra::IDJets(PHCompositeNode *topNo
 				holding_part[active_vertex]=(*par)->barcode();
 				std::cout<<"Backing out by at least one level" <<std::endl;
 				continue;
-			}
-			else{
-				break;
+			//}
+			//else{
+			//	break;
 				//par =active_vertex->particles_out_const_begin();
-			}
+		//	}
 			if(active_vertex->barcode() == decay->barcode() ){
 				//break;
 				try{ ++parent_par;}

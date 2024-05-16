@@ -45,7 +45,7 @@ int Herwig_hep_test(std::string filename="/sphenix/user/sgross/sphenix_herwig/he
 	std::cout<<"Is the random seed here?" <<std::endl;	
 	//want to load in the random seed ideally
 	se->run();
-//	ts->Print();
+	ts->Print();
 	std::cout<<"Ran over "<<ts->n_evt<<" events" <<std::endl;
 	return 0;
 }	

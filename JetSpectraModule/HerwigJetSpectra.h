@@ -55,7 +55,7 @@ class HerwigJetSpectra : public SubsysReco
 	h_n_part=new TH1F("n_part", "Number of total particles produced in decay chain of a Hepmc event; n_{part}; N_{event}", 1000, -0.5, 999.5);
 	h_mass=new TH1F("mass", "Particle masses of final state particles; m [GeV]; N_{part}", 100, 0, 1.5);
 	h_E=new TH1F("energy", "Energy of all particles in decay chain; E [GeV]; N_{part}", 200, -0.5, 199.5);
-	h_ET=new TH1F("transverse_energy", "Transverse Energy of all particles in decay chain; E_{T} [GeV]; N_{part}", 100, -0.5, 49.5);
+	h_ET=new TH1F("transverse_energy", "Transverse Energy of final state particles; E_{T} [GeV]; N_{part}", 100, -0.5, 49.5);
 	h_status=new TH1F("status", "HepMC status of final state particles; status", 30, -0.5, 29.5);
 	h_phi_orig=new TH1F("phi_orig", "#varphi distribution of primary particles produced in Hepmc record; #varphi; #sum_{particles} E_{T} [GeV]", 64, -3.1416, 3.14);
 	h_eta_orig=new TH1F("eta_orig", "#eta distribution of primary particles produced in decay chain of Hepmc record in sPHENIX acceptance; #eta; #sum_{particles} E_{T} [GeV]", 24, -1.12, 1.1); 
@@ -66,7 +66,7 @@ class HerwigJetSpectra : public SubsysReco
 	h_mass_orig=new TH1F("mass_orig", "Particle masses of primary particle in decay chain of Hepmc record; m [GeV]; N_{part}", 100, 0, 1.5);
 	h_status_orig=new TH1F("status_orig", "HepMC status of primary partons; status", 30, -0.5, 29.5);
 	h_E_orig=new TH1F("energy_orig", "Energy of primary partons; E[GeV]; N_{part}", 200, -0.5, 199.5);
-	h_ET_orig=new TH1F("transverse_energy_orig", "Transverse Energy of primary partons; E_{T} [GeV], N_{part}", 100, -0.5, 49.5);
+	h_ET_orig=new TH1F("transverse_energy_orig", "Transverse Energy of primary partons; E_{T} [GeV]; N_{part}", 100, -0.5, 49.5);
 	h_pt_leading=new TH1F("pt_leading", "p_{T} of leading primary particle in Hepmc record; p_{T}[GeV]; N_{part}", 1000, -0.5, 49.5);
 	h_E_total=new TH1F("energy_total", "Total energy of event; E[GeV]; N_{event}", 200, 149.5, 249.5);
 	h_vertex=new TH2F("vertex", "Vertex position; r [cm]; z[cm]; N_{event}", 100, -0.1, 0.1, 100, -0.1, 0.1);
