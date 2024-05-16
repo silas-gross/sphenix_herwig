@@ -73,8 +73,9 @@ class HerwigJetSpectra : public SubsysReco
 	h_ev=new TH1F("event", "Number of HepMC Events per Fun4All event; N_{event}", 10, -0.5, 9.5); 
 	h_weight=new TH1F("weights", "HEPMC event weights", 100, -0.5, 1.5); 
 	h_Jet_pt=new TH1F("jet_pt", "p_{T} of identified jets in final state; p_{T} [GeV]; Counts", 100, -0.5, 49.5);
-	h_Jet_R=new TH1F("jet_R", "R of identified jets in final state, measured from #varphi, #eta of originating parton; R; Counts", 100, -0.5, 2.5);
+	h_Jet_R=new TH1F("jet_R", "R of identified jets in final state, measured from max seperation of originating parton; R; Counts", 100, -0.1, 9.9);
 	h_Jet_npart=new TH1F("jet_npart", "Number of particles in final state of jet; N_{particles}; N_{Jets}", 200, -0.5, 199.5);
+	h_Jet_pt_lead=new TH1F("jet_pt_leading", "p_{T} of identified leading jets in final state; p_{T} [GeV]; Counts", 100, -0.5, 49.5);
 	n_evt=0;
 	}
   ~HerwigJetSpectra() override;
