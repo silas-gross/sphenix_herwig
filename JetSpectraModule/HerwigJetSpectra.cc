@@ -66,7 +66,7 @@
 #include <fun4all/Fun4AllReturnCodes.h>
 
 #include <phool/PHCompositeNode.h>
-
+#define PI 3.14159
 //____________________________________________________________________________..
 /*HerwigJetSpectra::HerwigJetSpectra(const std::string &name):
  SubsysReco(name)
@@ -157,6 +157,7 @@ int HerwigJetSpectra::process_event(PHCompositeNode *topNode)
 				h_phi_hit_orig->Fill(phi);
 				h_mass_orig->Fill(mass);
 				h_E_orig->Fill(E);
+				h_hits_orig->Fill(eta, phi);
 				np_orig++;
 				if(pt>pt_lead) pt_lead=pt;
 				h_status_orig->Fill((*iter)->status());
@@ -164,14 +165,18 @@ int HerwigJetSpectra::process_event(PHCompositeNode *topNode)
 				float mj=0, R=0, pxj=0, pyj=0, etj=0;
 				std::cout<<"Measuring the kinematics of the jet" <<std::endl;
 				if(Jet->jet_particles.size() == 0 ) continue;
-				float jem=0;
 				for(auto p:Jet->jet_particles){
 					mj+=p->momentum().m();
 					pxj+=p->momentum().px();
 					pyj+=p->momentum().py();
 					etj+=p->momentum().e()/p->momentum().eta();
 					for(auto n:Jet->jet_particles){
-						float rt=sqrt(pow(p->momentum().eta()-n->momentum.eta(), 2) + pow(p->momentum().phi()-n.momentum.phi(), 2));
+						float phidiff=0;
+						if(  (p->momentum().phi() < 0 && n->momentum().phi() > 0 ) ) phidiff=std::min(abs(p->momentum().phi())+ n->momentum().phi(), abs(-PI - p->momentum().phi())+ abs(PI - n->momentum().phi()));
+						else if ( p->momentum().phi() > 0 && n->momentum().phi() < 0 ) phidiff=std::min(abs(n->momentum().phi())+ p->momentum().phi(), abs(-PI - n->momentum().phi())+ abs(PI - p->momentum().phi()));
+
+						else phidiff = p->momentum().phi() - n->momentum().phi();
+						float rt=sqrt(pow(p->momentum().eta()-n->momentum().eta(), 2) + pow(phidiff, 2));
 						if(rt>R) R=rt;
 					}
 				}	
@@ -207,6 +212,7 @@ int HerwigJetSpectra::process_event(PHCompositeNode *topNode)
 		h_eta->Fill(eta, E);
 		h_eta_hit->Fill(eta);
 		h_phi_hit->Fill(phi);
+		h_hits->Fill(eta, phi);
 		h_pt->Fill(pt);
 		h_mass->Fill(mass);
 		h_E->Fill(E);

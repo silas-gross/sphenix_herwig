@@ -60,7 +60,7 @@ class HerwigJetSpectra : public SubsysReco
 	h_phi_orig=new TH1F("phi_orig", "#varphi distribution of primary particles produced in Hepmc record; #varphi; #sum_{particles} E_{T} [GeV]", 64, -3.1416, 3.14);
 	h_eta_orig=new TH1F("eta_orig", "#eta distribution of primary particles produced in decay chain of Hepmc record in sPHENIX acceptance; #eta; #sum_{particles} E_{T} [GeV]", 24, -1.12, 1.1); 
 	h_phi_hit_orig=new TH1F("phi_hit_orig", "hit #varphi distribution of primary particles produced in Hepmc record; #varphi; N_{hits}", 64, -3.1416, 3.14);
-	h_eta_hit_orig=new TH1F("eta_hit_orig", "#eta distribution of primary particles produced in decay chain of Hepmc record in sPHENIX acceptance; #eta; N_{hits}", 24, -1.12, 1.1); 
+	h_eta_hit_orig=new TH1F("eta_hit_orig", "#eta distribution of primary partons produced Hepmc record in sPHENIX acceptance; #eta; N_{hits}", 24, -1.12, 1.1); 
 	h_pt_orig=new TH1F("pt_orig", "p_{T} distribution of primary particles produced in decay chain of Hepmc record; p_{T} [GeV]; N_{part}", 1000,-0.5, 99.5);
 	h_n_part_orig=new TH1F("n_part_orig", "Number of total primary particles produced in decay chain of a Hepmc event; n_{part}; N_{event}", 1000, -0.5, 999.5);
 	h_mass_orig=new TH1F("mass_orig", "Particle masses of primary particle in decay chain of Hepmc record; m [GeV]; N_{part}", 100, 0, 1.5);
@@ -76,6 +76,8 @@ class HerwigJetSpectra : public SubsysReco
 	h_Jet_R=new TH1F("jet_R", "R of identified jets in final state, measured from max seperation of originating parton; R; Counts", 100, -0.1, 9.9);
 	h_Jet_npart=new TH1F("jet_npart", "Number of particles in final state of jet; N_{particles}; N_{Jets}", 200, -0.5, 199.5);
 	h_Jet_pt_lead=new TH1F("jet_pt_leading", "p_{T} of identified leading jets in final state; p_{T} [GeV]; Counts", 100, -0.5, 49.5);
+	h_hits=new TH2F("hits", "N final state particles; #eta; #phi; N_{particles}", 24, -1.1, 1.1, 64, -3.1416, 3.1414);
+	h_hits_orig=new TH2F("hits_orig", "N inital state partons; #eta; #phi; N_{partons}", 24, -1.1, 1.1, 64, -3.1416, 3.1414);
 	n_evt=0;
 	}
   ~HerwigJetSpectra() override;
@@ -119,8 +121,8 @@ class HerwigJetSpectra : public SubsysReco
 	TH1F *h_phi, *h_eta, *h_eta_hit, *h_phi_hit, *h_pt, *h_mass, *h_E, *h_status;
 	TH1F *h_phi_orig, *h_eta_orig, *h_eta_hit_orig, *h_phi_hit_orig, *h_pt_orig, *h_mass_orig, *h_E_orig, *h_status_orig;
 	TH1F *h_n_part, *h_n_part_orig, *h_pt_leading, *h_E_total, *h_ev;
-	TH1F *h_weight, *h_ET, *h_ET_orig, *h_Jet_pt, *h_Jet_R, *h_Jet_npart;
-	TH2F *h_vertex;
+	TH1F *h_weight, *h_ET, *h_ET_orig, *h_Jet_pt, *h_Jet_R, *h_Jet_npart, *h_Jet_pt_lead;
+	TH2F *h_vertex, *h_hits, *h_hits_orig;
 	struct jetobj{
 		std::vector<HepMC::GenParticle*> jet_particles;
 		HepMC::GenParticle* originating_parton;
