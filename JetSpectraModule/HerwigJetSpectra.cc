@@ -242,176 +242,175 @@ std::vector<HepMC::GenParticle*> HerwigJetSpectra::IDJets(PHCompositeNode *topNo
 	else{
 		std::cout<<"Have the decay vertex of the originating parton, now searching for all daughters"<<std::endl;
 		std::unordered_set<int> final_state_barcodes;
-		int last_part=0, n_loop=0;
-		bool stuck=false;
-		std::map<HepMC::GenVertex*, int> holding_part;
+		//int last_part=0, n_loop=0;
+		//bool stuck=false, eov=false;
+		std::vector<std::pair<HepMC::GenVertex*, HepMC::GenVertex::particles_out_const_iterator>> holding_part;
 		HepMC::GenVertex* active_vertex=decay;
 		HepMC::GenVertex::particles_out_const_iterator par=decay->particles_out_const_begin(); 
 		HepMC::GenVertex::particles_out_const_iterator parent_par=decay->particles_out_const_begin();
 		std::cout<<"have set up the structure needed, now entering while loop" <<std::endl;
 		while(parent_par != decay->particles_out_const_end()){
 			//The goal is to go to the deepest level and collect all partilces that are final
-			bool jump=false;
-			//if( *par )
-			//{
-				try{
-					if((!active_vertex && holding_part.size() == 0) || !decay) break;
-					if(par == active_vertex->particles_out_const_end() || parent_par == decay->particles_out_const_end() ) jump=true;
-					if(jump) --par;
-					if( (*par)->barcode() == last_part ) n_loop++;
-					else n_loop=0;
-					if (n_loop > 3 ) stuck=true; 
-					else stuck=false;
-					if(stuck){
-						 if( par == active_vertex->particles_out_const_end() || !(*par)->end_vertex()) jump=true;	
-						 else par=(*par)->end_vertex()->particles_out_const_begin();
-					}
-				//	std::cout<<stuck<<std::endl;
-					std::cout<<"The active particle has mass " <<(*par)->generated_mass() <<" and status " <<(*par)->status() <<" and  barcode " <<(*par)->barcode() <<std::endl;
-					HepMC::GenVertex* testvt=(*par)->end_vertex(); 
-					//if(testvt) std::cout<<"Have the end vertex located at z=" <<testvt->position().z() <<std::endl;
-					if( !testvt && !jump){
-						
-						std::cout<<"Trying to find out if there are any particles in here?" <<std::endl;
-						if(final_state_barcodes.find((*par)->barcode()) != final_state_barcodes.end()){
-							auto pt=par;
-							++par; 
-							if(par == (*pt)->production_vertex()->particles_out_const_end()){
-								bool try_to_escape=true;
-								while(try_to_escape)
-								{
-									holding_part.erase(--holding_part.cend());
-									active_vertex=holding_part.rbegin()->first;
-									par=active_vertex->particles_out_const_begin();
-									while(par != active_vertex->particles_out_const_end())
-									{
-										if((*par)->barcode() == holding_part[active_vertex]) break;
-										else ++par;
-									}
-									if(par != active_vertex->particles_out_const_end()) ++par;
-									if(par != active_vertex->particles_out_const_end()){
-										try_to_escape=false;
-										continue;
-										}
-								}
+			std::cout<<"Starting a new itteration of the loop" <<std::endl;
+			if(holding_part.size() > 0  && holding_part.rbegin()->first == decay ){
+				 ++parent_par;
+				 holding_part.rbegin()->second = parent_par;
+				if(parent_par == decay->particles_out_const_end()) break;
+				std::cout<<"Moveed along the primary particle branch. Now have parton " <<(*parent_par)->barcode() <<std::endl; 
+			} 
+			if(par == decay->particles_out_const_begin() && holding_part.size() == 0 ) holding_part.push_back(std::make_pair(decay, par));
+			if( active_vertex && holding_part.size() > 0  && holding_part.rbegin()->first && active_vertex != holding_part.rbegin()->first){
+				std::cout<<"realigning the vertex to the branch tree " <<std::endl; 
+				active_vertex=holding_part.rbegin()->first;
+				par=holding_part.rbegin()->second;
+				if(par != active_vertex->particles_out_const_end() ) ++par;
+				else{
+					holding_part.erase((--(holding_part.cend())));
+					continue;
+				}
+			} //end of checker for if the active vertex isn't se to what we would hope
+			if( active_vertex && active_vertex->particles_out_size() > 0) {
+				//make sure that the vertex exists and has outgoing particles 
+				if( par != active_vertex->particles_out_const_end() && *par ) {
+					//make sure the particle exists and is not an end of vertex
+					if (!(*par) ) std::cout<<"Ok somehow I got here despite seeming to be inconsistent???" <<std::endl;
+					bool has_end_vertex=true;
+					if(!(*par)->end_vertex()) has_end_vertex=false; //does the negation make a difference? it shouldn't I would think?
+					if( has_end_vertex){
+						//this is what we have to do if the particles have an end vertex, so moving deeper
+						if( (*par)->end_vertex()->particles_out_size() > 0 ) 
+						{
+							//there is a well formed vertex
+							active_vertex=(*par)->end_vertex();
+							par=active_vertex->particles_out_const_begin();
+							if(active_vertex && *par) holding_part.push_back(std::make_pair(active_vertex, par));
+							else{
+								std::cout<<"Something is off here " <<std::endl;
+								break;
+							}
+							std::cout<<"New depth is " <<holding_part.size() <<std::endl;
+							continue;
+						} //End of deepening by one
+						else{
+							std::cout<<"For some reason the particle has an end vertex, but no apparent particles in the end vertex, will treat as a final state ? Depends on status which is " <<(*par)->status() <<std::endl;
+							if(final_state_barcodes.find((*par)->barcode()) == final_state_barcodes.end()){
+								if( (*par)->status() == 1 ) final_state_jet.push_back(*par);
+								final_state_barcodes.insert((*par)->barcode());
+							} //behavior of final state particlse
+							++par;
+							if( par != active_vertex->particles_out_const_end() && holding_part.rbegin()->first==active_vertex ) holding_part.rbegin()->second=par;
+							else if( holding_part.rbegin()->first != active_vertex ) holding_part.push_back(std::make_pair(active_vertex, par));
+							else{
+								auto it=holding_part.end();
+								--it;
+								holding_part.erase(it);
 							}
 							continue;
 						}
-						else final_state_barcodes.emplace((*par)->barcode());
-						if((*par)->status() == 1 ){
-							final_state_jet.push_back((*par));
-							std::cout<<"found a final state particle, now have " <<final_state_jet.size() <<std::endl;
-						}
-					
-					//recorded final states, now move to the next
-					try{	
-						last_part=(*par)->barcode();
-						++par;
-						}
-					catch(std::exception& e){ std::cout<<"Exception " <<e.what() <<std::endl;} 
-					//if(*par){
-					//	 last_part=(*par)->barcode();
-					//}
-					continue;
-				}
-				else  {
-					//stores what particle we are at in the vertex to return to when we exhaust the end 
-					last_part=(*par)->barcode();
-					holding_part[active_vertex]=(*par)->barcode();
-					active_vertex=(*par)->end_vertex();
-					if(active_vertex && active_vertex->particles_out_size() > 0) par=active_vertex->particles_out_const_begin();
-		//			std::cout<<"Going one level deeper" <<std::endl;
-					std::cout<<"Have a depth of " <<holding_part.size() <<std::endl;
-					continue;
-					}
-				}
-				catch(std::exception& e) { std::cout<<"Caught error " <<e.what() <<std::endl;}
-			//}
-			//else if ( active_vertex && *par){
-					
-				try{
-				HepMC::GenVertex* parent = holding_part.rbegin()->first;
-				bool alldone=false;
-				for(auto tp=parent->particles_out_const_begin(); tp != parent->particles_out_const_end(); ++tp){
-					if(holding_part.rbegin()->second == (*tp)->barcode()){
-						alldone=true;
-					}
-					else alldone=false;
-				}
-				delete parent;
-				if(holding_part.size()==0 ||  !holding_part.rbegin()->first) break; 
-				if(alldone || holding_part.rbegin()->first->particles_out_size() < 1 ){
-					if(holding_part.size() <= 1 ) break;
-				 	holding_part.erase(--holding_part.cend());
-				}
-				std::cout<<"Backed out to depth of " <<holding_part.size() <<std::endl;
-				active_vertex=holding_part.rbegin()->first;
-				if( !active_vertex || active_vertex->particles_out_size() == 0 ) continue;
-				std::cout<<"The active vertex has " <<active_vertex->particles_out_size() <<" outgoing particles " <<std::endl;	
-				bool out_of_vertexs=false;
-				while (active_vertex->particles_out_size() < 1 ){
-					holding_part.erase(--holding_part.cend());
-					if(holding_part.size() < 1){
-						out_of_vertexs=true;
-						break;
-					}
+					} //end of the behavior of parton with an end vertex
+					else{
+						std::cout<<"Will treat as a final state? Depends on status which is " <<(*par)->status() <<std::endl;
+						if(final_state_barcodes.find((*par)->barcode()) == final_state_barcodes.end()){
+							if( (*par)->status() == 1 ){
+								 final_state_jet.push_back(*par);
+								std::cout<<"Added a parton to the final state jet, have  " <<final_state_jet.size() <<std::endl;
+							}
+							final_state_barcodes.insert((*par)->barcode());
+						} //behavior of final state particlse
+						else std::cout<<"Have already examined this particle it has barcode " <<(*par)->barcode() <<std::endl;
+						++par; 
+						if(par == active_vertex->particles_out_const_end()){
+							auto it=holding_part.end();
+							--it;
+							holding_part.erase(it);
+						}	
+						holding_part.rbegin()->second=par;
+						continue;
+					}//end of particle having no end state vertex
+				} // end of ok parton code
+				else if ( par == active_vertex->particles_out_const_end()){
+					//handle moving back out of a vertex 
+					std::cout<<"the particle itterator is sitting at the end of the itterator chain" <<std::endl;
+					auto it = holding_part.cend();
+					--it;
+					holding_part.erase(it);
 					active_vertex=holding_part.rbegin()->first;
-					std::cout<<"Threw out spent vertex, new one has " <<active_vertex->particles_out_size() <<std::endl;
-					if(holding_part.size() < 1 ){
-						out_of_vertexs=true;
-						 break;
+					par=holding_part.rbegin()->second;
+					continue;
+				} //end of moving back from vertex
+				else{
+					par=holding_part.rbegin()->second;
+					if(par != active_vertex->particles_out_const_end() ){
+						//get the vertex back in place correctly for the relative placement 
+						++par;
+						holding_part.rbegin()->second=par;
+						continue;
+					}
+					else {
+						auto it=holding_part.cend();
+						--it;
+						holding_part.erase(it);
+						continue;
 					}
 				}
-				if(out_of_vertexs) break;
-				bool eov=false;
-				if( !active_vertex || active_vertex->particles_out_size() < 1 ) continue;
-				for(auto bc=active_vertex->particles_out_const_begin(); bc != active_vertex->particles_out_const_end(); ++bc){
-					std::cout<<"Barcode of the particle is " <<(*bc)->barcode() <<std::endl;
-					std::cout<<"barcode of the last particle in the chute was " <<holding_part.rbegin()->second <<std::endl; 
-					if(*bc && holding_part.rbegin()->first && (*bc)->barcode() == holding_part.rbegin()->second){
-						last_part=(*par)->barcode();
-						par = ++bc;
-						if(par == active_vertex->particles_out_const_end()) eov=true;
-						break;
+										
+			} //end the active vertex > 0 outgoing 
+			else if( holding_part.size() > 0 ){
+				//active vertex either doesn't exist or it has no outgoing particles
+				if(active_vertex){ 
+					//if the vertex exists check to see if its the current vertex in the holding part
+					if(holding_part.rbegin()->first){
+						if(active_vertex != holding_part.rbegin()->first) active_vertex =holding_part.rbegin()->first;
+						else{
+							auto it=holding_part.cend();
+							--it;
+							holding_part.erase(it);
+							continue;
+						} //end of check to see if the active vertex is already the thing in use
+						if(holding_part.rbegin()->second != active_vertex->particles_out_const_end()) par=holding_part.rbegin()->second;
+						else{
+							//check to see if we would be at the end of the vertex 
+							auto it=holding_part.cend();
+							--it;
+							holding_part.erase(it);
+							continue;
+
 						}
-					}
-				if(eov) continue;
-				}
-				catch(std::exception& e){ std::cout<<"Exception " <<e.what() <<std::endl;} 
-		//		std::cout<<"updating the holding vertex" <<std::endl;
-				holding_part[active_vertex]=(*par)->barcode();
-				std::cout<<"Backing out by at least one level" <<std::endl;
-				continue;
-			//}
-			//else{
-			//	break;
-				//par =active_vertex->particles_out_const_begin();
-		//	}
-			if(active_vertex->barcode() == decay->barcode() ){
-				//break;
-				try{ ++parent_par;}
-				catch(std::exception& e){ 
-					std::cout<<"Exception " <<e.what() <<std::endl;
-					break;	
-				} 
-				continue;
-			}
-		}
-		//delete *par;
-		//delete *parent_par; 
-		std::cout<<"Got rid of the particle pointers"<<std::endl;
-		//if (active_vertex)
-		//{
-		//	 delete active_vertex;
-		//}
-		//if (decay){
-		//	 delete decay;
-		//}
+						++par; 
+						if(par == active_vertex->particles_out_const_end()){
+							//check if the new particle itterator is usable
+							auto it=holding_part.cend();
+							--it;
+							holding_part.erase(it);
+							continue;
+						} //end of check to see if the new particle is actually a good one 
+					}//end of check if the holding part has an actual first vertex
+					else{
+						auto it=holding_part.cend();
+						--it;
+						holding_part.erase(it);
+						continue; //try again to test the vertex, don't assign an untested vertex
+					} //end of else to account for dead vertex at end of holding part
+					
+				} //end of vertex exists if statement
+				else{
+					if(holding_part.rbegin()->first ) active_vertex=holding_part.rbegin()->first;
+					else{
+						auto it=holding_part.cend();
+						--it;
+						holding_part.erase(it);
+						continue; //try again to test the vertex, don't assign an untested vertex
+					} //end of else to account for dead vertex at end of holding part
+ 
+				} //end of else corresponding to active vertex if statement
+			
+			} //end of if there is anything in the holding part
+		    else break; //if there is nothing anywhere, just breal
+		} //end the while loop on the parent parton 
 		std::cout<<"Got rid of the pointers" <<std::endl;
 		holding_part.clear();
 		final_state_barcodes.clear();
-		return final_state_jet;
-	}	
+	} //end the else condition for needing to search for daughters
 	std::cout<<"The jet has "<<final_state_jet.size() <<" particles in the final state" <<std::endl;
 	delete decay;
 	std::cout<<"deleted the decay vertex" <<std::endl;
