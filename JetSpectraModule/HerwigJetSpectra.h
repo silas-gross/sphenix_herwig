@@ -22,6 +22,7 @@
 #include <TFile.h>
 #include <TH2.h>
 #include <utility> 
+#include <iterator> 
 
 #include <g4main/PHG4VtxPoint.h>
 #include <g4main/PHG4TruthInfoContainer.h>

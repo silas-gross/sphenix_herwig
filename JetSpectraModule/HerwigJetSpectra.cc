@@ -265,7 +265,9 @@ std::vector<HepMC::GenParticle*> HerwigJetSpectra::IDJets(PHCompositeNode *topNo
 				par=holding_part.rbegin()->second;
 				if(par != active_vertex->particles_out_const_end() ) ++par;
 				else{
-					holding_part.erase((--(holding_part.cend())));
+					auto it=holding_part.end();
+					--it;
+					holding_part.erase(it);
 					continue;
 				}
 			} //end of checker for if the active vertex isn't se to what we would hope
@@ -273,8 +275,17 @@ std::vector<HepMC::GenParticle*> HerwigJetSpectra::IDJets(PHCompositeNode *topNo
 				//make sure that the vertex exists and has outgoing particles 
 				if( par != active_vertex->particles_out_const_end() && *par ) {
 					//make sure the particle exists and is not an end of vertex
-					if (!(*par) ) std::cout<<"Ok somehow I got here despite seeming to be inconsistent???" <<std::endl;
+					if (!(*par) || par >= active_vertex->particles_out_const_end() ) std::cout<<"Ok somehow I got here despite seeming to be inconsistent???" <<std::endl;
 					bool has_end_vertex=true;
+					if ( par >= active_vertex->particles_out_const_end() ) std::cout<<"The active parton is " <<std::distance( active_vertex->particles_out_const_end(), par) <<" steps away from the end iterator" <<std::endl;
+					if( par >= active_vertex->particles_out_const_end() || par < active_vertex->particles_out_const_begin() ){
+						std::cout<<"I have no clue how this happened??????, somehow we are out of range of the vertex iterator??" <<std::endl;
+						auto it=holding_part.end();
+						--it;
+						holding_part.erase(it);	
+						continue;
+					}
+					std::cout<<"The issue below is on a vertex with barcode " <<(*par)->production_vertex()->barcode() <<std::endl;
 					if(!(*par)->end_vertex()) has_end_vertex=false; //does the negation make a difference? it shouldn't I would think?
 					if( has_end_vertex){
 						//this is what we have to do if the particles have an end vertex, so moving deeper
