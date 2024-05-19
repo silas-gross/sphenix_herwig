@@ -257,14 +257,18 @@ std::vector<HepMC::GenParticle*> HerwigJetSpectra::IDJets(PHCompositeNode *topNo
 				 ++parent_par;
 				 last_it->second = parent_par;
 				if(parent_par == decay->particles_out_const_end()) break;
-				std::cout<<"Moveed along the primary particle branch. Now have parton " <<(*parent_par)->barcode() <<std::endl; 
+				std::cout<<"Moved along the primary particle branch. Now have parton " <<(*parent_par)->barcode() <<std::endl; 
 			} 
-			if(par == decay->particles_out_const_begin() && holding_part.size() == 0 ) holding_part.emplace(decay, par);
+			if(par == decay->particles_out_const_begin() && holding_part.size() == 0 ){
+				 holding_part.emplace(decay, par);
+				 continue;
+			}
 			if( active_vertex && holding_part.size() > 0  && last_it->first && active_vertex != last_it->first){
 				std::cout<<"realigning the vertex to the branch tree " <<std::endl; 
 				active_vertex=last_it->first;
 				par=last_it->second;
-				if(par != active_vertex->particles_out_const_end() ) ++par;
+				++par; 
+				if(par != active_vertex->particles_out_const_end() ) last_it->second=par;
 				else{
 					auto it=holding_part.cbegin();
 					holding_part.erase(it);
@@ -284,13 +288,14 @@ std::vector<HepMC::GenParticle*> HerwigJetSpectra::IDJets(PHCompositeNode *topNo
 						holding_part.erase(it);	
 						continue;
 					}
-					std::cout<<"The issue below is on a vertex with barcode " <<(*par)->production_vertex()->barcode() <<std::endl;
+					//std::cout<<"The issue below is on a vertex with barcode " <<(*par)->production_vertex()->barcode() <<std::endl;
 					if(!(*par)->end_vertex()) has_end_vertex=false; //does the negation make a difference? it shouldn't I would think?
 					if( has_end_vertex){
 						//this is what we have to do if the particles have an end vertex, so moving deeper
 						if( (*par)->end_vertex()->particles_out_size() > 0 ) 
 						{
 							//there is a well formed vertex
+							std::cout<<"The active vertex has barcode " <<active_vertex->barcode() <<" and the new active vertex has barcode " <<(*par)->end_vertex()->barcode() <<std::endl;
 							active_vertex=(*par)->end_vertex();
 							par=active_vertex->particles_out_const_begin();
 							if(active_vertex && *par) holding_part.emplace(active_vertex, par);
@@ -299,6 +304,7 @@ std::vector<HepMC::GenParticle*> HerwigJetSpectra::IDJets(PHCompositeNode *topNo
 								break;
 							}
 							std::cout<<"New depth is " <<holding_part.size() <<std::endl;
+							std::cout<<"The active vertex has barcode " <<active_vertex->barcode() <<" and the new holding partition vertex has barcode " <<holding_part.begin()->first->barcode() <<std::endl;
 							continue;
 						} //End of deepening by one
 						else{
