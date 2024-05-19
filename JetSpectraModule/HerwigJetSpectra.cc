@@ -99,6 +99,11 @@ int HerwigJetSpectra::process_event(PHCompositeNode *topNode)
 {
   n_evt++;
   std::cout << "HerwigJetSpectra::process_event(PHCompositeNode *topNode) Processing Event" << n_evt << std::endl;
+  getKinematics( topNode); 
+  return Fun4AllReturnCodes::EVENT_OK;
+}
+int HerwigJetSpectra::getKinematics(PHCompositeNode *topNode) 
+{
   PHHepMCGenEventMap *phg=findNode::getClass<PHHepMCGenEventMap>(topNode, "PHHepMCGenEventMap");
   if(!phg){
 	std::cout<<"Did not find event map"<<std::endl;
@@ -487,5 +492,8 @@ void HerwigJetSpectra::Print(const std::string &what) const
   h_Jet_pt->Write();
   h_Jet_R->Write();
   h_Jet_npart->Write();
+  h_Jet_pt_lead->Write();
+  h_hits->Write();
+  h_hits_orig->Write();
   f->Write();
 }

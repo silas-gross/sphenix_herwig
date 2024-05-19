@@ -102,8 +102,8 @@ class HerwigJetSpectra : public SubsysReco
   /** Called for each event.
       This is where you do the real work.
    */
-  int process_event(PHCompositeNode *topNode) override;
-
+  int process_event(PHCompositeNode *topNode) override; //this allow for just checking the number of events in the file as it seems off
+  int getKinematics(PHCompositeNode *topNode); 
   /// Clean up internals after each event.
   int ResetEvent(PHCompositeNode *topNode) override;
 
