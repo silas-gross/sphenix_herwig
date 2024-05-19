@@ -244,7 +244,7 @@ std::vector<HepMC::GenParticle*> HerwigJetSpectra::IDJets(PHCompositeNode *topNo
 		std::unordered_set<int> final_state_barcodes;
 		//int last_part=0, n_loop=0;
 		//bool stuck=false, eov=false;
-		std::vector<std::pair<HepMC::GenVertex*, HepMC::GenVertex::particles_out_const_iterator>> holding_part;
+		std::unordered_map<HepMC::GenVertex*, HepMC::GenVertex::particles_out_const_iterator> holding_part;
 		HepMC::GenVertex* active_vertex=decay;
 		HepMC::GenVertex::particles_out_const_iterator par=decay->particles_out_const_begin(); 
 		HepMC::GenVertex::particles_out_const_iterator parent_par=decay->particles_out_const_begin();
@@ -252,21 +252,21 @@ std::vector<HepMC::GenParticle*> HerwigJetSpectra::IDJets(PHCompositeNode *topNo
 		while(parent_par != decay->particles_out_const_end()){
 			//The goal is to go to the deepest level and collect all partilces that are final
 			std::cout<<"Starting a new itteration of the loop" <<std::endl;
-			if(holding_part.size() > 0  && holding_part.rbegin()->first == decay ){
+			auto last_it=holding_part.begin();
+			if(holding_part.size() > 0  && last_it->first == decay ){
 				 ++parent_par;
-				 holding_part.rbegin()->second = parent_par;
+				 last_it->second = parent_par;
 				if(parent_par == decay->particles_out_const_end()) break;
 				std::cout<<"Moveed along the primary particle branch. Now have parton " <<(*parent_par)->barcode() <<std::endl; 
 			} 
-			if(par == decay->particles_out_const_begin() && holding_part.size() == 0 ) holding_part.push_back(std::make_pair(decay, par));
-			if( active_vertex && holding_part.size() > 0  && holding_part.rbegin()->first && active_vertex != holding_part.rbegin()->first){
+			if(par == decay->particles_out_const_begin() && holding_part.size() == 0 ) holding_part.emplace(decay, par);
+			if( active_vertex && holding_part.size() > 0  && last_it->first && active_vertex != last_it->first){
 				std::cout<<"realigning the vertex to the branch tree " <<std::endl; 
-				active_vertex=holding_part.rbegin()->first;
-				par=holding_part.rbegin()->second;
+				active_vertex=last_it->first;
+				par=last_it->second;
 				if(par != active_vertex->particles_out_const_end() ) ++par;
 				else{
-					auto it=holding_part.end();
-					--it;
+					auto it=holding_part.cbegin();
 					holding_part.erase(it);
 					continue;
 				}
@@ -280,8 +280,7 @@ std::vector<HepMC::GenParticle*> HerwigJetSpectra::IDJets(PHCompositeNode *topNo
 					if ( par >= active_vertex->particles_out_const_end() ) std::cout<<"The active parton is " <<std::distance( active_vertex->particles_out_const_end(), par) <<" steps away from the end iterator" <<std::endl;
 					if( par >= active_vertex->particles_out_const_end() || par < active_vertex->particles_out_const_begin() ){
 						std::cout<<"I have no clue how this happened??????, somehow we are out of range of the vertex iterator??" <<std::endl;
-						auto it=holding_part.end();
-						--it;
+						auto it=holding_part.cbegin();
 						holding_part.erase(it);	
 						continue;
 					}
@@ -294,7 +293,7 @@ std::vector<HepMC::GenParticle*> HerwigJetSpectra::IDJets(PHCompositeNode *topNo
 							//there is a well formed vertex
 							active_vertex=(*par)->end_vertex();
 							par=active_vertex->particles_out_const_begin();
-							if(active_vertex && *par) holding_part.push_back(std::make_pair(active_vertex, par));
+							if(active_vertex && *par) holding_part.emplace(active_vertex, par);
 							else{
 								std::cout<<"Something is off here " <<std::endl;
 								break;
@@ -309,11 +308,10 @@ std::vector<HepMC::GenParticle*> HerwigJetSpectra::IDJets(PHCompositeNode *topNo
 								final_state_barcodes.insert((*par)->barcode());
 							} //behavior of final state particlse
 							++par;
-							if( par != active_vertex->particles_out_const_end() && holding_part.rbegin()->first==active_vertex ) holding_part.rbegin()->second=par;
-							else if( holding_part.rbegin()->first != active_vertex ) holding_part.push_back(std::make_pair(active_vertex, par));
+							if( par != active_vertex->particles_out_const_end() && last_it->first==active_vertex ) last_it->second=par;
+							else if( last_it->first != active_vertex ) holding_part.emplace(active_vertex, par);
 							else{
-								auto it=holding_part.end();
-								--it;
+								auto it=holding_part.cbegin();
 								holding_part.erase(it);
 							}
 							continue;
@@ -331,35 +329,32 @@ std::vector<HepMC::GenParticle*> HerwigJetSpectra::IDJets(PHCompositeNode *topNo
 						else std::cout<<"Have already examined this particle it has barcode " <<(*par)->barcode() <<std::endl;
 						++par; 
 						if(par == active_vertex->particles_out_const_end()){
-							auto it=holding_part.end();
-							--it;
+							auto it=holding_part.cbegin();
 							holding_part.erase(it);
 						}	
-						holding_part.rbegin()->second=par;
+						last_it->second=par;
 						continue;
 					}//end of particle having no end state vertex
 				} // end of ok parton code
 				else if ( par == active_vertex->particles_out_const_end()){
 					//handle moving back out of a vertex 
 					std::cout<<"the particle itterator is sitting at the end of the itterator chain" <<std::endl;
-					auto it = holding_part.cend();
-					--it;
+					auto it = holding_part.cbegin();
 					holding_part.erase(it);
-					active_vertex=holding_part.rbegin()->first;
-					par=holding_part.rbegin()->second;
+					active_vertex=last_it->first;
+					par=last_it->second;
 					continue;
 				} //end of moving back from vertex
 				else{
-					par=holding_part.rbegin()->second;
+					par=last_it->second;
 					if(par != active_vertex->particles_out_const_end() ){
 						//get the vertex back in place correctly for the relative placement 
 						++par;
-						holding_part.rbegin()->second=par;
+						last_it->second=par;
 						continue;
 					}
 					else {
-						auto it=holding_part.cend();
-						--it;
+						auto it=holding_part.cbegin();
 						holding_part.erase(it);
 						continue;
 					}
@@ -370,19 +365,17 @@ std::vector<HepMC::GenParticle*> HerwigJetSpectra::IDJets(PHCompositeNode *topNo
 				//active vertex either doesn't exist or it has no outgoing particles
 				if(active_vertex){ 
 					//if the vertex exists check to see if its the current vertex in the holding part
-					if(holding_part.rbegin()->first){
-						if(active_vertex != holding_part.rbegin()->first) active_vertex =holding_part.rbegin()->first;
+					if(last_it->first){
+						if(active_vertex != last_it->first) active_vertex =last_it->first;
 						else{
-							auto it=holding_part.cend();
-							--it;
+							auto it=holding_part.cbegin();
 							holding_part.erase(it);
 							continue;
 						} //end of check to see if the active vertex is already the thing in use
-						if(holding_part.rbegin()->second != active_vertex->particles_out_const_end()) par=holding_part.rbegin()->second;
+						if(last_it->second != active_vertex->particles_out_const_end()) par=last_it->second;
 						else{
 							//check to see if we would be at the end of the vertex 
-							auto it=holding_part.cend();
-							--it;
+							auto it=holding_part.cbegin();
 							holding_part.erase(it);
 							continue;
 
@@ -390,25 +383,22 @@ std::vector<HepMC::GenParticle*> HerwigJetSpectra::IDJets(PHCompositeNode *topNo
 						++par; 
 						if(par == active_vertex->particles_out_const_end()){
 							//check if the new particle itterator is usable
-							auto it=holding_part.cend();
-							--it;
+							auto it=holding_part.cbegin();
 							holding_part.erase(it);
 							continue;
 						} //end of check to see if the new particle is actually a good one 
 					}//end of check if the holding part has an actual first vertex
 					else{
-						auto it=holding_part.cend();
-						--it;
+						auto it=holding_part.cbegin();
 						holding_part.erase(it);
 						continue; //try again to test the vertex, don't assign an untested vertex
 					} //end of else to account for dead vertex at end of holding part
 					
 				} //end of vertex exists if statement
 				else{
-					if(holding_part.rbegin()->first ) active_vertex=holding_part.rbegin()->first;
+					if(last_it->first ) active_vertex=last_it->first;
 					else{
-						auto it=holding_part.cend();
-						--it;
+						auto it=holding_part.cbegin();
 						holding_part.erase(it);
 						continue; //try again to test the vertex, don't assign an untested vertex
 					} //end of else to account for dead vertex at end of holding part
