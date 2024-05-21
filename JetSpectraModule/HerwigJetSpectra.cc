@@ -429,6 +429,29 @@ std::vector<HepMC::GenParticle*> HerwigJetSpectra::IDJets(PHCompositeNode *topNo
 	return final_state_jet;		 
 				 
 }
+int HerwigJetSpectra::fastjetID( std::vector<HepMC::GenParticle*> final_states, Jet* jet_plot, int method=5, float R=0.4, float pt_min=0.0 )
+{
+	//Runs the fastJet identifer over the dataset using the passed method
+	// method:
+	// 1 : IC-Progressive Removal
+	// 2 : IC-Split Merge
+	// 3 : Seedless Infrared Safe Cone
+	// 4 : kt
+	// 5 : anti-kt
+	// 6 : Cambridge / Aachen
+	// 7 : ARCLUS
+	// 8 : Optimal
+	// The itterative cone methods are implemented by hand, as they are not part of the fast jet package, but are easy enough to implement using standard methods	
+	// Methods 4-6 are native to the fast jet code
+	// Methods 7 & 8 are not implemented in fast jet and are a pain, so are left as an exercise to the reader 
+	//
+	// Takes in as a required parameter the collection of final state particles of the jet, fills in the histograms associated with the jet struct object as defined in the module 
+	//
+	// Optionally takes in method (default kt), R (default 0.4) and minimum p_t (default 0 GeV) 
+	
+	switch method:
+}
+int GetAnIterativeCone(std::vector<HepMC::GenParticle*>* final_states, bool progressive_removal=true) 
 //____________________________________________________________________________..
 int HerwigJetSpectra::ResetEvent(PHCompositeNode *topNode)
 {
