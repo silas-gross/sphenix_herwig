@@ -430,6 +430,21 @@ std::vector<HepMC::GenParticle*> HerwigJetSpectra::IDJets(PHCompositeNode *topNo
 				 
 }
 //____________________________________________________________________________..
+int HerwigJetSpectra::PythiaGenerator(int trigger)
+{
+	//This is method to generate a pythia event in a 1-to-1 rate to the hepmc events
+	//Need to generate with the trigger 
+	PHPy8JetTrigger *jetTrig = new PHPy8JetTrigger();
+	if(trigger > 0 )
+	{
+		jetTrig->SetMinJetPt(trigger);
+	}
+	PHPythia8* pythiagen=new PHPythia8();
+	pythiagen->set_config_file("../herwig_files/pythiaref.cfg");
+	pythiagen->beam_vertex_parameters(0,0,0,0,0,5);
+	if(trigger > 0 ) pythiagen->register_trigger(jetTrig);
+}	
+//___________________________________________________________________________..
 int HerwigJetSpectra::ResetEvent(PHCompositeNode *topNode)
 {
 //  std::cout << "HerwigJetSpectra::ResetEvent(PHCompositeNode *topNode) Resetting internal structures, prepare for next event" << std::endl;
