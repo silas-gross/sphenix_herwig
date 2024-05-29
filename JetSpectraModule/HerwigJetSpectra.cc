@@ -164,7 +164,6 @@ int HerwigJetSpectra::getKinematics(PHCompositeNode *topNode)
 				h_E_orig->Fill(E);
 				h_hits_orig->Fill(eta, phi);
 				np_orig++;
-				if(pt>pt_lead) pt_lead=pt;
 				h_status_orig->Fill((*iter)->status());
 				h_ET_orig->Fill(ET);
 				float mj=0, R=0, pxj=0, pyj=0, etj=0;
@@ -174,14 +173,9 @@ int HerwigJetSpectra::getKinematics(PHCompositeNode *topNode)
 					mj+=p->momentum().m();
 					pxj+=p->momentum().px();
 					pyj+=p->momentum().py();
-					etj+=p->momentum().e()/p->momentum().eta();
+					etj+=p->momentum().e()/sinh(p->momentum().eta());
 					for(auto n:Jet->jet_particles){
-						float phidiff=0;
-						if(  (p->momentum().phi() < 0 && n->momentum().phi() > 0 ) ) phidiff=std::min(abs(p->momentum().phi())+ n->momentum().phi(), abs(-PI - p->momentum().phi())+ abs(PI - n->momentum().phi()));
-						else if ( p->momentum().phi() > 0 && n->momentum().phi() < 0 ) phidiff=std::min(abs(n->momentum().phi())+ p->momentum().phi(), abs(-PI - n->momentum().phi())+ abs(PI - p->momentum().phi()));
-
-						else phidiff = p->momentum().phi() - n->momentum().phi();
-						float rt=sqrt(pow(p->momentum().eta()-n->momentum().eta(), 2) + pow(phidiff, 2));
+						float rt=getR(p,n);
 						if(rt>R) R=rt;
 					}
 				}	
@@ -194,7 +188,10 @@ int HerwigJetSpectra::getKinematics(PHCompositeNode *topNode)
 				h_Jet_pt->Fill(Jet->pt);
 				h_Jet_R->Fill(Jet->R);
 				h_Jet_npart->Fill(Jet->jet_particles.size());
-				if(Jet->pt > jetptlead) jetptlead=Jet->pt;
+				if(pt>pt_lead){
+				       	pt_lead=pt;
+					jetptlead=Jet->pt; //one to one correspondence with the leading parton jet
+				}
 				delete Jet;
 		}
 		h_Jet_pt_lead->Fill(jetptlead);
@@ -451,7 +448,51 @@ int HerwigJetSpectra::fastjetID( std::vector<HepMC::GenParticle*> final_states, 
 	
 	switch method:
 }
-int GetAnIterativeCone(std::vector<HepMC::GenParticle*>* final_states, bool progressive_removal=true) 
+float HerwigJetSpectra::getPt(HepMC::GenParticle* p)
+{
+	float pt=0;
+	pt=pow(p->momentum().px(), 2) + pow(p->momentum().py(), 2);
+	pt=sqrt(pt);
+	return pt;
+}
+float HerwigJetSpectra::getR(HepMC::GenParticle* p1, HepMC::GenParticle* p2){
+	float eta_dist=p1->momentum().eta() - p2->momentum().eta();
+	float phi_dist=p1->momentum().phi() - p2->momentum().phi();
+	phi_dist=abs(phi_dist);
+	if(phi_dist > PI) phi_dist=2*PI-phi_dist;
+	float R=sqrt(pow(eta_dist,2) + pow(phi_dist, 2));
+	return R;
+}
+float HerwigJetSpectra::GetAnIterativeCone(std::vector<HepMC::GenParticle*>* final_states, float R_cone=0.4, bool progressive_removal=true)
+{
+//find the cone with the highest pt  seed and returns the seed pt of the next highest cone condidtate	HepMC::GenParicle* seed=final_states->at(0);
+	if(!seed) return -1;
+	float seed_pt=getPt(seed)
+	for(auto p:final_states){
+		float p_pt=getPt(p);
+		if(seed_pt < p_pt){
+		       	seed=p;
+			seed_pt=getPt(seed);
+		}
+	}
+	//noew I have the seed particle, the next step is to get the conde associate iwth it 
+	auto seed4=seed->momentum();
+	seed4=seed4/abs(seed4.mass()); //this is the value that must stay fixed for the jet to be id-ed
+	std::vector<HepMC::GenParticle*> cone;
+	for(auto p:final_states){
+		//get the cone candidates
+		float R=getR(p, seed);
+		if (R <=R_cone) cone.push_back(p);
+		//just take the geometric cone for right now
+	}
+	auto jetmom=seed4;
+	for(auto j:cone){
+		if(j->barcode() == seed->barcode()) continue;
+		jetmom+=j->momemtum();
+	}
+	
+}	
+		
 //____________________________________________________________________________..
 int HerwigJetSpectra::ResetEvent(PHCompositeNode *topNode)
 {
