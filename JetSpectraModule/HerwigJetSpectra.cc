@@ -463,7 +463,7 @@ float HerwigJetSpectra::getR(HepMC::GenParticle* p1, HepMC::GenParticle* p2){
 	float R=sqrt(pow(eta_dist,2) + pow(phi_dist, 2));
 	return R;
 }
-float HerwigJetSpectra::GetAnIterativeCone(std::vector<HepMC::GenParticle*>* final_states, float R_cone=0.4, bool progressive_removal=true)
+float HerwigJetSpectra::GetAnIterativeCone(std::vector<HepMC::GenParticle*>* final_states, float R_cone=0.4, bool progressive_removal=true, float pt_min=0)
 {
 //find the cone with the highest pt  seed and returns the seed pt of the next highest cone condidtate	HepMC::GenParicle* seed=final_states->at(0);
 	if(!seed) return -1;
@@ -485,12 +485,29 @@ float HerwigJetSpectra::GetAnIterativeCone(std::vector<HepMC::GenParticle*>* fin
 		if (R <=R_cone) cone.push_back(p);
 		//just take the geometric cone for right now
 	}
-	auto jetmom=seed4;
+	auto jetmom=seed->momentum();
 	for(auto j:cone){
+		if(getPt(j) < pt_min) continue;
 		if(j->barcode() == seed->barcode()) continue;
 		jetmom+=j->momemtum();
 	}
-	
+	jetmom=jetmom/abs(jetmom.mass());
+	if(jetmom == seed4){
+		float next_pt=0;
+		jet->jet_particles=cone();
+		for(auto j:cone) for(auto f:final_states){
+		       	if(f->barcode()==j->barcode()){
+		       		if(progressive_removal) final_states.erase(f);
+			}
+			else{
+				if(getPt(f) > next_pt) next_pt=getPt(f);
+			}
+		}
+		return next_pt;
+	}
+	else{
+		//fix the cone so its good
+	}
 }	
 		
 //____________________________________________________________________________..
