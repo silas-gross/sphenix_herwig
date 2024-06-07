@@ -88,6 +88,12 @@ class HerwigJetSpectra : public SubsysReco
 	h_hits=new TH2F("hits", "N final state particles; #eta; #phi; N_{particles}", 24, -1.1, 1.1, 64, -3.1416, 3.1414);
 	h_hits_orig=new TH2F("hits_orig", "N inital state partons; #eta; #phi; N_{partons}", 24, -1.1, 1.1, 64, -3.1416, 3.1414);
 	h_Jet_pt_lead=new TH1F("jet_pt_leading", "p_{T} of identified leading jets in final state; p_{T} [GeV]; Counts", 100, -0.5, 49.5);
+	h_pt_R=new TH2F("jet_pt_R", "p_{T} Distribution of particles in jet as a function of R from jet center; R; p_{T}; Counts", 200, -0.01, 1.99, 100, -0.1, 10);
+	h_Jet_pt=new TH1F("jet_pt", "p_{T} of identified jets in final state; p_{T} [GeV]; Counts", 100, -0.5, 49.5);
+	h_Jet_R=new TH1F("jet_R", "R of identified jets in final state, measured from max seperation of originating parton; R; Counts", 100, -0.1, 9.9);
+	h_Jet_npart=new TH1F("jet_npart", "Number of particles in final state of jet; N_{particles}; N_{Jets}", 200, -0.5, 199.5);
+	h_e2c=new TH1F("e2c", "2 Point energy correlator averaged over all jets; R_{L}; E2C", 200, -0.01, 1.99);
+	h_e3c=new TH1F("e3c", "3 Point energy correlator averaged over all jets; R_{L}; E3C", 200, -0.01, 1.99);
 	n_evt=0;
 	}
   ~HerwigJetSpectra() override;
@@ -131,8 +137,8 @@ class HerwigJetSpectra : public SubsysReco
 	TH1F *h_phi, *h_eta, *h_eta_hit, *h_phi_hit, *h_pt, *h_mass, *h_E, *h_status;
 	TH1F *h_phi_orig, *h_eta_orig, *h_eta_hit_orig, *h_phi_hit_orig, *h_pt_orig, *h_mass_orig, *h_E_orig, *h_status_orig;
 	TH1F *h_n_part, *h_n_part_orig, *h_pt_leading, *h_E_total, *h_ev;
-	TH1F *h_weight, *h_ET, *h_ET_orig, *h_Jet_pt, *h_Jet_R, *h_Jet_npart, *h_Jet_pt_lead;
-	TH2F *h_vertex, *h_hits, *h_hits_orig;
+	TH1F *h_weight, *h_ET, *h_ET_orig, *h_Jet_pt, *h_Jet_R, *h_Jet_npart, *h_Jet_pt_lead, *h_e2c, *h_e3c;
+	TH2F *h_vertex, *h_hits, *h_hits_orig, *h_pt_R;
 	struct Jet{ //this needs reexamonation, probably need to break it into two seperate structs, one that is a collection object, and one that is a jet instance
 		Jet(method){jet_id_method=method};
 		std::vector<HepMC::GenParticle*> jet_particles;
@@ -147,12 +153,13 @@ class HerwigJetSpectra : public SubsysReco
 		float phi;
 		float eta;
 	}
-	struct JetCollection{
+/*	struct JetCollection{
 		Jet
 		h_Jet_pt=new TH1F("jet_pt", "p_{T} of identified jets in final state; p_{T} [GeV]; Counts", 100, -0.5, 49.5);
 		h_Jet_R=new TH1F("jet_R", "R of identified jets in final state, measured from max seperation of originating parton; R; Counts", 100, -0.1, 9.9);
 		h_Jet_npart=new TH1F("jet_npart", "Number of particles in final state of jet; N_{particles}; N_{Jets}", 200, -0.5, 199.5);
 	};
+	*/
 };
 
 #endif // HERWIGJETSPECTRA_H

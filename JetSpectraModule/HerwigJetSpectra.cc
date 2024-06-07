@@ -166,20 +166,43 @@ int HerwigJetSpectra::getKinematics(PHCompositeNode *topNode)
 				np_orig++;
 				h_status_orig->Fill((*iter)->status());
 				h_ET_orig->Fill(ET);
-				float mj=0, R=0, pxj=0, pyj=0, etj=0;
+				float mj=0, R=0, pxj=0, pyj=0, etj=0, ej=0;
 				std::cout<<"Measuring the kinematics of the jet" <<std::endl;
 				if(Jet->jet_particles.size() == 0 ) continue;
+				HepMC::GenParticle* seed;
+				float pt_seed=0;
+				for(auto p:Jet->jet_particles){ 
+					if(getPt(p) > pt_seed) seed=p;
+				}
 				for(auto p:Jet->jet_particles){
 					mj+=p->momentum().m();
 					pxj+=p->momentum().px();
 					pyj+=p->momentum().py();
 					etj+=p->momentum().e()/sinh(p->momentum().eta());
+					ej+=p->momentum().e();
 					for(auto n:Jet->jet_particles){
 						float rt=getR(p,n);
 						if(rt>R) R=rt;
 					}
+					float r1=getR(p, seed);
+					h_pt_R->Fill(r1, getPt(p));
 				}	
 				Jet->mass=mj;
+				//calculate energy correlators, divide out at end
+				for(auto p:Jet->jet_particles){
+					for( auto n:Jet->jet_particles){
+						float e2c=( p->momentum().e() * n->momentum().e() ) / pow(ej,2);
+						float r1=getR(p,n);
+						h_e2c->Fill(r1, ej);
+						for(auto q:Jet->jet_particles){
+							float e3c= e2c * q->momentum().e() / ej;
+							float r2=getR(p,q);
+							float r3 =getR(n,q);
+							float rl=std::max( {r1, r2, r3} );
+							h_e3c->Fill(rl, e3c);
+						}
+					}
+				}
 				Jet->ET=etj;
 				Jet->pt=sqrt(pow(pxj,2)+pow(pyj,2));
 				Jet->R=R/2;
@@ -578,5 +601,12 @@ void HerwigJetSpectra::Print(const std::string &what) const
   h_Jet_pt_lead->Write();
   h_hits->Write();
   h_hits_orig->Write();
+  //average over number of jets
+  h_pt_R->Scale(1/(float) h_Jet_pt->GetEntries());
+  h_e2c->Scale(1/(float) h_Jet_pt->GetEntries());
+  h_e3c->Scale(1/(float) h_Jet_pt->GetEntries());
+  h_pt_R->Write();
+  h_e2c->Write();
+  h_e3c->Write();
   f->Write();
 }
