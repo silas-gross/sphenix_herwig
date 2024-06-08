@@ -317,6 +317,12 @@ int HerwigJetSpectra::getKinematics(PHCompositeNode *topNode)
 		for(int i=0; i<(int) thread_vector.size(); i++) thread_vector[i].join();
  	}
  		}
+		for(auto j:ICPRjets){
+			float e2c=getE2C(j);
+			float e3c=getE3C(j);
+			h_E2C_IC[j->jetR]->Fill(e2c);
+			h_E3C_IC[j->jetR]->Fill(e3c);
+		}
 	}
 	h_n_part->Fill(np);
 	h_n_part_orig->Fill(np_orig);

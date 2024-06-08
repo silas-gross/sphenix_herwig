@@ -103,6 +103,10 @@ class HerwigJetSpectra : public SubsysReco
 	h_e3c_4=new TH1F("e3c_4", "3 Point energy correlator averaged over all jets restriced to size R=0.4; R_{L}; E3C", 200, -0.01, 1.99);
 	h_e2c_6=new TH1F("e2c_6", "2 Point energy correlator averaged over all jets restriced to size R=0.6; R_{L}; E2C", 200, -0.01, 1.99);
 	h_e3c_6=new TH1F("e3c_6", "3 Point energy correlator averaged over all jets restriced to size R=0.6; R_{L}; E3C", 200, -0.01, 1.99);
+	for(int i=0; i<11; i++)
+	{
+		float r=i/10.;
+		h_E2C_IC[r]=new TH1F(Form("IC_e2c_%d", i), Form("2 PointIterative Cone with Progressive Removal 
 	n_evt=0;
 	}
   ~HerwigJetSpectra() override;
@@ -152,6 +156,7 @@ class HerwigJetSpectra : public SubsysReco
 	TH1F *h_n_part, *h_n_part_orig, *h_pt_leading, *h_E_total, *h_ev;
 	TH1F *h_weight, *h_ET, *h_ET_orig, *h_Jet_pt, *h_Jet_R, *h_Jet_npart, *h_Jet_pt_lead, *h_e2c, *h_e3c, *h_e2c_2, *h_e2c_4, *h_e2c_6, *h_e3c_2, *h_e3c_4, *h_e3c_6;
 	TH2F *h_vertex, *h_hits, *h_hits_orig, *h_pt_R;
+	std::map<TH1F*> h_E2C_IC;
 };
 
 #endif // HERWIGJETSPECTRA_H
