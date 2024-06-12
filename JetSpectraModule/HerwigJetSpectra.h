@@ -97,6 +97,10 @@ class HerwigJetSpectra : public SubsysReco
 	h_Jet_npart=new TH1F("jet_npart", "Number of particles in final state of jet; N_{particles}; N_{Jets}", 200, -0.5, 199.5);
 	h_e2c=new TH1F("e2c", "2 Point energy correlator averaged over all jets; R_{L}; E2C", 200, -0.01, 1.99);
 	h_e3c=new TH1F("e3c", "3 Point energy correlator averaged over all jets; R_{L}; E3C", 200, -0.01, 1.99);
+	h_e2c_q=new TH1F("e2c_q", "2 Point energy correlator averaged over alli quark jets; R_{L}; E2C", 200, -0.01, 1.99);
+	h_e3c_q=new TH1F("e3c_q", "3 Point energy correlator averaged over all quark jets; R_{L}; E3C", 200, -0.01, 1.99);
+	h_e2c_g=new TH1F("e2c_g", "2 Point energy correlator averaged over all gluon jets; R_{L}; E2C", 200, -0.01, 1.99);
+	h_e3c_g=new TH1F("e3c_g", "3 Point energy correlator averaged over all gluon jets; R_{L}; E3C", 200, -0.01, 1.99);
 	h_e2c_2=new TH1F("e2c_2", "2 Point energy correlator averaged over all jets restricted to size R=0.2; R_{L}; E2C", 200, -0.01, 1.99);
 	h_e3c_2=new TH1F("e3c_2", "3 Point energy correlator averaged over all jets restricted to size R=0.2; R_{L}; E3C", 200, -0.01, 1.99);
 	h_e2c_4=new TH1F("e2c_4", "2 Point energy correlator averaged over all jets restricted to size R=0.4; R_{L}; E2C", 200, -0.01, 1.99);
@@ -116,8 +120,8 @@ class HerwigJetSpectra : public SubsysReco
 		float r=i/10.;
 		h_E2C_IC[r]=new TH1F(Form("IC_e2c_%d", i), Form("2 Point Iterative Cone with Progressive Removal R=%f;R_{L}; E2C",r), 200, -0.01, 1.99 );
 		h_E3C_IC[r]=new TH1F(Form("IC_e3c_%d", i), Form("3 Point Iterative Cone with Progressive Removal R=%f;R_{L}; E3C", r), 200, -0.01, 1.99 );
-		h_E2C_IC[r]=new TH1F(Form("IC_e2ct_%d", i), Form("Integrated 2 Point Iterative Cone with Progressive Removal R=%f;R_{L}; E2C",r), 2000, -0.1, 199.9  );
-		h_E3C_IC[r]=new TH1F(Form("IC_e3ct_%d", i), Form("Intgrated 3 Point Iterative Cone with Progressive Removal R=%f; #int_{R_{L}} E3C", r), 2000, -0.1, 199.9 );
+		h_E2CT_IC[r]=new TH1F(Form("IC_e2ct_%d", i), Form("Integrated 2 Point Iterative Cone with Progressive Removal R=%f;R_{L}; E2C",r), 2000, -0.1, 199.9  );
+		h_E3CT_IC[r]=new TH1F(Form("IC_e3ct_%d", i), Form("Intgrated 3 Point Iterative Cone with Progressive Removal R=%f; #int_{R_{L}} E3C", r), 2000, -0.1, 199.9 );
 	}
 	n_evt=0;
 	}
@@ -157,7 +161,7 @@ class HerwigJetSpectra : public SubsysReco
   	void Print(const std::string &what = "ALL") const override;
   	float getPt(HepMC::GenParticle*);
   	float getR(HepMC::GenParticle*, HepMC::GenParticle*);
-	float getE2C(std::vector<HepMC::GenParticle*>, TH1F*);
+	float getE2C(std::vector<HepMC::GenParticle*>, TH1F*, float=0);
 	float getE3C(std::vector<HepMC::GenParticle*>, TH1F*);
   	std::vector<HepMC::GenParticle*> IDJets(PHCompositeNode *topNode, HepMC::GenParticle* ); 
 	float GetAnIterativeCone(std::vector<HepMC::GenParticle*> *, float, bool, float, JetCollection*);
@@ -169,7 +173,7 @@ class HerwigJetSpectra : public SubsysReco
 	TH1F *h_phi_orig, *h_eta_orig, *h_eta_hit_orig, *h_phi_hit_orig, *h_pt_orig, *h_mass_orig, *h_E_orig, *h_status_orig;
 	TH1F *h_n_part, *h_n_part_orig, *h_pt_leading, *h_E_total, *h_ev;
 	TH1F *h_weight, *h_ET, *h_ET_orig, *h_Jet_pt, *h_Jet_R, *h_Jet_npart, *h_Jet_pt_lead;
-	TH1F *h_e2c, *h_e3c, *h_e2c_2, *h_e2c_4, *h_e2c_6, *h_e3c_2, *h_e3c_4, *h_e3c_6;
+	TH1F *h_e2c, *h_e3c, *h_e2c_2, *h_e2c_4, *h_e2c_6, *h_e3c_2, *h_e3c_4, *h_e3c_6, *h_e2c_g, *h_e2c_q, *h_e3c_g, *h_e3c_q;
 	TH1F *h_e2ct, *h_e3ct, *h_e2ct_2, *h_e2ct_4, *h_e2ct_6, *h_e3ct_2, *h_e3ct_4, *h_e3ct_6;
 	TH2F *h_vertex, *h_hits, *h_hits_orig, *h_pt_R;
 	std::map<float, TH1F*> h_E2C_IC, h_E3C_IC, h_E2CT_IC, h_E3CT_IC;

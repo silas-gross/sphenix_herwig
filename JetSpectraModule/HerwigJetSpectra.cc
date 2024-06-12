@@ -195,16 +195,19 @@ int HerwigJetSpectra::getKinematics(PHCompositeNode *topNode)
 					if(r1 <= 0.6) r06.push_back(p);
 					h_pt_R->Fill(r1, getPt(p)/pt_seed);
 				}	
+				std::cout<<"Done with calc on the jet, recording it now" <<std::endl;
 				Jet->mass=mj;
 				//calculate energy correlators, divide out at end
-				float et2=getE2C(Jet->jet_particles, h_e2c);
-				float et2_2=getE2C(r02, h_e2c_2);
-				float et2_4=getE2C(r04, h_e2c_4);
-				float et2_6=getE2C(r06, h_e2c_6);
+				float et2=getE2C(Jet->jet_particles, h_e2c, ej);
+				float et2_2=getE2C(r02, h_e2c_2, ej);
+				float et2_4=getE2C(r04, h_e2c_4, ej);
+				float et2_6=getE2C(r06, h_e2c_6, ej);
 				h_e2ct->Fill(et2);
 				h_e2ct_2->Fill(et2_2);
 				h_e2ct_4->Fill(et2_4);
 				h_e2ct_6->Fill(et2_6);
+				if(abs(Jet->originating_parton->pdg_id()) == 21) getE2C(Jet->jet_particles, h_e2c_g);
+				else if (abs(Jet->originating_parton->pdg_id()) < 9 ) getE2C(Jet->jet_particles, h_e2c_q);
 				float et3=getE3C(Jet->jet_particles, h_e3c);
 				float et3_2=getE3C(r02, h_e3c_2);
 				float et3_4=getE3C(r04, h_e3c_4);
@@ -213,6 +216,9 @@ int HerwigJetSpectra::getKinematics(PHCompositeNode *topNode)
 				h_e3ct_2->Fill(et3_2);
 				h_e3ct_4->Fill(et3_4);
 				h_e3ct_6->Fill(et3_6);
+				if(abs(Jet->originating_parton->pdg_id()) == 21) getE3C(Jet->jet_particles, h_e3c_g);
+				else if (abs(Jet->originating_parton->pdg_id()) < 9 ) getE3C(Jet->jet_particles, h_e3c_q);
+				std::cout<<"Have now calculated the 2pt and 3pt energy correlators" <<std::endl;
 				Jet->ET=etj;
 				Jet->pt=ptj;
 				Jet->R=R/2;
@@ -256,26 +262,27 @@ int HerwigJetSpectra::getKinematics(PHCompositeNode *topNode)
 		h_status->Fill((*iter)->status());
 		final_state_particles.push_back((*iter));
 	}
-		//JetCollection* ICPRjets1=new JetCollection("Itterative Cone with Progressive Removal", 0.1, 0.1);
+	//	JetCollection* ICPRjets1=new JetCollection("Itterative Cone with Progressive Removal", 0.1, 0.1);
 		JetCollection* ICPRjets2=new JetCollection("Itterative Cone with Progressive Removal", 0.2, 0.1);
-		//JetCollection* ICPRjets3=new JetCollection("Itterative Cone with Progressive Removal", 0.3, 0.1);
+	//	JetCollection* ICPRjets3=new JetCollection("Itterative Cone with Progressive Removal", 0.3, 0.1);
 		JetCollection* ICPRjets4=new JetCollection("Itterative Cone with Progressive Removal", 0.4, 0.1);
-		//JetCollection* ICPRjets5=new JetCollection("Itterative Cone with Progressive Removal", 0.5, 0.1);
+	//	JetCollection* ICPRjets5=new JetCollection("Itterative Cone with Progressive Removal", 0.5, 0.1);
 		JetCollection* ICPRjets6=new JetCollection("Itterative Cone with Progressive Removal", 0.6, 0.1);
-		//JetCollection* ICPRjets7=new JetCollection("Itterative Cone with Progressive Removal", 0.7, 0.1);
-		JetCollection* ICPRjets8=new JetCollection("Itterative Cone with Progressive Removal", 0.8, 0.1);
-		//JetCollection* ICPRjets9=new JetCollection("Itterative Cone with Progressive Removal", 0.9, 0.1);
+	//	JetCollection* ICPRjets7=new JetCollection("Itterative Cone with Progressive Removal", 0.7, 0.1);
+	//	JetCollection* ICPRjets8=new JetCollection("Itterative Cone with Progressive Removal", 0.8, 0.1);
+	//	JetCollection* ICPRjets9=new JetCollection("Itterative Cone with Progressive Removal", 0.9, 0.1);
 		JetCollection* ICPRjetsfull=new JetCollection("Itterative Cone with Progressive Removal", 1.0, 0.1);
-		std::vector<JetCollection*> ICPRjets { ICPRjets2, ICPRjets4,  ICPRjets6, ICPRjets8, ICPRjetsfull};
+		std::vector<JetCollection*> ICPRjets {ICPRjets2, ICPRjets4, ICPRjets6, ICPRjetsfull};//{ ICPRjets1,ICPRjets2, ICPRjets3, ICPRjets4, ICPRjets5,  ICPRjets6, ICPRjets7, ICPRjets8, ICPRjets9, ICPRjetsfull};
+		
 		std::vector<std::thread> thread_vector;
 		for(auto j: ICPRjets){
 			//if(j->jetR != 0.4) continue;
 			thread_vector.push_back(std::thread(&HerwigJetSpectra::fastjetID, this, final_state_particles, j, 1, j->jetR, 0.1)); //thread vector to do the jet search 
+	//		fastjetID(final_state_particles, j, 1, j->jetR, 0.1);
 		  //will do a new threads to include all the jets
 		}
 		for(int i=0; i<(int) thread_vector.size(); i++) thread_vector[i].join();
  	
- 		
 		for(auto j:ICPRjets){
 			for(auto i:j->Identified_jets){ 
 			float e2c=getE2C(i->jet_particles, h_E2C_IC[j->jetR]);
@@ -491,14 +498,15 @@ std::vector<HepMC::GenParticle*> HerwigJetSpectra::IDJets(PHCompositeNode *topNo
 	return final_state_jet;		 
 				 
 }
-float HerwigJetSpectra::getE2C(std::vector<HepMC::GenParticle*> jet, TH1F* h_e2)
+float HerwigJetSpectra::getE2C(std::vector<HepMC::GenParticle*> jet, TH1F* h_e2, float energy /*=0*/)
 {
 	float jet_total_e=0, eec=0;
 	for(auto j:jet) jet_total_e+=j->momentum().e();
-	for(auto j=jet.begin(); j != jet.end()-1; ++j){
-		for(auto k=j+1; k != jet.end(); ++k){
-			float erc=((*j)->momentum().e()*(*k)->momentum().e())/pow(jet_total_e, 2);
-			h_e2->Fill(getR(*j,*k),erc);
+	if(energy != 0 ) jet_total_e=energy;
+	for(int i=0; i < (int) jet.size() - 1; i++){
+		for(auto k=i+1; k < (int) jet.size(); k++){
+			float erc=(jet.at(i)->momentum().e()*jet.at(k)->momentum().e())/pow(jet_total_e, 2);
+			h_e2->Fill(getR(jet.at(i), jet.at(k)),erc);
 			eec+=erc;
 		}
 	}
@@ -508,11 +516,11 @@ float HerwigJetSpectra::getE3C(std::vector<HepMC::GenParticle*> jet, TH1F* h_e3)
 {
 	float jet_total_e=0, eec=0;
 	for(auto j:jet) jet_total_e+=j->momentum().e();
-	for(auto j=jet.begin(); j != jet.end()-2; ++j){
-		for(auto k=j+1; k != jet.end()-1; ++k){
-			for(auto l=k+1; l !=jet.end(); ++l){
-				float erc=((*j)->momentum().e()*(*k)->momentum().e()*(*l)->momentum().e())/pow(jet_total_e, 3);
-				h_e3->Fill(std::max({getR(*j,*k), getR(*j, *l), getR(*l, *k)}),erc);
+	for(int j=0; j < (int) jet.size()-2; j++){
+		for(int k=j+1; k < (int) jet.size()-1; k++){
+			for(int l=k+1; l < (int)jet.size(); l++){
+				float erc=(jet.at(j)->momentum().e()*jet.at(k)->momentum().e()*jet.at(l)->momentum().e())/pow(jet_total_e, 3);
+				h_e3->Fill(std::max({getR(jet.at(j),jet.at(k)), getR(jet.at(j), jet.at(l)), getR(jet.at(l), jet.at(k))}),erc);
 			eec+=erc;
 			}
 		}
@@ -539,6 +547,7 @@ int HerwigJetSpectra::fastjetID( std::vector<HepMC::GenParticle*> final_states, 
 	//
 	// Optionally takes in method (default kt), R (default 0.4) and minimum p_t (default 0 GeV) 
 	int n_jets=0;
+	float max_prev=0;
 	switch (method)
 	{
 		case 1:
@@ -559,8 +568,13 @@ int HerwigJetSpectra::fastjetID( std::vector<HepMC::GenParticle*> final_states, 
 				find_more=false;	
 				continue;
 			}
+			if(max_jet_pt == max_prev){
+				find_more =false;
+				continue;
+			}
 			std::cout<<"There are jets found how many? " <<n_jets <<std::endl;
 			n_jets++;
+			max_prev=max_jet_pt;
 			}
 		}
 		break;
@@ -621,6 +635,7 @@ float HerwigJetSpectra::GetAnIterativeCone(std::vector<HepMC::GenParticle*> *fin
 	HepMC::GenParticle* seed=final_states->at(0);
 	if(!seed) return -1;
 	float seed_pt=getPt(seed);
+	std::cout<<"Looking for a jet centered around a seed pt of " <<seed_pt<<std::endl;
 	std::unordered_set<int> jet_barcodes;
 	for(auto p:*final_states){
 		float p_pt=getPt(p);
@@ -637,6 +652,7 @@ float HerwigJetSpectra::GetAnIterativeCone(std::vector<HepMC::GenParticle*> *fin
 	jetmom.setE(0);
 	std::vector<HepMC::GenParticle*> cone;
 	int itterations=0;
+	std::cout<<"Preparing to do the IC cone indentification proceedure" <<std::endl;
 	while( seed4 != jetmom) {
 		
 		float seedl=sqrt(abs(pow(seed4.e(), 2) - pow(seed4.px(), 2) - pow(seed4.py(), 2) - pow(seed4.pz(), 2)));
@@ -673,23 +689,38 @@ float HerwigJetSpectra::GetAnIterativeCone(std::vector<HepMC::GenParticle*> *fin
 			jetmom.setPz(0);
 			jetmom.setE(0);
 			jet_barcodes.clear();
+			jet_barcodes.insert(seed->barcode());
 			cone.clear();
 			itterations++;
 		}
 	}
+	if(cone.size() == 0 || jet_barcodes.size() == 0 || final_states->size() == 0 ) return -1;
 	float next_pt=0;
 	jetobj* Jet=new jetobj("ICPR");
 	Jet->jet_particles=cone;
 	jets->Identified_jets.push_back(Jet);
 	jets->n_jets++;
-	for(auto f=final_states->begin(); f != final_states->end(); ++f){
+	/*for(auto f=final_states->begin(); f != final_states->end(); ++f){
+		if(!(*f)) continue;
 	       	if(jet_barcodes.find((*f)->barcode()) != jet_barcodes.end() ){
 	       		if(progressive_removal) final_states->erase(f);
 		}
 		else{
 			if(getPt(*f) > next_pt) next_pt=getPt(*f);
 			}
+		}*/
+
+	std::vector<HepMC::GenParticle*> temp_states;
+	for(auto f:*final_states){
+		if(jet_barcodes.find(f->barcode()) != jet_barcodes.end()) {
+			if(!progressive_removal) temp_states.push_back(f);
 		}
+		else{
+			if(getPt(f) > next_pt) next_pt = getPt(f);
+			temp_states.push_back(f);
+		}
+	}
+	final_states=&temp_states;
 	return next_pt;
 	
 }	
@@ -728,7 +759,7 @@ int HerwigJetSpectra::Reset(PHCompositeNode *topNode)
 void HerwigJetSpectra::Print(const std::string &what) const
 {
   std::cout << "HerwigJetSpectra::Print(const std::string &what) const Printing info for " << what << std::endl;
-  TFile* f=new TFile(Form("herwig_output_%s_jetpt_all_particles.root", trig.c_str()), "RECREATE");
+  TFile* f=new TFile(Form("herwig_output_%s_jetpt_all_scale.root", trig.c_str()), "RECREATE");
   h_pt->Write();
   h_phi->Write();
   h_eta->Write();
