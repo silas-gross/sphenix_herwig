@@ -44,5 +44,7 @@ class HerwigJet{
 		int events=10000;
 		float pt_min=0.0;
 		float smear=0.0; //to allow for later smearing of vertex dist
+		bool ApplyTheCut(float, float); //applies the actual cut to the data
+		
 };
 #endif

@@ -443,6 +443,7 @@ int HerwigJetSpectra::PythiaGenerator(int trigger)
 	pythiagen->set_config_file("../herwig_files/pythiaref.cfg");
 	pythiagen->beam_vertex_parameters(0,0,0,0,0,5);
 	if(trigger > 0 ) pythiagen->register_trigger(jetTrig);
+	
 }	
 //___________________________________________________________________________..
 int HerwigJetSpectra::ResetEvent(PHCompositeNode *topNode)

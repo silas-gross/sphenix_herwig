@@ -33,14 +33,14 @@ set EventHandler:LuminosityFunction:Energy 200.0*GeV
 #################################################
 
 read Matchbox/StandardModelLike.in
-read Matchbox/DiagonalCKM.in
+#read Matchbox/DiagonalCKM.in
 
 cd /Herwig/MatrixElements/Matchbox
 
-set Factory:OrderInAlphaS 3
-set Factory:OrderInAlphaEW 3
+set Factory:OrderInAlphaS 2
+set Factory:OrderInAlphaEW 0
 
-do Factory:Process p p -> j j 
+do Factory:Process p p -> q qbar 
 ##################################################
 # Cuts to jets					##
 ##################################################
@@ -91,7 +91,7 @@ cd /Herwig/MatrixElements/
 #  QCD and gamma processes
 #
 # QCD 2-2 scattering
- insert SubProcess:MatrixElements[0] MEQCD2to2
+# insert SubProcess:MatrixElements[0] MEQCD2to2
 #
 # gamma+jet
 # insert SubProcess:MatrixElements[0] MEGammaJet
@@ -162,7 +162,7 @@ cd /Herwig/Generators
 # insert EventGenerator:AnalysisHandlers 0 /Herwig/Analysis/HiggsJet
 #analsis of hard QCD 
 # insert EventGenerator:AnalysisHandlers 0 /Herwig/Analysis/JetsPlus
-read Matchbox/CT14.in
+#read Matchbox/CT14.in
 ##################################################
 ## prepare for Rivet analysis or HepMC output
 ## when running with parton shower
