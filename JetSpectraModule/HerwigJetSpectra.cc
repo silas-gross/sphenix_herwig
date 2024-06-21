@@ -262,6 +262,7 @@ int HerwigJetSpectra::getKinematics(PHCompositeNode *topNode)
 		h_status->Fill((*iter)->status());
 		final_state_particles.push_back((*iter));
 	}
+	/*
 	//	JetCollection* ICPRjets1=new JetCollection("Itterative Cone with Progressive Removal", 0.1, 0.1);
 		JetCollection* ICPRjets2=new JetCollection("Itterative Cone with Progressive Removal", 0.2, 0.1);
 	//	JetCollection* ICPRjets3=new JetCollection("Itterative Cone with Progressive Removal", 0.3, 0.1);
@@ -291,7 +292,7 @@ int HerwigJetSpectra::getKinematics(PHCompositeNode *topNode)
 			h_E3CT_IC[j->jetR]->Fill(e3c);
 		}
 		}
-
+	*/
 	
 	}
 	h_n_part->Fill(np);
@@ -314,7 +315,7 @@ std::vector<HepMC::GenParticle*> HerwigJetSpectra::IDJets(PHCompositeNode *topNo
 		final_state_jet.push_back(originating_parton); //if the original state does not decay
 	}
 	else{
-		std::cout<<"Have the decay vertex of the originating parton, now searching for all daughters"<<std::endl;
+	//	std::cout<<"Have the decay vertex of the originating parton, now searching for all daughters"<<std::endl;
 		std::unordered_set<int> final_state_barcodes;
 		//int last_part=0, n_loop=0;
 		//bool stuck=false, eov=false;
@@ -322,23 +323,23 @@ std::vector<HepMC::GenParticle*> HerwigJetSpectra::IDJets(PHCompositeNode *topNo
 		HepMC::GenVertex* active_vertex=decay;
 		HepMC::GenVertex::particles_out_const_iterator par=decay->particles_out_const_begin(); 
 		HepMC::GenVertex::particles_out_const_iterator parent_par=decay->particles_out_const_begin();
-		std::cout<<"have set up the structure needed, now entering while loop" <<std::endl;
+	//	std::cout<<"have set up the structure needed, now entering while loop" <<std::endl;
 		while(parent_par != decay->particles_out_const_end()){
 			//The goal is to go to the deepest level and collect all partilces that are final
-			std::cout<<"Starting a new itteration of the loop" <<std::endl;
+	//		std::cout<<"Starting a new itteration of the loop" <<std::endl;
 			auto last_it=holding_part.begin();
 			if(holding_part.size() > 0  && last_it->first == decay ){
 				 ++parent_par;
 				 last_it->second = parent_par;
 				if(parent_par == decay->particles_out_const_end()) break;
-				std::cout<<"Moved along the primary particle branch. Now have parton " <<(*parent_par)->barcode() <<std::endl; 
+	//			std::cout<<"Moved along the primary particle branch. Now have parton " <<(*parent_par)->barcode() <<std::endl; 
 			} 
 			if(par == decay->particles_out_const_begin() && holding_part.size() == 0 ){
 				 holding_part.emplace(decay, par);
 				 continue;
 			}
 			if( active_vertex && holding_part.size() > 0  && last_it->first && active_vertex != last_it->first){
-				std::cout<<"realigning the vertex to the branch tree " <<std::endl; 
+	//			std::cout<<"realigning the vertex to the branch tree " <<std::endl; 
 				active_vertex=last_it->first;
 				par=last_it->second;
 				++par; 
@@ -353,11 +354,11 @@ std::vector<HepMC::GenParticle*> HerwigJetSpectra::IDJets(PHCompositeNode *topNo
 				//make sure that the vertex exists and has outgoing particles 
 				if( par != active_vertex->particles_out_const_end() && *par ) {
 					//make sure the particle exists and is not an end of vertex
-					if (!(*par) || par >= active_vertex->particles_out_const_end() ) std::cout<<"Ok somehow I got here despite seeming to be inconsistent???" <<std::endl;
+	//				if (!(*par) || par >= active_vertex->particles_out_const_end() ) std::cout<<"Ok somehow I got here despite seeming to be inconsistent???" <<std::endl;
 					bool has_end_vertex=true;
-					if ( par >= active_vertex->particles_out_const_end() ) std::cout<<"The active parton is " <<std::distance( active_vertex->particles_out_const_end(), par) <<" steps away from the end iterator" <<std::endl;
+	//				if ( par >= active_vertex->particles_out_const_end() ) std::cout<<"The active parton is " <<std::distance( active_vertex->particles_out_const_end(), par) <<" steps away from the end iterator" <<std::endl;
 					if( par >= active_vertex->particles_out_const_end() || par < active_vertex->particles_out_const_begin() ){
-						std::cout<<"I have no clue how this happened??????, somehow we are out of range of the vertex iterator??" <<std::endl;
+	//					std::cout<<"I have no clue how this happened??????, somehow we are out of range of the vertex iterator??" <<std::endl;
 						auto it=holding_part.cbegin();
 						holding_part.erase(it);	
 						continue;
@@ -369,7 +370,7 @@ std::vector<HepMC::GenParticle*> HerwigJetSpectra::IDJets(PHCompositeNode *topNo
 						if( (*par)->end_vertex()->particles_out_size() > 0 ) 
 						{
 							//there is a well formed vertex
-							std::cout<<"The active vertex has barcode " <<active_vertex->barcode() <<" and the new active vertex has barcode " <<(*par)->end_vertex()->barcode() <<std::endl;
+	//						std::cout<<"The active vertex has barcode " <<active_vertex->barcode() <<" and the new active vertex has barcode " <<(*par)->end_vertex()->barcode() <<std::endl;
 							active_vertex=(*par)->end_vertex();
 							par=active_vertex->particles_out_const_begin();
 							if(active_vertex && *par) holding_part.emplace(active_vertex, par);
@@ -377,12 +378,12 @@ std::vector<HepMC::GenParticle*> HerwigJetSpectra::IDJets(PHCompositeNode *topNo
 								std::cout<<"Something is off here " <<std::endl;
 								break;
 							}
-							std::cout<<"New depth is " <<holding_part.size() <<std::endl;
-							std::cout<<"The active vertex has barcode " <<active_vertex->barcode() <<" and the new holding partition vertex has barcode " <<holding_part.begin()->first->barcode() <<std::endl;
+	//						std::cout<<"New depth is " <<holding_part.size() <<std::endl;
+	//						std::cout<<"The active vertex has barcode " <<active_vertex->barcode() <<" and the new holding partition vertex has barcode " <<holding_part.begin()->first->barcode() <<std::endl;
 							continue;
 						} //End of deepening by one
 						else{
-							std::cout<<"For some reason the particle has an end vertex, but no apparent particles in the end vertex, will treat as a final state ? Depends on status which is " <<(*par)->status() <<std::endl;
+	//						std::cout<<"For some reason the particle has an end vertex, but no apparent particles in the end vertex, will treat as a final state ? Depends on status which is " <<(*par)->status() <<std::endl;
 							if(final_state_barcodes.find((*par)->barcode()) == final_state_barcodes.end()){
 								if( (*par)->status() == 1 ) final_state_jet.push_back(*par);
 								final_state_barcodes.insert((*par)->barcode());
@@ -398,15 +399,15 @@ std::vector<HepMC::GenParticle*> HerwigJetSpectra::IDJets(PHCompositeNode *topNo
 						}
 					} //end of the behavior of parton with an end vertex
 					else{
-						std::cout<<"Will treat as a final state? Depends on status which is " <<(*par)->status() <<std::endl;
+	//					std::cout<<"Will treat as a final state? Depends on status which is " <<(*par)->status() <<std::endl;
 						if(final_state_barcodes.find((*par)->barcode()) == final_state_barcodes.end()){
 							if( (*par)->status() == 1 ){
 								 final_state_jet.push_back(*par);
-								std::cout<<"Added a parton to the final state jet, have  " <<final_state_jet.size() <<std::endl;
+	//							std::cout<<"Added a parton to the final state jet, have  " <<final_state_jet.size() <<std::endl;
 							}
 							final_state_barcodes.insert((*par)->barcode());
 						} //behavior of final state particlse
-						else std::cout<<"Have already examined this particle it has barcode " <<(*par)->barcode() <<std::endl;
+	//					else std::cout<<"Have already examined this particle it has barcode " <<(*par)->barcode() <<std::endl;
 						++par; 
 						if(par == active_vertex->particles_out_const_end()){
 							auto it=holding_part.cbegin();
@@ -418,7 +419,7 @@ std::vector<HepMC::GenParticle*> HerwigJetSpectra::IDJets(PHCompositeNode *topNo
 				} // end of ok parton code
 				else if ( par == active_vertex->particles_out_const_end()){
 					//handle moving back out of a vertex 
-					std::cout<<"the particle itterator is sitting at the end of the itterator chain" <<std::endl;
+	//				std::cout<<"the particle itterator is sitting at the end of the itterator chain" <<std::endl;
 					auto it = holding_part.cbegin();
 					holding_part.erase(it);
 					active_vertex=last_it->first;
@@ -488,13 +489,13 @@ std::vector<HepMC::GenParticle*> HerwigJetSpectra::IDJets(PHCompositeNode *topNo
 			} //end of if there is anything in the holding part
 		    else break; //if there is nothing anywhere, just breal
 		} //end the while loop on the parent parton 
-		std::cout<<"Got rid of the pointers" <<std::endl;
+	//	std::cout<<"Got rid of the pointers" <<std::endl;
 		holding_part.clear();
 		final_state_barcodes.clear();
 	} //end the else condition for needing to search for daughters
 	std::cout<<"The jet has "<<final_state_jet.size() <<" particles in the final state" <<std::endl;
 	delete decay;
-	std::cout<<"deleted the decay vertex" <<std::endl;
+	//std::cout<<"deleted the decay vertex" <<std::endl;
 	return final_state_jet;		 
 				 
 }
@@ -801,9 +802,17 @@ void HerwigJetSpectra::Print(const std::string &what) const
   h_e3c_4->Scale(1/(float) h_Jet_pt->GetEntries());
   h_e2c_6->Scale(1/(float) h_Jet_pt->GetEntries());
   h_e3c_6->Scale(1/(float) h_Jet_pt->GetEntries());
+  h_e2c_q->Scale(1/(float) h_Jet_pt->GetEntries());
+  h_e3c_q->Scale(1/(float) h_Jet_pt->GetEntries());
+  h_e2c_g->Scale(1/(float) h_Jet_pt->GetEntries());
+  h_e3c_g->Scale(1/(float) h_Jet_pt->GetEntries());
   h_pt_R->Write();
   h_e2c->Write();
   h_e3c->Write();
+  h_e2c_q->Write();
+  h_e3c_q->Write();
+  h_e2c_g->Write();
+  h_e3c_g->Write();
   h_e2c_2->Write();
   h_e3c_2->Write();
   h_e2c_4->Write();
