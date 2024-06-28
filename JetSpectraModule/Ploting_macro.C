@@ -1,9 +1,14 @@
 #include "sPhenixStyle.h"
 #include "sPhenixStyle.C"
+#include <string>
 
-int PlottingMactor_GQRatio(TFile* f)
+int PlottingMactor_GQRatio(TFile* f, std::string trig)
 {
 SetsPhenixStyle();
+TH1F* evts1=(TH1F*)f->Get("event");
+int a=evts1->GetEntries();
+int b=log10(a);
+std::string evts="10^{"+std::to_string(b)+"} events";
 TH1F* e2c=(TH1F*)f->Get("e2c");
 TH1F* e3c=(TH1F*)f->Get("e3c");
 TH1F* e2c_g=(TH1F*)f->Get("e2c_g");
@@ -29,7 +34,7 @@ e2c_g->Draw("same");
 e2c_q->Draw("same");
 TLegend* l=new TLegend(0.1, 0.8, 0.5, 1);
 l->AddEntry("", "#bf{#it{sPHENIX}} Internal", "");
-l->AddEntry("", "#bf{Herwig} 2 #rightarrow 2 with 10 GeV trigger, 10^{4} events", "");
+l->AddEntry("", Form("#bf{Herwig} 2 #rightarrow 2 with %s trigger, %s events", trig.c_str(), evts.c_str()), "");
 l->AddEntry("", "Jets Identified from final state particles of the initiating parton", "");
 l->SetFillStyle(0);
 l->SetFillColor(0);
@@ -76,7 +81,7 @@ e3c_g->Draw("same");
 e3c_q->Draw("same");
 TLegend* l3=new TLegend(0.05, 0.8, 0.5, 1);
 l3->AddEntry("", "#bf{#it{sPHENIX}} Internal", "");
-l3->AddEntry("", "#bf{Herwig} 2 #rightarrow 2 with 10 GeV trigger, 10^{4} events", "");
+l3->AddEntry("", Form("#bf{Herwig} 2 #rightarrow 2 with %s trigger, %s events", trig.c_str(), evts.c_str()), "");
 l3->AddEntry("", "Jets Identified from final state particles of the initiating parton", "");
 l3->SetFillStyle(0);
 l3->SetFillColor(0);
@@ -105,7 +110,7 @@ hg1->SetMarkerColor(kRed);
 hg1->Draw(); 
 c2->cd();
 p22->Draw();
-c1->Print("~/e2c_qg_disc.pdf");
-c2->Print("~/e3c_qg_disc.pdf");
+c1->Print(Form("~/e2c_qg_disc_%s.pdf", trig.c_str()));
+c2->Print(Form("~/e3c_qg_disc_%s.pdf", trig.c_str()));
 return 1;
 }
