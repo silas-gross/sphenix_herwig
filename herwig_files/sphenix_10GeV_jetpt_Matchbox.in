@@ -37,10 +37,10 @@ read Matchbox/DiagonalCKM.in
 
 cd /Herwig/MatrixElements/Matchbox
 
-set Factory:OrderInAlphaS 3
-set Factory:OrderInAlphaEW 3
+set Factory:OrderInAlphaS 1
+set Factory:OrderInAlphaEW 2
 
-do Factory:Process p p -> j j 
+do Factory:Process p p -> e+ e- j  
 ##################################################
 # Cuts to jets					##
 ##################################################
