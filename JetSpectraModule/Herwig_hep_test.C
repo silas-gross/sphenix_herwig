@@ -24,7 +24,7 @@ R__LOAD_LIBRARY(libffamodules.so);
 R__LOAD_LIBRARY(libffarawmodules.so);
 R__LOAD_LIBRARY(libphhepmc.so);
 
-int Herwig_hep_test(std::string filename="/sphenix/user/sgross/sphenix_herwig/herwig_files/sphenix_10GeV_jetpt.hepmc")
+int Herwig_hep_test(std::string filename="/sphenix/user/sgross/sphenix_herwig/herwig_files/sphenix_10GeV_jetpt.hepmc", bool make_pythia)
 {
 	SetsPhenixStyle();
 	Fun4AllServer* se=Fun4AllServer::instance();
@@ -38,7 +38,7 @@ int Herwig_hep_test(std::string filename="/sphenix/user/sgross/sphenix_herwig/he
 	}
 	se->registerInputManager(in);
         se->fileopen(in->Name().c_str(), filename);
-	HerwigJetSpectra* ts=new HerwigJetSpectra("HerwigJetSpectra");
+	HerwigJetSpectra* ts=new HerwigJetSpectra("HerwigJetSpectra", make_pythia);
 	ts->trig=type;
 	std::cout<<"The spectra analyzer is running over generators with jet trigger set to " <<ts->trig <<std::endl;
 	se->registerSubsystem(ts);

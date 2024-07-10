@@ -34,11 +34,18 @@
 #include <phhepmc/PHHepMCGenEvent.h>
 #include <phhepmc/PHHepMCGenEventMap.h>
 #include <HepMC/GenEvent.h>
+#include <HepMC/Units.h>
+#include <HepMC/WeightContainer.h>
 
 #include <phool/phool.h>
 #include <phool/getClass.h>
 #include <phool/PHCompositeNode.h>
 #include <phool/PHObject.h>
+
+#include <Pythia8/Event.h>
+#include <Pythia8/Info.h>
+#include <Pythia8/Pythia.h>
+#include <Pythia8/Pythia.h>
 
 class PHCompositeNode;
 
@@ -46,7 +53,7 @@ class HerwigJetSpectra : public SubsysReco
 {
  public:
 
-  HerwigJetSpectra(const std::string &name = "HerwigJetSpectra", 
+  HerwigJetSpectra(const std::string &name = "HerwigJetSpectra", bool do_pythia="false" 
 			const std::string &fname="HerwigJetSpectra.root")
 {
 	std::cout <<"This is running on the "<<name<<" module with jet trigger at " <<trig<<std::endl;

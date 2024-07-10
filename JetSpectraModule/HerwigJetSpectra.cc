@@ -430,21 +430,7 @@ std::vector<HepMC::GenParticle*> HerwigJetSpectra::IDJets(PHCompositeNode *topNo
 				 
 }
 //____________________________________________________________________________..
-int HerwigJetSpectra::PythiaGenerator(int trigger)
-{
-	//This is method to generate a pythia event in a 1-to-1 rate to the hepmc events
-	//Need to generate with the trigger 
-	PHPy8JetTrigger *jetTrig = new PHPy8JetTrigger();
-	if(trigger > 0 )
-	{
-		jetTrig->SetMinJetPt(trigger);
-	}
-	PHPythia8* pythiagen=new PHPythia8();
-	pythiagen->set_config_file("../herwig_files/pythiaref.cfg");
-	pythiagen->beam_vertex_parameters(0,0,0,0,0,5);
-	if(trigger > 0 ) pythiagen->register_trigger(jetTrig);
 	
-}	
 //___________________________________________________________________________..
 int HerwigJetSpectra::ResetEvent(PHCompositeNode *topNode)
 {
@@ -479,7 +465,7 @@ int HerwigJetSpectra::Reset(PHCompositeNode *topNode)
 void HerwigJetSpectra::Print(const std::string &what) const
 {
   std::cout << "HerwigJetSpectra::Print(const std::string &what) const Printing info for " << what << std::endl;
-  TFile* f=new TFile(Form("herwig_output_%s_jetpt_all_particles.root", trig.c_str()), "RECREATE");
+  TFile* f=new TFile(Form("%s_output_%s_jetpt_all_particles.root", (this->generator).c_str(), trig.c_str()), "RECREATE");
   h_pt->Write();
   h_phi->Write();
   h_eta->Write();
