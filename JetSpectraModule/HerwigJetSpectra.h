@@ -42,11 +42,12 @@
 #include <phool/PHCompositeNode.h>
 #include <phool/PHObject.h>
 
+#include <jetbase/JetContainer.h>
 #include <jetbase/Jet.h>
 #include <jetbase/JetAlgo.h>
-//#include "FasjetOptions.h"
-//#include <fastjet/PseudoJet.h>
-//#include <fastjet/JetDefinition.h>
+#include <jetbase/FastJetAlgo.h>
+#include <fastjet/JetDefinition.hh>
+#include <fastjet/PseudoJet.hh>
 #include "Jet_Obj_Defs.h"
 
 class PHCompositeNode;
