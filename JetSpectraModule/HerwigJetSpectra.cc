@@ -603,7 +603,7 @@ int HerwigJetSpectra::fastjetID( std::vector<HepMC::GenParticle*> final_states, 
 		break;
 		case 3:
 		{	//the seedless is in fastjet I think	
-			n_jets++;
+				
 		}
 			break;
 		case 4:
