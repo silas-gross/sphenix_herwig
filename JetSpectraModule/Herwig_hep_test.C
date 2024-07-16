@@ -11,6 +11,7 @@
 #include <fun4allraw/Fun4AllPrdfInputPoolManager.h>
 #include <fun4all/SubsysReco.h>
 #include <phool/PHRandomSeed.h>
+#include <phpythia8/PHPy8JetTrigger.h>
 #include <sstream>
 #include <string.h>
 #include <G4_Global.C>
@@ -24,7 +25,32 @@ R__LOAD_LIBRARY(libffamodules.so);
 R__LOAD_LIBRARY(libffarawmodules.so);
 R__LOAD_LIBRARY(libphhepmc.so);
 
-int Herwig_hep_test(std::string filename="/sphenix/user/sgross/sphenix_herwig/herwig_files/sphenix_10GeV_jetpt.hepmc")
+void PythiaSetup(string trigger)
+{
+	Input::BEAM_CONFIGURATION = Input::pp_COLLISION;
+	Input::VERBOSITY = 1;
+	Input::PYTHIA8 = true;
+	PYTHIA8::config_file = "/sphenix/user/sgross/sphenix_herwig/herwig_files/pythia_herwig_comp_"+trigger+".cfg";
+	if(trigger.find("GeV") != std::string::npos)
+	{
+		std::vector<int> trigger_vec;
+		for(std::string::iterator it=trigger.begin(); it!=trigger.end; ++it){
+			try{
+				trigger_vec.push_back(stoi(*it));
+			}
+			catch(std::exception& e){
+				continue;
+			}
+		}
+		int trigger_val=0; 
+		for(int i=0; i<(int)trigger_vec.size(); i++)trigger_val+=trigger_vec.at(i) * pow(10, trigger_vec.size() - i - 1 );
+		PHPy8JetTrigger *jetTrig = new PHPy8JetTrigger();
+		jetTrig->SetMinJetPt(trigger);
+	}
+	InputInit(); 
+	InputRegister();
+}
+int Herwig_hep_test(std::string filename="/sphenix/user/sgross/sphenix_herwig/herwig_files/sphenix_10GeV_jetpt.hepmc", bool run_pythia=false)
 {
 	SetsPhenixStyle();
 	Fun4AllServer* se=Fun4AllServer::instance();
@@ -38,8 +64,9 @@ int Herwig_hep_test(std::string filename="/sphenix/user/sgross/sphenix_herwig/he
 	}
 	se->registerInputManager(in);
         se->fileopen(in->Name().c_str(), filename);
-	HerwigJetSpectra* ts=new HerwigJetSpectra("HerwigJetSpectra");
+	HerwigJetSpectra* ts=new HerwigJetSpectra("HerwigJetSpectra", run_pythia);
 	ts->trig=type;
+//	PythiaSetup(ts->trig); //I Think I can do this in the analysis itself
 	std::cout<<"The spectra analyzer is running over generators with jet trigger set to " <<ts->trig <<std::endl;
 	se->registerSubsystem(ts);
 	std::cout<<"Is the random seed here?" <<std::endl;	

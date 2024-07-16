@@ -25,7 +25,8 @@ libHerwigJetSpectra_la_LIBADD = \
   -lfun4all \
   -lg4dst \
   -lg4eval \
-  -lphhepmc 
+  -lphhepmc \
+  -lPHPythia8
 
 BUILT_SOURCES = testexternals.cc
 
