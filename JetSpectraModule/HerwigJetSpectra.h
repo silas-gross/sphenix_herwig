@@ -51,12 +51,13 @@ class HerwigJetSpectra : public SubsysReco
 {
  public:
 
-  HerwigJetSpectra(const std::string &name = "HerwigJetSpectra", 
-			const std::string &fname="HerwigJetSpectra.root", bool run_pythia=false)
+  HerwigJetSpectra(bool run_pythia=false, int verbosity=0, const std::string &name = "HerwigJetSpectra", 
+			const std::string &fname="HerwigJetSpectra.root")
 {
 	std::cout <<"This is running on the "<<name<<" module with jet trigger at " <<trig<<std::endl;
 	n_evt=0;
 	this->do_pythia = run_pythia;
+	this->verbosity = verbosity;
 	this->HerwigKin=new JetKinematicPlots("Herwig");
 //	HerwigTree=new TTree("Herwig_tree", "Data Tree for Herwig Generated Events");
 	if(run_pythia){
@@ -126,6 +127,7 @@ class HerwigJetSpectra : public SubsysReco
   int trig_val=0;
   int n_evt;
   bool do_pythia;
+  int verbosity;
  private:
 //	TTree* HerwigTree, PythiaTree; //this will be a later upgrade
 	PHPythia8* pythiagen;

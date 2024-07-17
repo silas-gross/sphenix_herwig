@@ -25,7 +25,7 @@ R__LOAD_LIBRARY(libffamodules.so);
 R__LOAD_LIBRARY(libffarawmodules.so);
 R__LOAD_LIBRARY(libphhepmc.so);
 
-void PythiaSetup(string trigger)
+/*void PythiaSetup(string trigger)
 {
 	Input::BEAM_CONFIGURATION = Input::pp_COLLISION;
 	Input::VERBOSITY = 1;
@@ -49,8 +49,8 @@ void PythiaSetup(string trigger)
 	}
 	InputInit(); 
 	InputRegister();
-}
-int Herwig_hep_test(std::string filename="/sphenix/user/sgross/sphenix_herwig/herwig_files/sphenix_10GeV_jetpt.hepmc", bool run_pythia=false)
+}*/
+int Herwig_hep_test(std::string filename="/sphenix/user/sgross/sphenix_herwig/herwig_files/sphenix_10GeV_jetpt.hepmc", bool run_pythia=true)
 {
 	SetsPhenixStyle();
 	Fun4AllServer* se=Fun4AllServer::instance();
@@ -64,7 +64,7 @@ int Herwig_hep_test(std::string filename="/sphenix/user/sgross/sphenix_herwig/he
 	}
 	se->registerInputManager(in);
         se->fileopen(in->Name().c_str(), filename);
-	HerwigJetSpectra* ts=new HerwigJetSpectra("HerwigJetSpectra", run_pythia);
+	HerwigJetSpectra* ts=new HerwigJetSpectra("HerwigJetSpectra", "HerwigJetSpectra.root", run_pythia);
 	ts->trig=type;
 //	PythiaSetup(ts->trig); //I Think I can do this in the analysis itself
 	std::cout<<"The spectra analyzer is running over generators with jet trigger set to " <<ts->trig <<std::endl;
