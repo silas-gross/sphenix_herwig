@@ -85,8 +85,10 @@ int HerwigJetSpectra::Init(PHCompositeNode *topNode)
 {
   	if(verbosity>5) std::cout << "HerwigJetSpectra::Init(PHCompositeNode *topNode) Initializing" << std::endl;
   	if(this->do_pythia){
-		
-		 this->pythiagen=PythiaGenerator(topNode, this->trig_val);
+		pythiaNode=new PHCompositeNode("pythiaNode");	
+		pythiaNode->makePersistent();
+		pythiaNode->setParent(topNode); 
+		this->pythiagen=PythiaGenerator(topNode, this->trig_val);
 		if(verbosity > 0 ) std::cout<<"Running a pythia generator as well as the Herwig analysis"<<std::endl;
 	}
 	return Fun4AllReturnCodes::EVENT_OK;
@@ -104,15 +106,16 @@ int HerwigJetSpectra::process_event(PHCompositeNode *topNode)
 {
   	n_evt++;
  	 if(verbosity>5) std::cout << "HerwigJetSpectra::process_event(PHCompositeNode *topNode) Processing Event" << n_evt << std::endl;
-  	getKinematics(topNode, this->HerwigKin); 
+  	getKinematics(topNode, this->HerwigKin, false); 
   	if(this->do_pythia){
 		pythiagen->process_event(topNode);
-		getKinematics(topNode, this->PythiaKin);
+		if(verbosity > 0 ) std::cout<<"Generated partner pythia event for event "<<n_evt <<std::endl; 
+		getKinematics(topNode, this->PythiaKin, true);
 	}
 	
   	return Fun4AllReturnCodes::EVENT_OK;
 }
-int HerwigJetSpectra::getKinematics(PHCompositeNode *topNode, JetKinematicPlots* Kinemats) 
+int HerwigJetSpectra::getKinematics(PHCompositeNode *topNode, JetKinematicPlots* Kinemats, bool pythia_run) 
 {
   PHHepMCGenEventMap *phg=findNode::getClass<PHHepMCGenEventMap>(topNode, "PHHepMCGenEventMap");
   if(!phg){
@@ -124,6 +127,7 @@ int HerwigJetSpectra::getKinematics(PHCompositeNode *topNode, JetKinematicPlots*
   for ( PHHepMCGenEventMap::ConstIter eventIter=phg->begin(); eventIter != phg->end(); ++eventIter)
   {
 	hep_ev++;
+	if(pythia_run  && hep_ev == 5 )continue;
 	PHHepMCGenEvent* hpev=eventIter->second;
 	if(hpev){
 		HepMC::GenEvent* ev=hpev->getEvent();
@@ -149,7 +153,7 @@ int HerwigJetSpectra::getKinematics(PHCompositeNode *topNode, JetKinematicPlots*
 				Jet->originating_parton=(*iter);
 				if(verbosity>2) std::cout<<"have loaded the originating particle into the Jet object"<<std::endl;
 		 		try{
-					Jet->jet_particles=IDJets(topNode, (*iter)); //ids all the daughter particles coming from the originating partons 	
+					Jet->jet_particles=IDJets(topNode, (*iter), pythia_run); //ids all the daughter particles coming from the originating partons 	
 				}
 				catch (std::exception& ex){
 					if(verbosity>0) std::cout<<"caught an exception in the jetid stage as " <<ex.what() <<std::endl;
@@ -210,7 +214,7 @@ int HerwigJetSpectra::getKinematics(PHCompositeNode *topNode, JetKinematicPlots*
 		Kinemats->h_Jet_pt_lead->Fill(jetptlead);
 		//Now need to get the produced particles and differentiate from the end particles
 		for(HepMC::GenEvent::particle_const_iterator iter=ev->particles_begin(); iter !=ev->particles_end(); ++iter){
-	if(!(*iter)->end_vertex() && (*iter)->status() == 1){ //only pick up final state particles
+	if(!(*iter)->end_vertex() && ((*iter)->status() == 1 || (pythia_run && (*iter)->status() > 0 ))){ //only pick up final state particles
 		double px=(*iter)->momentum().px();
 		double py=(*iter)->momentum().py();
 		double pz=(*iter)->momentum().pz();
@@ -248,7 +252,7 @@ int HerwigJetSpectra::getKinematics(PHCompositeNode *topNode, JetKinematicPlots*
   return Fun4AllReturnCodes::EVENT_OK;
 }
 //__________________________________________________________________________
-std::vector<HepMC::GenParticle*> HerwigJetSpectra::IDJets(PHCompositeNode *topNode, HepMC::GenParticle* originating_parton)
+std::vector<HepMC::GenParticle*> HerwigJetSpectra::IDJets(PHCompositeNode *topNode, HepMC::GenParticle* originating_parton, bool pythia_run)
 {
 	//this is intended to identify all final state particles coming from each originating parton 
 	std::vector<HepMC::GenParticle*> final_state_jet;
@@ -317,7 +321,7 @@ std::vector<HepMC::GenParticle*> HerwigJetSpectra::IDJets(PHCompositeNode *topNo
 							par=active_vertex->particles_out_const_begin();
 							if(active_vertex && *par) holding_part.emplace(active_vertex, par);
 							else{
-								if(verbosity>0) std::cout<<"Something is off here " <<std::endl;
+								if(verbosity>1) std::cout<<"Something is off here " <<std::endl;
 								break;
 							}
 							if(verbosity>3) std::cout<<"New depth is " <<holding_part.size() <<std::endl;
@@ -327,7 +331,7 @@ std::vector<HepMC::GenParticle*> HerwigJetSpectra::IDJets(PHCompositeNode *topNo
 						else{
 							if(verbosity>4) std::cout<<"For some reason the particle has an end vertex, but no apparent particles in the end vertex, will treat as a final state ? Depends on status which is " <<(*par)->status() <<std::endl;
 							if(final_state_barcodes.find((*par)->barcode()) == final_state_barcodes.end()){
-								if( (*par)->status() == 1 ) final_state_jet.push_back(*par);
+								if( (*par)->status() == 1 || (pythia_run && (*par)->status() > 0 )) final_state_jet.push_back(*par);
 								final_state_barcodes.insert((*par)->barcode());
 							} //behavior of final state particlse
 							++par;
@@ -343,7 +347,7 @@ std::vector<HepMC::GenParticle*> HerwigJetSpectra::IDJets(PHCompositeNode *topNo
 					else{
 						if(verbosity>4) std::cout<<"Will treat as a final state? Depends on status which is " <<(*par)->status() <<std::endl;
 						if(final_state_barcodes.find((*par)->barcode()) == final_state_barcodes.end()){
-							if( (*par)->status() == 1 ){
+							if( (*par)->status() == 1 || (pythia_run && (*par)->status() > 0 )){
 								 final_state_jet.push_back(*par);
 								if(verbosity>2) std::cout<<"Added a parton to the final state jet, have  " <<final_state_jet.size() <<std::endl;
 							}
@@ -464,7 +468,7 @@ PHPythia8* HerwigJetSpectra::PythiaGenerator(PHCompositeNode *topNode, int trigg
 	pythiagen->beam_vertex_parameters(0,0,0,0,0,5);
 	if(trigger > 0 ) pythiagen->register_trigger(jetTrig);
 	pythiagen->Init(topNode);
-	if(verbosity > 2 ) std::cout<<"Running pythia with triger of " <<trig <<std::endl;
+	if(verbosity > 1 ) std::cout<<"Running pythia with triger of " <<trig <<std::endl;
 	return pythiagen;
 }	
 //___________________________________________________________________________..
@@ -501,7 +505,7 @@ int HerwigJetSpectra::Reset(PHCompositeNode *topNode)
 void HerwigJetSpectra::Print(const std::string &what) const
 {
   if(verbosity>5) std::cout << "HerwigJetSpectra::Print(const std::string &what) const Printing info for " << what << std::endl;
-  TFile* f=new TFile(Form("herwig_output_%s_jetpt_all_particles.root", trig.c_str()), "RECREATE");
+  TFile* f=new TFile(Form("herwig_with_pythia_output_%s_jetpt.root", trig.c_str()), "RECREATE");
   HerwigKin->h_pt->Write();
   HerwigKin->h_phi->Write();
   HerwigKin->h_eta->Write();
@@ -557,6 +561,16 @@ void HerwigJetSpectra::Print(const std::string &what) const
 	  PythiaKin->h_pt_leading->Write();
 	  PythiaKin->h_ev->Write();
 	  PythiaKin->h_E_total->Write();
+	  PythiaKin->h_E_total->Write();
+	  PythiaKin->h_vertex->Write(); 
+	  PythiaKin->h_weight->Write();
+	  PythiaKin->h_ET->Write();
+	  PythiaKin->h_ET_orig->Write();
+	  PythiaKin->h_Jet_pt->Write();
+	  PythiaKin->h_Jet_R->Write();
+	  PythiaKin->h_Jet_npart->Write();
+	  PythiaKin->h_Jet_pt_lead->Write();
+	  PythiaKin->h_hits->Write();
 	}	
 f->Write();
 }

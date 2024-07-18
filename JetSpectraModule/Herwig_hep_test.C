@@ -50,9 +50,12 @@ R__LOAD_LIBRARY(libphhepmc.so);
 	InputInit(); 
 	InputRegister();
 }*/
-int Herwig_hep_test(std::string filename="/sphenix/user/sgross/sphenix_herwig/herwig_files/sphenix_10GeV_jetpt.hepmc", bool run_pythia=true)
+int Herwig_hep_test(std::string filename="/sphenix/user/sgross/sphenix_herwig/herwig_files/sphenix_10GeV_jetpt.hepmc", bool run_pythia=true, int verbosity=2)
 {
 	SetsPhenixStyle();
+	//bool run_pythia = true;
+	//if (srun_pythia.find("alse") != std::string::npos) run_pythia=false;
+	//int verbosity=std::stoi(sverbosity);
 	Fun4AllServer* se=Fun4AllServer::instance();
 	Fun4AllHepMCInputManager *in =new Fun4AllHepMCInputManager("in");
 	//std::fstream f;
@@ -64,14 +67,14 @@ int Herwig_hep_test(std::string filename="/sphenix/user/sgross/sphenix_herwig/he
 	}
 	se->registerInputManager(in);
         se->fileopen(in->Name().c_str(), filename);
-	HerwigJetSpectra* ts=new HerwigJetSpectra("HerwigJetSpectra", "HerwigJetSpectra.root", run_pythia);
+	HerwigJetSpectra* ts=new HerwigJetSpectra(run_pythia, verbosity, "HerwigJetSpectra", "HerwigJetSpectra.root");
 	ts->trig=type;
 //	PythiaSetup(ts->trig); //I Think I can do this in the analysis itself
 	std::cout<<"The spectra analyzer is running over generators with jet trigger set to " <<ts->trig <<std::endl;
 	se->registerSubsystem(ts);
 	std::cout<<"Is the random seed here?" <<std::endl;	
 	//want to load in the random seed ideally
-	se->run();
+	se->run(10000); //to QA instead of running for days
 	ts->Print();
 	std::cout<<"Ran over "<<ts->n_evt<<" events" <<std::endl;
 	return 0;

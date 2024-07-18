@@ -107,7 +107,7 @@ class HerwigJetSpectra : public SubsysReco
       This is where you do the real work.
    */
   int process_event(PHCompositeNode *topNode) override; //this allow for just checking the number of events in the file as it seems off
-  int getKinematics(PHCompositeNode *topNode, JetKinematicPlots*); 
+  int getKinematics(PHCompositeNode *topNode, JetKinematicPlots*, bool); 
   /// Clean up internals after each event.
   int ResetEvent(PHCompositeNode *topNode) override;
 
@@ -120,9 +120,9 @@ class HerwigJetSpectra : public SubsysReco
   /// Reset
   int Reset(PHCompositeNode * /*topNode*/) override;
   PHPythia8* PythiaGenerator(PHCompositeNode *topNode, int trigger);
-
+  PHCompositeNode* pythiaNode;
   void Print(const std::string &what = "ALL") const override;
-  std::vector<HepMC::GenParticle*> IDJets(PHCompositeNode *topNode, HepMC::GenParticle* ); 
+  std::vector<HepMC::GenParticle*> IDJets(PHCompositeNode *topNode, HepMC::GenParticle*, bool); 
   std::string trig="MB";
   int trig_val=0;
   int n_evt;
