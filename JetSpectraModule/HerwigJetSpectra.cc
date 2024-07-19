@@ -183,7 +183,7 @@ int HerwigJetSpectra::getKinematics(PHCompositeNode *topNode, JetKinematicPlots*
 				Kinemats->h_ET_orig->Fill(ET);
 				float mj=0, R=0, pxj=0, pyj=0, etj=0;
 				if(verbosity>1) std::cout<<"Measuring the kinematics of the jet" <<std::endl;
-				if(Jet->jet_particles.size() < 2 ) continue;
+				if(Jet->jet_particles.size() == 0 ) continue;
 				for(auto p:Jet->jet_particles){
 					mj+=p->momentum().m();
 					pxj+=abs(p->momentum().px());
@@ -211,7 +211,7 @@ int HerwigJetSpectra::getKinematics(PHCompositeNode *topNode, JetKinematicPlots*
 				if(Jet->pt > jetptlead) jetptlead=Jet->pt;
 				delete Jet;
 		}
-		Kinemats->h_Jet_pt_lead->Fill(jetptlead);
+		if(jetptlead > 0 ) Kinemats->h_Jet_pt_lead->Fill(jetptlead);
 		//Now need to get the produced particles and differentiate from the end particles
 		for(HepMC::GenEvent::particle_const_iterator iter=ev->particles_begin(); iter !=ev->particles_end(); ++iter){
 	if(!(*iter)->end_vertex() && ((*iter)->status() == 1 || (pythia_run && (*iter)->status() > 0 ))){ //only pick up final state particles

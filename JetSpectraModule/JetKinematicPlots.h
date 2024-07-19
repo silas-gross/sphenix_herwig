@@ -31,7 +31,7 @@ struct JetKinematicPlots{
 	TH1F* h_E_orig=new TH1F(Form("energy_orig_%s",  gen.c_str()), Form("Energy of primary partons %s; E[GeV]; N_{part}", gen_label.c_str()), 200, -0.5, 199.5);
 	TH1F* h_ET_orig=new TH1F(Form("transverse_energy_orig_%s",  gen.c_str()), Form("Transverse Energy of primary partons %s; E_{T} [GeV]; N_{part}", gen_label.c_str()), 100, -0.5, 49.5);
 	TH1F* h_pt_leading=new TH1F(Form("pt_leading_%s",  gen.c_str()), Form("p_{T} of leading primary particle in Hepmc record %s; p_{T}[GeV]; N_{part}", gen_label.c_str()), 1000, -0.5, 49.5);
-	TH1F* h_E_total=new TH1F(Form("energy_total_%s",  gen.c_str()), Form("Total energy of event %s; E[GeV]; N_{event}", gen_label.c_str()), 200, -400.5, 799.5);
+	TH1F* h_E_total=new TH1F(Form("energy_total_%s",  gen.c_str()), Form("Total energy of event %s; E[GeV]; N_{event}", gen_label.c_str()), 200, -0.5, 799.5);
 	TH2F* h_vertex=new TH2F(Form("vertex_%s",  gen.c_str()), Form("Vertex position %s; r [cm]; z[cm]; N_{event}", gen_label.c_str()), 100, -0.1, 0.1, 100, -0.1, 0.1);
 	TH1F* h_ev=new TH1F(Form("event_%s",  gen.c_str()), Form("Number of HepMC Events per Fun4All event %s; N_{event}", gen_label.c_str()), 10, -0.5, 9.5); 
 	TH1F* h_weight=new TH1F(Form("weights_%s",  gen.c_str()), Form("HEPMC event weights %s", gen_label.c_str()), 100, -0.5, 1.5); 
