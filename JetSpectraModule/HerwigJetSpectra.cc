@@ -183,12 +183,12 @@ int HerwigJetSpectra::getKinematics(PHCompositeNode *topNode, JetKinematicPlots*
 				Kinemats->h_ET_orig->Fill(ET);
 				float mj=0, R=0, pxj=0, pyj=0, etj=0;
 				if(verbosity>1) std::cout<<"Measuring the kinematics of the jet" <<std::endl;
-				if(Jet->jet_particles.size() == 0 ) continue;
+				if(Jet->jet_particles.size() < 2 ) continue;
 				for(auto p:Jet->jet_particles){
 					mj+=p->momentum().m();
-					pxj+=p->momentum().px();
-					pyj+=p->momentum().py();
-					etj+=p->momentum().e()/p->momentum().eta();
+					pxj+=abs(p->momentum().px());
+					pyj+=abs(p->momentum().py());
+					etj+=abs(p->momentum().e())/cosh(p->momentum().eta()); 
 					for(auto n:Jet->jet_particles){
 						float phidiff=0;
 						if(  (p->momentum().phi() < 0 && n->momentum().phi() > 0 ) ) phidiff=std::min(abs(p->momentum().phi())+ n->momentum().phi(), abs(-PI - p->momentum().phi())+ abs(PI - n->momentum().phi()));
@@ -226,7 +226,7 @@ int HerwigJetSpectra::getKinematics(PHCompositeNode *topNode, JetKinematicPlots*
 		double ET=sqrt(mass*mass + pt*pt); 
 		//px=px+x_vtx+y_vtx+z_vtx; //temporary holding in order to avoid an unused variable error
 		np++;
-		if((*iter)->status()== 1) E_total+=E;
+		if((*iter)->status()== 1 || (pythia_run && (*iter)->status() > 0 )) E_total+=E;
 		Kinemats->h_phi->Fill(phi, E);
 		Kinemats->h_eta->Fill(eta, E);
 		Kinemats->h_eta_hit->Fill(eta);
