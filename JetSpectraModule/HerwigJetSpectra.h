@@ -42,6 +42,7 @@
 #include <phool/PHCompositeNode.h>
 #include <phool/PHObject.h>
 
+
 #include <jetbase/JetContainer.h>
 #include <jetbase/Jet.h>
 #include <jetbase/JetAlgo.h>
@@ -50,20 +51,28 @@
 #include <fastjet/PseudoJet.hh>
 #include "Jet_Obj_Defs.h"
 
+#include <phpythia8/PHPythia8.h>
+#include <phpythia8/PHPy8JetTrigger.h>
+
+#include "JetKinematicPlots.h"
+
 class PHCompositeNode;
 //class fastjet::PseudoJet;
 //class fastjet::GridMedianBackgroundEstimator;
 //class fastjet::SelectorPtMax;
 //class contrib::ConsitiuentSubtractor
 
+class PHCompositeNode;
+class PHPythia8; 
 class HerwigJetSpectra : public SubsysReco
 {
  public:
 
-  HerwigJetSpectra(const std::string &name = "HerwigJetSpectra", 
+  HerwigJetSpectra(bool run_pythia=false, int verbosity=0, const std::string &name = "HerwigJetSpectra", 
 			const std::string &fname="HerwigJetSpectra.root")
 {
 	std::cout <<"This is running on the "<<name<<" module with jet trigger at " <<trig<<std::endl;
+/*<<<<<<< HEAD this is the old way of structureing the plots, need to update things
 	h_phi=new TH1F("phi", "Transverse Energy #varphi distribution of all particles produced in the decay chain of Hepmc record; #varphi; #sum_{particles} E_{T} [GeV]", 64, -3.1416, 3.14);
 	h_eta=new TH1F("eta", "Transverse Energy #eta distribution of all particles produced in decay chain of Hepmc record in sPHENIX acceptance; #eta; #sum_{particles} E_{T} [GeV]", 24, -1.12, 1.1); 
 	h_phi_hit=new TH1F("phi_hit", "hit distribution #varphi distribution of all particles produced in the decay chain of Hepmc record; #varphi", 64, -3.1416, 3.14);
@@ -95,7 +104,7 @@ class HerwigJetSpectra : public SubsysReco
 	h_pt_R=new TH2F("jet_pt_R", "p_{T} Distribution of particles in jet as a function of R from jet center; R;#frac{p_{T}}{max(p_{T})}; Counts", 200, -0.01, 1.99, 1000, -0.1, 19.9);
 	h_Jet_pt=new TH1F("jet_pt", "p_{T} of identified jets in final state; p_{T} [GeV]; Counts", 100, -0.5, 49.5);
 	h_Jet_R=new TH1F("jet_R", "R of identified jets in final state, measured from max seperation of originating parton; R; Counts", 30, -0.1, 2.9);
-	h_Jet_npart=new TH1F("jet_npart", "Number of particles in final state of jet; N_{particles}; N_{Jets}", 200, -0.5, 199.5);
+	h_Jet_npart=new TH1F("jet_npart", "Number of particles in final state of jet; N_{particles}; N_{Jets}", 200, -0.5, 199.5); */
 	h_e2c=new TH1F("e2c", "2 Point energy correlator averaged over all jets; R_{L}; E2C", 200, -0.01, 1.99);
 	h_e3c=new TH1F("e3c", "3 Point energy correlator averaged over all jets; R_{L}; E3C", 200, -0.01, 1.99);
 	h_e2c_q=new TH1F("e2c_q", "2 Point energy correlator averaged over alli quark jets; R_{L}; E2C", 200, -0.01, 1.99);
@@ -125,9 +134,40 @@ class HerwigJetSpectra : public SubsysReco
 		h_E3CT_IC[r]=new TH1F(Form("IC_e3ct_%d", i), Form("Intgrated 3 Point Iterative Cone with Progressive Removal R=%f; #int_{R_{L}} E3C", r), 50, -0.01, 0.6 );
 	}
 	n_evt=0;
+	this->do_pythia = run_pythia;
+	this->verbosity = verbosity;
+	this->HerwigKin=new JetKinematicPlots("Herwig");
+//	HerwigTree=new TTree("Herwig_tree", "Data Tree for Herwig Generated Events");
+	if(run_pythia){
+		this->PythiaKin=new JetKinematicPlots("Pythia");
+//		PythiaTree=new TTree("Pythia_tree", "Data Tree for Pythia Generated Events");
+//		this->RatioKin=new JetKinematicPlots("Ratio");
+		}
 	}
+	truth_ec_plots = new EnergyCorrelatorPlots("truth");
+	ICPR_ec_plots =  new EnergyCorrelatorPlots("ICPR" );
   ~HerwigJetSpectra() override;
-
+  //void BuildDataTree(TTree* data_tree){
+	//just build the specific trees for the specific generator 
+	//should include info that I would want event by event
+	//pdg info:
+	//	each particle store the 
+	//	pdg info 
+	//	p_t
+	//	energy
+	//n particles --integer
+	//n jets -- integer
+	//jet info:
+	//	use the structure from below
+	//	pt
+	//	mass 
+	//	phi 
+	//	eta
+	//	R
+	//	eta width
+	//	phi width
+	//	originating particle
+	//	n final states
   /** Called during initialization.
       Typically this is where you can book histograms, and e.g.
       register them to Fun4AllServer (so they can be output to file
@@ -146,7 +186,7 @@ class HerwigJetSpectra : public SubsysReco
       This is where you do the real work.
    */
   int process_event(PHCompositeNode *topNode) override; //this allow for just checking the number of events in the file as it seems off
-  int getKinematics(PHCompositeNode *topNode); 
+  int getKinematics(PHCompositeNode *topNode, JetKinematicPlots*, bool); 
   /// Clean up internals after each event.
   int ResetEvent(PHCompositeNode *topNode) override;
 
@@ -157,7 +197,7 @@ class HerwigJetSpectra : public SubsysReco
   int End(PHCompositeNode *topNode) override;
 
   /// Reset
-  int Reset(PHCompositeNode * /*topNode*/) override;
+  	int Reset(PHCompositeNode * /*topNode*/) override;
 
   	void Print(const std::string &what = "ALL") const override;
   	float getPt(HepMC::GenParticle*);
@@ -169,15 +209,32 @@ class HerwigJetSpectra : public SubsysReco
 	int fastjetID( std::vector<HepMC::GenParticle*>, JetCollection*, int, float, float );
   	std::string trig="MB";
   	int n_evt;
+  	PHPythia8* PythiaGenerator(PHCompositeNode *topNode, int trigger);
+  	PHCompositeNode* pythiaNode;
+  	void Print(const std::string &what = "ALL") const override;
+  	std::vector<HepMC::GenParticle*> IDJets(PHCompositeNode *topNode, HepMC::GenParticle*, bool); 
+  	std::string trig="MB";
+  	int trig_val=0;
+  	int n_evt;
+  	bool do_pythia;
+  	int verbosity;
  private:
-	TH1F *h_phi, *h_eta, *h_eta_hit, *h_phi_hit, *h_pt, *h_mass, *h_E, *h_status;
-	TH1F *h_phi_orig, *h_eta_orig, *h_eta_hit_orig, *h_phi_hit_orig, *h_pt_orig, *h_mass_orig, *h_E_orig, *h_status_orig;
-	TH1F *h_n_part, *h_n_part_orig, *h_pt_leading, *h_E_total, *h_ev;
-	TH1F *h_weight, *h_ET, *h_ET_orig, *h_Jet_pt, *h_Jet_R, *h_Jet_npart, *h_Jet_pt_lead;
-	TH1F *h_e2c, *h_e3c, *h_e2c_2, *h_e2c_4, *h_e2c_6, *h_e3c_2, *h_e3c_4, *h_e3c_6, *h_e2c_g, *h_e2c_q, *h_e3c_g, *h_e3c_q;
-	TH1F *h_e2ct, *h_e3ct, *h_e2ct_2, *h_e2ct_4, *h_e2ct_6, *h_e3ct_2, *h_e3ct_4, *h_e3ct_6;
-	TH2F *h_vertex, *h_hits, *h_hits_orig, *h_pt_R;
-	std::map<float, TH1F*> h_E2C_IC, h_E3C_IC, h_E2CT_IC, h_E3CT_IC;
+//	TTree* HerwigTree, PythiaTree; //this will be a later upgrade
+	PHPythia8* pythiagen;
+	JetKinematicPlots* HerwigKin, *PythiaKin/*, *RatioKin*/; 
+	struct jetobj{
+		std::vector<HepMC::GenParticle*> jet_particles;
+		HepMC::GenParticle* originating_parton;
+		float pt;
+		float mass;
+		float ET;
+		std::string parton_name;
+		int part_id; //=originating_parton->pdg_id();
+		float R;
+		float phi;
+		float eta;
+	};
+	EnergyCorrelatorPlot* truth_plots, ICPR_plots;
 };
 
 #endif // HERWIGJETSPECTRA_H
