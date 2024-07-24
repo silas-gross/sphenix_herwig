@@ -92,7 +92,7 @@ class HerwigJetSpectra : public SubsysReco
 	h_hits=new TH2F("hits", "N final state particles; #eta; #phi; N_{particles}", 24, -1.1, 1.1, 64, -3.1416, 3.1414);
 	h_hits_orig=new TH2F("hits_orig", "N inital state partons; #eta; #phi; N_{partons}", 24, -1.1, 1.1, 64, -3.1416, 3.1414);
 	h_Jet_pt_lead=new TH1F("jet_pt_leading", "p_{T} of identified leading jets in final state; p_{T} [GeV]; Counts", 100, -0.5, 49.5);
-	h_pt_R=new TH2F("jet_pt_R", "p_{T} Distribution of particles in jet as a function of R from jet center; R;#frac{p_{T}{max(p_{T})}; Counts", 200, -0.01, 1.99, 1000, -0.1, 19.9);
+	h_pt_R=new TH2F("jet_pt_R", "p_{T} Distribution of particles in jet as a function of R from jet center; R;#frac{p_{T}}{max(p_{T})}; Counts", 200, -0.01, 1.99, 1000, -0.1, 19.9);
 	h_Jet_pt=new TH1F("jet_pt", "p_{T} of identified jets in final state; p_{T} [GeV]; Counts", 100, -0.5, 49.5);
 	h_Jet_R=new TH1F("jet_R", "R of identified jets in final state, measured from max seperation of originating parton; R; Counts", 30, -0.1, 2.9);
 	h_Jet_npart=new TH1F("jet_npart", "Number of particles in final state of jet; N_{particles}; N_{Jets}", 200, -0.5, 199.5);
@@ -108,8 +108,8 @@ class HerwigJetSpectra : public SubsysReco
 	h_e3c_4=new TH1F("e3c_4", "3 Point energy correlator averaged over all jets restriced to size R=0.4; R_{L}; E3C", 200, -0.01, 1.99);
 	h_e2c_6=new TH1F("e2c_6", "2 Point energy correlator averaged over all jets restriced to size R=0.6; R_{L}; E2C", 200, -0.01, 1.99);
 	h_e3c_6=new TH1F("e3c_6", "3 Point energy correlator averaged over all jets restriced to size R=0.6; R_{L}; E3C", 200, -0.01, 1.99);
-	h_e2ct=new TH1F("e2ct", "Integrated 2 Point energy correlator averaged over all jets;#int_{R_{L}} E2C", 2000, -0.1, 199.9);
-	h_e3ct=new TH1F("e3ct", "Integrated 3 Point energy correlator averaged over all jets; #int_{R_{L}} E3C", 2000, -0.1, 199.9);
+	h_e2ct=new TH1F("e2ct", "Integrated 2 Point energy correlator averaged over all jets;#int_{R_{L}} E2C", 50, -0.01, 0.6);
+	h_e3ct=new TH1F("e3ct", "Integrated 3 Point energy correlator averaged over all jets; #int_{R_{L}} E3C", 50, -0.01, 0.6);
 	h_e2ct_2=new TH1F("e2ct_2", "Integrated 2 Point energy correlator averaged over all jets restricted to size R=0.2; R_{L}; E2C", 2000, -0.01, 199.9);
 	h_e3ct_2=new TH1F("e3ct_2", "Integrated 3 Point energy correlator averaged over all jets restricted to size R=0.2; R_{L}; E3C", 2000, -0.01, 1.99);
 	h_e2ct_4=new TH1F("e2ct_4", "Integrated 2 Point energy correlator averaged over all jets restricted to size R=0.4; R_{L}; E2C", 2000, -0.01, 199.9);
@@ -121,8 +121,8 @@ class HerwigJetSpectra : public SubsysReco
 		float r=i/10.;
 		h_E2C_IC[r]=new TH1F(Form("IC_e2c_%d", i), Form("2 Point Iterative Cone with Progressive Removal R=%f;R_{L}; E2C",r), 200, -0.01, 1.99 );
 		h_E3C_IC[r]=new TH1F(Form("IC_e3c_%d", i), Form("3 Point Iterative Cone with Progressive Removal R=%f;R_{L}; E3C", r), 200, -0.01, 1.99 );
-		h_E2CT_IC[r]=new TH1F(Form("IC_e2ct_%d", i), Form("Integrated 2 Point Iterative Cone with Progressive Removal R=%f;R_{L}; E2C",r), 2000, -0.1, 199.9  );
-		h_E3CT_IC[r]=new TH1F(Form("IC_e3ct_%d", i), Form("Intgrated 3 Point Iterative Cone with Progressive Removal R=%f; #int_{R_{L}} E3C", r), 2000, -0.1, 199.9 );
+		h_E2CT_IC[r]=new TH1F(Form("IC_e2ct_%d", i), Form("Integrated 2 Point Iterative Cone with Progressive Removal R=%f;R_{L}; E2C",r), 50, -0.01, 0.6  );
+		h_E3CT_IC[r]=new TH1F(Form("IC_e3ct_%d", i), Form("Intgrated 3 Point Iterative Cone with Progressive Removal R=%f; #int_{R_{L}} E3C", r), 50, -0.01, 0.6 );
 	}
 	n_evt=0;
 	}

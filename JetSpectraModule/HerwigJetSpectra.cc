@@ -193,7 +193,7 @@ int HerwigJetSpectra::getKinematics(PHCompositeNode *topNode)
 					if(r1 <= 0.2) r02.push_back(p);
 					if(r1 <= 0.4) r04.push_back(p);
 					if(r1 <= 0.6) r06.push_back(p);
-					h_pt_R->Fill(r1, getPt(p)/pt_seed);
+					h_pt_R->Fill(r1, getPt(p)/(float)pt_seed);
 				}	
 				std::cout<<"Done with calc on the jet, recording it now" <<std::endl;
 				Jet->mass=mj;
@@ -262,7 +262,7 @@ int HerwigJetSpectra::getKinematics(PHCompositeNode *topNode)
 		h_status->Fill((*iter)->status());
 		final_state_particles.push_back((*iter));
 	}
-	/*
+	
 	//	JetCollection* ICPRjets1=new JetCollection("Itterative Cone with Progressive Removal", 0.1, 0.1);
 		JetCollection* ICPRjets2=new JetCollection("Itterative Cone with Progressive Removal", 0.2, 0.1);
 	//	JetCollection* ICPRjets3=new JetCollection("Itterative Cone with Progressive Removal", 0.3, 0.1);
@@ -292,7 +292,7 @@ int HerwigJetSpectra::getKinematics(PHCompositeNode *topNode)
 			h_E3CT_IC[j->jetR]->Fill(e3c);
 		}
 		}
-	*/
+	
 	
 	}
 	h_n_part->Fill(np);
