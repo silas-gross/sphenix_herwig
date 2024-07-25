@@ -5,6 +5,17 @@
 #include <TH1.h>
 #include <TH2.h>
 
+struct JetsOnly{
+	JetsOnly(std::string type, float r): JetLabel(type), R(r);
+	std::string JetLabel="Truth R=";
+	float R=0.4;
+	std::string r_str=std::to_string( ((int) R*10));
+	TH1F* h_Jet_pt=new TH1F(Form("jet_pt_%s_%s",  gen.c_str(), r_str.c_str()), Form("p_{T} of identified jets in final state %s %d; p_{T} [GeV]; Counts", gen_label.c_str(), R), 100, -0.5, 49.5);
+	TH1F* h_Jet_et=new TH1F(Form("jet_et_%s_%s",  gen.c_str(), r_str.c_str()), Form("E_{T} of identified jets in final state %s %d; E_{T} [GeV]; Counts", gen_label.c_str(), R), 100, -0.5, 49.5);
+	TH1F* h_Jet_m=new TH1F(Form("jet_m_%s_%s",  gen.c_str(), r_str.c_str()), Form("Mass of identified jets in final state %s %d; |m| [GeV]; Counts", gen_label.c_str(), R), 100, -0.5, 49.5);
+	TH1F* h_Jet_npart=new TH1F(Form("jet_npart_%s_%s", gen.c_str(), r_str.c_str()), Form("Number of final state partons at R, averaged over number of jets %s %d; R; N_{Part}", gen_label.c_str(), R), 100, -0.02, 1.8); 
+	TH1F* h_Jet_R=new TH1F(Form("jet_R_%s",  gen.c_str(), r_str.c_str()), Form("R of identified jets in final state, measured from max seperation of originating parton %s; R; Counts", gen_label.c_str()), 100, -0.1, 9.9);
+		
 struct JetKinematicPlots{
 	JetKinematicPlots(std::string generator_name): gen(generator_name){ if(gen == "Ratio" || gen=="Herwig/Pythia") gen_label=" as Ratio  of Herwig to Pythia"; };
 	std::string gen="Herwig";
