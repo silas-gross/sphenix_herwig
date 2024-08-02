@@ -55,6 +55,8 @@
 #include <phpythia8/PHPy8JetTrigger.h>
 
 #include "JetKinematicPlots.h"
+#include "EventKinematicPlots.h"
+#include "EnergyCorrelatorPlots.h"
 
 class PHCompositeNode;
 //class fastjet::PseudoJet;
@@ -68,7 +70,7 @@ class HerwigJetSpectra : public SubsysReco
 {
  public:
 
-  HerwigJetSpectra(bool run_pythia=false, int verbosity=0, const std::string &name = "HerwigJetSpectra", 
+  HerwigJetSpectra(bool run_pythia=false, bool pythia_file=false, int verbosity=0, const std::string &name = "HerwigJetSpectra", 
 			const std::string &fname="HerwigJetSpectra.root")
 {
 	std::cout <<"This is running on the "<<name<<" module with jet trigger at " <<trig<<std::endl;
@@ -135,6 +137,7 @@ class HerwigJetSpectra : public SubsysReco
 	}
 	n_evt=0;
 	this->do_pythia = run_pythia;
+	this->seperate_pythia_file = pythia_file;
 	this->verbosity = verbosity;
 	this->HerwigKin=new JetKinematicPlots("Herwig");
 //	HerwigTree=new TTree("Herwig_tree", "Data Tree for Herwig Generated Events");
@@ -217,11 +220,12 @@ class HerwigJetSpectra : public SubsysReco
   	int trig_val=0;
   	int n_evt;
   	bool do_pythia;
+	bool seprate_pythia_file;
   	int verbosity;
  private:
 //	TTree* HerwigTree, PythiaTree; //this will be a later upgrade
 	PHPythia8* pythiagen;
-	JetKinematicPlots* HerwigKin, *PythiaKin/*, *RatioKin*/; 
+	EventKinematicPlots* HerwigKin, *PythiaKin/*, *RatioKin*/; 
 	struct jetobj{
 		std::vector<HepMC::GenParticle*> jet_particles;
 		HepMC::GenParticle* originating_parton;

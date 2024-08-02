@@ -91,6 +91,8 @@ int HerwigJetSpectra::Init(PHCompositeNode *topNode)
 		this->pythiagen=PythiaGenerator(topNode, this->trig_val);
 		if(verbosity > 0 ) std::cout<<"Running a pythia generator as well as the Herwig analysis"<<std::endl;
 	}
+	
+		
 	return Fun4AllReturnCodes::EVENT_OK;
 }
 
@@ -106,7 +108,8 @@ int HerwigJetSpectra::process_event(PHCompositeNode *topNode)
 {
   	n_evt++;
  	 if(verbosity>5) std::cout << "HerwigJetSpectra::process_event(PHCompositeNode *topNode) Processing Event" << n_evt << std::endl;
-  	getKinematics(topNode, this->HerwigKin, false); 
+  	if(!seperate_pythia_file) getKinematics(topNode, this->HerwigKin, false); 
+	else getKinematics(topNode, this->PythiaKin, false);
   	if(this->do_pythia){
 		pythiagen->process_event(topNode);
 		if(verbosity > 0 ) std::cout<<"Generated partner pythia event for event "<<n_evt <<std::endl; 
