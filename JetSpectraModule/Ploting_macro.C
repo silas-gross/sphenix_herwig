@@ -1,11 +1,177 @@
 #include "sPhenixStyle.h"
 #include "sPhenixStyle.C"
 #include <string>
+#include <vector>
+#include <algorithm>
 
-int PlottingMactor_GQRatio(TFile* f, std::string trig)
+int Pythia_to_Herwig(TFile* herwig, TFile* pythia, std::string trig, std::string trigval)
+{
+	SetsPhenixStyle();
+	TH1F* evts_h=(TH1F*) herwig->Get("event_Herwig");
+	TH1F* evts_pg=(TH1F*) herwig->Get("event_Pythia");
+	TH1F* evts_p=(TH1F*) pythia->Get("event_Pythia");
+	int a_h=evts_h->GetEntries();
+	int a_p=evts_p->GetEntries();
+	int b_h=log10(a_h), b_p=log10(a_p);
+	std::string evts="10^{"+std::to_string(b_h)+"} Herwig Events, 10^{"+std::to_string(b_p)+"} Pythia Events"; 
+	std::string sphenix_label="#bf{#it{sPHENIX}} Internal";
+	TCanvas* c1=new TCanvas();
+	TLegend* l=new TLegend(0.15, 0.8, 0.4, 1);
+	l->SetFillStyle(0);
+	l->SetFillColor(0);
+	l->SetBorderSize(0);
+	l->SetTextSize(0.035f);
+	TLegend* l1=new TLegend(0.7, 0.8, 1, 0.97);
+	l1->SetFillStyle(0);
+	l1->SetFillColor(0);
+	l1->SetBorderSize(0);
+	l1->SetTextSize(0.025f);
+	TPad* p1=new TPad("p1", "p1", 0, 0.35, 1, 0.92);
+	TPad* p2=new TPad("p2", "p2", 0, 0, 1, 0.33);
+	TH1F* phi_h=(TH1F*) herwig->Get("phi_Herwig");
+	TH1F* eta_h=(TH1F*) herwig->Get("eta_Herwig");
+	TH1F* phi_hit_h=(TH1F*) herwig->Get("phi_hit_Herwig");
+	TH1F* eta_hit_h=(TH1F*) herwig->Get("eta_hit_Herwig");
+	TH1F* pt_h=(TH1F*) herwig->Get("pt_Herwig");
+	TH1F* e_h=(TH1F*) herwig->Get("energy_Herwig");
+	TH1F* et_h=(TH1F*) herwig->Get("transverse_energy_Herwig");
+	TH1F* cxs_h=(TH1F*) herwig->Get("cross_sect_Herwig"); 
+	TH1F* phi_pg=(TH1F*) herwig->Get("phi_Pythia");
+	TH1F* eta_pg=(TH1F*) herwig->Get("eta_Pythia");
+	TH1F* phi_hit_pg=(TH1F*) herwig->Get("phi_hit_Pythia");
+	TH1F* eta_hit_pg=(TH1F*) herwig->Get("eta_hit_Pythia");
+	TH1F* pt_pg=(TH1F*) herwig->Get("pt_Pythia");
+	TH1F* e_pg=(TH1F*) herwig->Get("energy_Pythia");
+	TH1F* et_pg=(TH1F*) herwig->Get("transverse_energy_Pythia");
+	TH1F* cxs_pg=(TH1F*) herwig->Get("cross_sect_Pythia"); 
+	TH1F* phi_p=(TH1F*) pythia->Get("phi_Pythia");
+	TH1F* eta_p=(TH1F*) pythia->Get("eta_Pythia");
+	TH1F* phi_hit_p=(TH1F*) pythia->Get("phi_hit_Pythia");
+	TH1F* eta_hit_p=(TH1F*) pythia->Get("eta_hit_Pythia");
+	TH1F* pt_p=(TH1F*) pythia->Get("pt_Pythia");
+	TH1F* e_p=(TH1F*) pythia->Get("energy_Pythia");
+	TH1F* et_p=(TH1F*) pythia->Get("transverse_energy_Pythia");
+	TH1F* cxs_p=(TH1F*) pythia->Get("cross_sect_Pythia"); 
+	float upperx_pythia=0.0, upperx_herwig=0.0;
+	for(int i=0; i<pt_p->GetNbinsX(); i++)if(pt_p->GetBinContent(i) > 0) upperx_pythia=pt_p->GetBinCenter(i);
+	for(int i=0; i<pt_h->GetNbinsX(); i++)if(pt_h->GetBinContent(i) > 0) upperx_herwig=pt_h->GetBinCenter(i);
+	float upper=1.25*std::max(upperx_pythia, upperx_herwig);
+	pt_p->GetXaxis()->SetRangeUser(0, upperx_herwig);
+	pt_h->GetXaxis()->SetRangeUser(0, upperx_herwig);
+	pt_pg->GetXaxis()->SetRangeUser(0, upperx_herwig);
+	for(int i=0; i<et_p->GetNbinsX(); i++)if(et_p->GetBinContent(i) > 0) upperx_pythia=et_p->GetBinCenter(i);
+	for(int i=0; i<et_h->GetNbinsX(); i++)if(et_h->GetBinContent(i) > 0) upperx_herwig=et_h->GetBinCenter(i);
+	upper=1.25*std::max(upperx_pythia, upperx_herwig);
+	et_p->GetXaxis()->SetRangeUser(0, upperx_herwig);
+	et_pg->GetXaxis()->SetRangeUser(0, upperx_herwig);
+	et_h->GetXaxis()->SetRangeUser(0, upperx_herwig);
+	e_p->GetXaxis()->SetRangeUser(0, 100);
+	e_h->GetXaxis()->SetRangeUser(0, 100);
+	e_pg->GetXaxis()->SetRangeUser(0, 100);
+	std::vector<TH1F*> herwig_plots {phi_h, eta_h, phi_hit_h, eta_hit_h, pt_h, e_h, et_h, cxs_h};
+	std::vector<TH1F*> pythia_plots {phi_p, eta_p, phi_hit_p, eta_hit_p, pt_p, e_p, et_p, cxs_p};
+	std::vector<TH1F*> pythiag_plots {phi_pg, eta_pg, phi_hit_pg, eta_hit_pg, pt_pg, e_pg, et_pg, cxs_pg};
+	std::vector<TH1F*> ratios_hp, ratios_hpg, ratios_p;	
+	std::vector<float> maxs, ratmaxs;
+	for(int i=0; i<(int) herwig_plots.size(); i++){
+		if(i==3 || i==2)herwig_plots.at(i)->SetYTitle(Form("#frac{d N_{particles}}{d %s}", herwig_plots.at(i)->GetXaxis()->GetTitle()));
+		else if (i >3) herwig_plots.at(i)->SetYTitle(Form("#frac{d %s }{d%s}", herwig_plots.at(i)->GetYaxis()->GetTitle(), herwig_plots.at(i)->GetXaxis()->GetTitle()));
+		herwig_plots.at(i)->Scale(1/(float)herwig_plots.at(i)->GetBinWidth(5));
+		pythiag_plots.at(i)->Scale(1/(float)pythiag_plots.at(i)->GetBinWidth(5));
+		pythia_plots.at(i)->Scale(1/(float)pythia_plots.at(i)->GetBinWidth(5));
+		pythia_plots.at(i)->SetLineColor(7);
+		pythia_plots.at(i)->SetMarkerColor(7);
+		pythiag_plots.at(i)->SetLineColor(kPink+1);
+		pythiag_plots.at(i)->SetMarkerColor(kPink+1);
+		TH1F* herwig_clone=(TH1F*)herwig_plots.at(i)->Clone();
+		TH1F* pythia_clone=(TH1F*)pythia_plots.at(i)->Clone();
+		TH1F* herwig_clone2=(TH1F*)herwig_plots.at(i)->Clone();
+		float maxval=std::max(herwig_plots.at(i)->GetMaximum(), pythia_plots.at(i)->GetMaximum());
+		maxval=std::max(maxval,(float) pythiag_plots.at(i)->GetMaximum());
+		maxs.push_back(maxval);
+		herwig_clone->SetMarkerStyle(22);
+		herwig_clone2->SetMarkerColor(kPink+1);
+		herwig_clone2->SetLineColor(kPink+1);
+		herwig_clone2->SetMarkerStyle(22);
+		pythia_clone->SetMarkerStyle(22);
+		herwig_clone->Divide(pythia_plots.at(i));
+		herwig_clone2->Divide(pythiag_plots.at(i));
+		pythia_clone->Divide(pythiag_plots.at(i));
+		ratios_hp.push_back(herwig_clone);
+		ratios_hpg.push_back(herwig_clone2);
+		ratios_p.push_back(pythia_clone);
+		float ratmax=std::max(pythia_clone->GetMaximum(), herwig_clone->GetMaximum());
+		ratmax=std::max(ratmax, (float) herwig_clone2->GetMaximum());
+		ratmaxs.push_back(herwig_clone->GetMaximum());
+	}
+	int markerdot=pt_h->GetMarkerStyle();
+	TMarker *mh=new TMarker(0.1, 0.1, markerdot);
+	mh->SetMarkerSize(0.9f);
+	TMarker *mp=new TMarker(0.1, 0.1, markerdot);
+	mp->SetMarkerSize(0.9f);
+	mp->SetMarkerColor(7);
+	TMarker *mpg=new TMarker(0.1, 0.1, markerdot);
+	mpg->SetMarkerSize(0.9f);
+	mpg->SetMarkerColor(kPink+1);
+	TMarker *mhp=new TMarker(0.1, 0.1, 22);
+	mhp->SetMarkerSize(0.9f);
+	TMarker *mppg=new TMarker(0.1, 0.1,22);
+	mppg->SetMarkerSize(0.9f);
+	mppg->SetMarkerColor(7);
+	TMarker *mhg=new TMarker(0.1, 0.1,22);
+	mhg->SetMarkerSize(0.9f);
+	mhg->SetMarkerColor(kPink+1);
+	
+	l1->AddEntry(mh, "Herwig", "p");  
+	l1->AddEntry(mp, "Pythia from HepMC file", "p");  
+	l1->AddEntry(mpg, "Pythia Generated with Herwig event analysis", "p");  
+	l1->AddEntry(mhp, "Herwig / Pythia HepMC", "p");  
+	l1->AddEntry(mhg, "Herwig / Pythia Generated with Herwig", "p");  
+	l1->AddEntry(mppg, "Pythia HepMC/Pythia Generated with Herwig", "p"); 
+/*	l1->AddEntry(herwig_plots.at(0), "Herwig", "p");  
+	l1->AddEntry(pythia_plots.at(0), "Pythia from HepMC file", "p");  
+	l1->AddEntry(pythiag_plots.at(0), "Pythia Generated with Herwig event analysis", "p");  
+	l1->AddEntry(ratios_hp.at(0), "Herwig / Pythia HepMC", "p");  
+	l1->AddEntry(ratios_hpg.at(0), "Herwig / Pythia Generated with Herwig", "p");  
+	l1->AddEntry(ratios_p.at(0), "Pythia HepMC/Pythia Generated with Herwig", "p");  */
+	std::vector<std::string> labels {"Energy deposition in #varphi of final state particles", "Energy Deposition in #eta of final state particles", "Final state particle hits in #varphi", "Final state particle hits in #eta", "p_{T} of final state particles", "Total Energy of final state particles", "E_{T} of final state particles", "#sigma of event"};
+	std::vector<std::string> fnames {"E_phi", "E_eta", "phi_hit", "eta_hit", "p_T", "E", "ET", "cross_sec"};
+	for(int i=0; i<(int) herwig_plots.size()-1; i++)
+	{
+		if(i > 3) herwig_plots.at(i)->GetYaxis()->SetRangeUser(1, 1.3*maxs.at(i));
+		else  herwig_plots.at(i)->GetYaxis()->SetRangeUser(0.001*maxs.at(i), 1.3*maxs.at(i));
+		if(i > 3) ratios_hp.at(i)->GetYaxis()->SetRangeUser(0.9*ratios_hp.at(i)->GetMinimum(), 1.25*ratmaxs.at(i));
+		else ratios_hp.at(i)->GetYaxis()->SetRangeUser(0.09*ratios_hp.at(i)->GetMinimum(), 1.25*ratmaxs.at(i));
+		p1->cd();
+		if(i > 3 ) p1->SetLogy();
+		l->AddEntry("", sphenix_label.c_str(), "");
+		l->AddEntry("", Form("2 #rightarrow 2 Monte Carlo %s, %s", trig.c_str(), evts.c_str()), "");
+		l->AddEntry("", labels.at(i).c_str(), "");
+		herwig_plots.at(i)->Draw("e2");
+		pythia_plots.at(i)->Draw("e2 same");
+		pythiag_plots.at(i)->Draw("e2 same");
+		l->Draw();
+		l1->Draw();
+		c1->cd();
+		p1->Draw();
+		p2->cd();
+		ratios_hp.at(i)->Draw("HIST p");
+		ratios_hpg.at(i)->Draw("HIST p same");
+		ratios_p.at(i)->Draw("HIST p same");
+		c1->cd();
+		p2->Draw();
+		c1->Print(Form("~/%s_%s.pdf", fnames.at(i).c_str(), trigval.c_str()));
+		l->DeleteEntry();
+		l->DeleteEntry();
+		l->DeleteEntry();
+	}
+	return 1;
+}
+		
+int PlottingMactor_GQRatio(TFile* f, std::string trig, std::string gen="Herwig")
 {
 SetsPhenixStyle();
-TH1F* evts1=(TH1F*)f->Get("event");
+TH1F* evts1=(TH1F*)f->Get(Form("event_%s", gen.c_str()));
 int a=evts1->GetEntries();
 int b=log10(a);
 std::string evts="10^{"+std::to_string(b)+"} events";
@@ -34,7 +200,7 @@ e2c_g->Draw("same");
 e2c_q->Draw("same");
 TLegend* l=new TLegend(0.1, 0.8, 0.5, 1);
 l->AddEntry("", "#bf{#it{sPHENIX}} Internal", "");
-l->AddEntry("", Form("#bf{Herwig} 2 #rightarrow 2 with %s trigger, %s events", trig.c_str(), evts.c_str()), "");
+l->AddEntry("", Form("#bf{%s} 2 #rightarrow 2 with %s trigger, %s events",gen.c_str(), trig.c_str(), evts.c_str()), "");
 l->AddEntry("", "Jets Identified from final state particles of the initiating parton", "");
 l->SetFillStyle(0);
 l->SetFillColor(0);
@@ -81,7 +247,7 @@ e3c_g->Draw("same");
 e3c_q->Draw("same");
 TLegend* l3=new TLegend(0.05, 0.8, 0.5, 1);
 l3->AddEntry("", "#bf{#it{sPHENIX}} Internal", "");
-l3->AddEntry("", Form("#bf{Herwig} 2 #rightarrow 2 with %s trigger, %s events", trig.c_str(), evts.c_str()), "");
+l3->AddEntry("", Form("#bf{%s} 2 #rightarrow 2 with %s trigger, %s events", gen.c_str(), trig.c_str(), evts.c_str()), "");
 l3->AddEntry("", "Jets Identified from final state particles of the initiating parton", "");
 l3->SetFillStyle(0);
 l3->SetFillColor(0);
@@ -110,7 +276,7 @@ hg1->SetMarkerColor(kRed);
 hg1->Draw(); 
 c2->cd();
 p22->Draw();
-c1->Print(Form("~/e2c_qg_disc_%s.pdf", trig.c_str()));
-c2->Print(Form("~/e3c_qg_disc_%s.pdf", trig.c_str()));
+c1->Print(Form("~/e2c_qg_disc_%s_%s.pdf",gen.c_str(), trig.c_str()));
+c2->Print(Form("~/e3c_qg_disc_%s_%s.pdf",gen.c_str(), trig.c_str()));
 return 1;
 }

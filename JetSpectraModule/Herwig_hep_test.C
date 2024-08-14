@@ -50,7 +50,7 @@ R__LOAD_LIBRARY(libphhepmc.so);
 	InputInit(); 
 	InputRegister();
 }*/
-int Herwig_hep_test(std::string filename="/sphenix/user/sgross/sphenix_herwig/herwig_files/sphenix_10GeV_jetpt.hepmc", bool run_pythia=true, int verbosity=2)
+int Herwig_hep_test(std::string filename="/sphenix/user/sgross/sphenix_herwig/herwig_files/sphenix_10GeV_jetpt.hepmc", std::string rpy="0", std::string spf="0", std::string sverb="2")
 {
 	SetsPhenixStyle();
 	//bool run_pythia = true;
@@ -60,14 +60,25 @@ int Herwig_hep_test(std::string filename="/sphenix/user/sgross/sphenix_herwig/he
 	Fun4AllHepMCInputManager *in =new Fun4AllHepMCInputManager("in");
 	//std::fstream f;
 	//f.open(filename);
+	int verbosity=std::stoi(sverb);
+	bool run_pythia=false, pythia_file=false;
+	if(rpy.find("1") != std::string::npos) run_pythia=true;
+	if(spf.find("1") != std::string::npos) pythia_file=true;
 	std::string fn, temp, type="MB";
 	std::stringstream ss (filename);
 	while(std::getline(ss, temp, '_')){
-		if(temp.find("GeV") != std::string::npos) type=temp;
+		if(temp.find("GeV") != std::string::npos){
+			if(temp.find(".")!=std::string::npos){
+				auto p=temp.find('.');
+				temp=temp.substr(0, p);
+			}
+			 type=temp;
+		}
 	}
+
 	se->registerInputManager(in);
         se->fileopen(in->Name().c_str(), filename);
-	HerwigJetSpectra* ts=new HerwigJetSpectra(run_pythia, verbosity, "HerwigJetSpectra", "HerwigJetSpectra.root");
+	HerwigJetSpectra* ts=new HerwigJetSpectra(run_pythia, pythia_file, verbosity, "HerwigJetSpectra", "HerwigJetSpectra.root");
 	ts->trig=type;
 //	PythiaSetup(ts->trig); //I Think I can do this in the analysis itself
 	std::cout<<"The spectra analyzer is running over generators with jet trigger set to " <<ts->trig <<std::endl;

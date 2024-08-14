@@ -31,20 +31,21 @@ struct EventKinematicPlots{
 	TH1F* h_status_orig=new TH1F(Form("status_orig_%s",  gen.c_str()), Form("HepMC status of primary partons %s; status", gen_label.c_str()), 30, -0.5, 29.5);
 	TH1F* h_E_orig=new TH1F(Form("energy_orig_%s",  gen.c_str()), Form("Energy of primary partons %s; E[GeV]; N_{part}", gen_label.c_str()), 200, -0.5, 199.5);
 	TH1F* h_ET_orig=new TH1F(Form("transverse_energy_orig_%s",  gen.c_str()), Form("Transverse Energy of primary partons %s; E_{T} [GeV]; N_{part}", gen_label.c_str()), 100, -0.5, 49.5);
+	TH1F* h_pdg_id_orig=new TH1F(Form("pdg_orig_%s",  gen.c_str()), Form("Particle id of originating parton %s ; pdg id; N_{part}", gen_label.c_str()), 4600, -2300.5, 2299.5);
 	TH1F* h_pt_leading=new TH1F(Form("pt_leading_%s",  gen.c_str()), Form("p_{T} of leading primary particle in Hepmc record %s; p_{T}[GeV]; N_{part}", gen_label.c_str()), 1000, -0.5, 49.5);
 	TH1F* h_E_total=new TH1F(Form("energy_total_%s",  gen.c_str()), Form("Total energy of event %s; E[GeV]; N_{event}", gen_label.c_str()), 200, -0.5, 799.5);
 	TH2F* h_vertex=new TH2F(Form("vertex_%s",  gen.c_str()), Form("Vertex position %s; r [cm]; z[cm]; N_{event}", gen_label.c_str()), 100, -0.1, 0.1, 100, -0.1, 0.1);
 	TH1F* h_ev=new TH1F(Form("event_%s",  gen.c_str()), Form("Number of HepMC Events per Fun4All event %s; N_{event}", gen_label.c_str()), 10, -0.5, 9.5); 
 	TH1F* h_weight=new TH1F(Form("weights_%s",  gen.c_str()), Form("HEPMC event weights %s", gen_label.c_str()), 100, -0.5, 1.5); 
 	TH1F* h_Jet_pt_lead=new TH1F(Form("jet_pt_leading_%s",  gen.c_str()), Form("p_{T} of identified leading jets in final state %s; p_{T} [GeV]; Counts", gen_label.c_str()), 100, -0.5, 49.5);
-	TH1F* h_cxd=new TH1F*(Form("cross_sect_%s", gen.c_str()), Form("Cross section of event from HepMC Record %s; #sigma", gen_label.c_str()), 100, -0.5, 99.5); 
+	TH1F* h_cxs=new TH1F(Form("cross_sect_%s", gen.c_str()), Form("Cross section of event from HepMC Record %s; #sigma", gen_label.c_str()), 100, -0.5, 99.5); 
 	TH2F* h_hits=new TH2F(Form("hits_%s",  gen.c_str()), Form("N final state particles %s; #eta; #phi; N_{particles}", gen_label.c_str()), 24, -1.1, 1.1, 64, -3.1416, 3.1414);
 	TH2F* h_hits_orig=new TH2F(Form("hits_orig_%s",  gen.c_str()), Form("N inital state partons %s; #eta; #phi; N_{partons}", gen_label.c_str()), 24, -1.1, 1.1, 64, -3.1416, 3.1414);
 	//does not have the jet kinematics by default needs to be called seperately for initialization
 	std::map<std::string, TH1F*> OneDPlotsFinalStates {{"phi", h_phi}, {"eta", h_eta}, {"phi hits", h_phi_hit}, {"eta hits", h_eta_hit}, {"pt", h_pt},{"et", h_ET}, {"e", h_E}, {"m", h_mass}, {"n", h_n_part}, {"PDGID", h_pdg_id}, {"Status", h_status}};
 	std::map<std::string, TH1F*> OneDPlotsInitalStates {{"phi", h_phi_orig}, {"eta", h_eta_orig}, {"phi hits", h_phi_hit_orig}, {"eta hits", h_eta_hit_orig}, {"pt", h_pt_orig},{"et", h_ET_orig}, {"e", h_E_orig}, {"m", h_mass_orig}, {"n", h_n_part_orig}, {"PDGID", h_pdg_id_orig}, {"Status", h_status_orig}};
-	std::map<std::string, TH1F*> OneDPlotsOther {{"pt lead", h_pt_leading}, {"e", h_E_total}, {"Vertex", h_vertex}, {"Event", h_ev}, {"Weight", h_weight}, {"Cross Secitr", h_cxs}};
-	std::map<std::string, TH2F*> TwoDPlots {{"vertex", h_vertex}, {"hits", h_hits}, {"hits originating", h_hits_orig}};
+	std::map<std::string, TH1F*> OneDPlotsOther {{"pt lead", h_pt_leading}, {"e", h_E_total}, {"Event", h_ev}, {"Weight", h_weight}, {"Cross Section", h_cxs}};
+	std::map<std::string, TH2F*> TwoDPlots {{"vertex", h_vertex}, {"hits", h_hits}, {"hits originating", h_hits_orig}, {"Vertex", h_vertex}};
 };
 #endif
 

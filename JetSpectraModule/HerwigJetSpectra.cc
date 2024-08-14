@@ -85,14 +85,14 @@ int HerwigJetSpectra::Init(PHCompositeNode *topNode)
 {
   	if(verbosity>5) std::cout << "HerwigJetSpectra::Init(PHCompositeNode *topNode) Initializing" << std::endl;
   	if(this->do_pythia){
-		pythiaNode=new PHCompositeNode("pythiaNode");	
+	/*	pythiaNode=new PHCompositeNode("pythiaNode");	
 		pythiaNode->makePersistent();
-		pythiaNode->setParent(topNode); 
+		pythiaNode->setParent(topNode); */
 		this->pythiagen=PythiaGenerator(topNode, this->trig_val);
 		if(verbosity > 0 ) std::cout<<"Running a pythia generator as well as the Herwig analysis"<<std::endl;
 	}
-	
-		
+	if(!seperate_pythia_file) JetKin=new JetKinematicPlots("Truth", "Herwig", 1.0, true);
+	else JetKin=new JetKinematicPlots("Truth", "Pythia", 1.0, true);
 	return Fun4AllReturnCodes::EVENT_OK;
 }
 
@@ -109,7 +109,7 @@ int HerwigJetSpectra::process_event(PHCompositeNode *topNode)
   	n_evt++;
  	 if(verbosity>5) std::cout << "HerwigJetSpectra::process_event(PHCompositeNode *topNode) Processing Event" << n_evt << std::endl;
   	if(!seperate_pythia_file) getKinematics(topNode, this->HerwigKin, false); 
-	else getKinematics(topNode, this->PythiaKin, false);
+	else getKinematics(topNode, this->HerwigKin, false);
   	if(this->do_pythia){
 		pythiagen->process_event(topNode);
 		if(verbosity > 0 ) std::cout<<"Generated partner pythia event for event "<<n_evt <<std::endl; 
@@ -118,7 +118,7 @@ int HerwigJetSpectra::process_event(PHCompositeNode *topNode)
 	
   	return Fun4AllReturnCodes::EVENT_OK;
 }
-int HerwigJetSpectra::getKinematics(PHCompositeNode *topNode, JetKinematicPlots* Kinemats, bool pythia_run) 
+int HerwigJetSpectra::getKinematics(PHCompositeNode *topNode, EventKinematicPlots* Kinemats, bool pythia_run) 
 {
   PHHepMCGenEventMap *phg=findNode::getClass<PHHepMCGenEventMap>(topNode, "PHHepMCGenEventMap");
   if(!phg){
@@ -130,7 +130,7 @@ int HerwigJetSpectra::getKinematics(PHCompositeNode *topNode, JetKinematicPlots*
   for ( PHHepMCGenEventMap::ConstIter eventIter=phg->begin(); eventIter != phg->end(); ++eventIter)
   {
 	hep_ev++;
-	if(pythia_run  && hep_ev == 5 )continue;
+	if(pythia_run  && hep_ev == 1 )continue;
 	PHHepMCGenEvent* hpev=eventIter->second;
 	if(hpev){
 		HepMC::GenEvent* ev=hpev->getEvent();
@@ -140,7 +140,12 @@ int HerwigJetSpectra::getKinematics(PHCompositeNode *topNode, JetKinematicPlots*
 		}
 		if(verbosity>0) std::cout<<"Begin processing event"<<std::endl;
 		PHHepMCGenEvent* origvtx=phg->get(0);
-		for(auto w:ev->weights()) Kinemats->h_weight->Fill(w);
+	//	std::cout<<"The kinematics weight histogram has a name that is " <<Kinemats->h_weight->GetName() <<std::endl;
+		if(ev->weights().size() > 0 )
+			 for(auto w:ev->weights())
+				 Kinemats->h_weight->Fill(w);
+		Kinemats->h_cxs->Fill(ev->cross_section()->cross_section());
+		if(verbosity == 2 ) std::cout<<"The cross section is " <<ev->cross_section()->cross_section() <<std::endl;
 		float x_vtx=origvtx->get_collision_vertex().x(), y_vtx=origvtx->get_collision_vertex().y(), z_vtx=origvtx->get_collision_vertex().z(); //here is the vertex
 		float r=sqrt(x_vtx*x_vtx+y_vtx*y_vtx);
 		Kinemats->h_vertex->Fill(r, z_vtx);
@@ -155,8 +160,10 @@ int HerwigJetSpectra::getKinematics(PHCompositeNode *topNode, JetKinematicPlots*
 				if(verbosity>2) std::cout<<"successfully created the jet object" <<std::endl;
 				Jet->originating_parton=(*iter);
 				if(verbosity>2) std::cout<<"have loaded the originating particle into the Jet object"<<std::endl;
+				bool is_a_pythia=pythia_run;
+				if(Kinemats->gen.find("Pythia") != std::string::npos) is_a_pythia=true;
 		 		try{
-					Jet->jet_particles=IDJets(topNode, (*iter), pythia_run); //ids all the daughter particles coming from the originating partons 	
+					Jet->jet_particles=IDJets(topNode, (*iter), is_a_pythia); //ids all the daughter particles coming from the originating partons 	
 				}
 				catch (std::exception& ex){
 					if(verbosity>0) std::cout<<"caught an exception in the jetid stage as " <<ex.what() <<std::endl;
@@ -184,7 +191,7 @@ int HerwigJetSpectra::getKinematics(PHCompositeNode *topNode, JetKinematicPlots*
 				//if(pt>pt_lead) pt_lead=pt;
 				Kinemats->h_status_orig->Fill((*iter)->status());
 				Kinemats->h_ET_orig->Fill(ET);
-				float mj=0, R=0, pxj=0, pyj=0, etj=0;
+				float mj=0, R=0, etj=0, ptj=0, ej=0;
 				if(verbosity>1) std::cout<<"Measuring the kinematics of the jet" <<std::endl;
 				if(Jet->jet_particles.size() == 0 ) continue;
 				HepMC::GenParticle* seed=NULL;
@@ -211,7 +218,7 @@ int HerwigJetSpectra::getKinematics(PHCompositeNode *topNode, JetKinematicPlots*
 					if(r1 <= 0.2) r02.push_back(p);
 					if(r1 <= 0.4) r04.push_back(p);
 					if(r1 <= 0.6) r06.push_back(p);
-					h_pt_R->Fill(r1, getPt(p)/(float)pt_seed);
+					JetKin->h_pt_R->Fill(r1, getPt(p)/(float)pt_seed);
 				}	
 				std::cout<<"Done with calc on the jet, recording it now" <<std::endl;
 				Jet->mass=mj;
@@ -242,9 +249,9 @@ int HerwigJetSpectra::getKinematics(PHCompositeNode *topNode, JetKinematicPlots*
 				Jet->R=R/2;
 				Jet->phi=phi;
 				Jet->eta=eta;
-				Kinemats->h_Jet_pt->Fill(Jet->pt);
-				Kinemats->h_Jet_R->Fill(Jet->R);
-				Kinemats->h_Jet_npart->Fill(Jet->jet_particles.size());
+				JetKin->h_Jet_pt->Fill(Jet->pt);
+				JetKin->h_Jet_R->Fill(Jet->R);
+				JetKin->h_Jet_npart->Fill(Jet->jet_particles.size());
 				if(Jet->pt > jetptlead) jetptlead=Jet->pt;
 				delete Jet;
 		}
@@ -305,10 +312,11 @@ int HerwigJetSpectra::getKinematics(PHCompositeNode *topNode, JetKinematicPlots*
 			float e3c=getE3C(i->jet_particles, h_E3C_IC[j->jetR]);
 			h_E2CT_IC[j->jetR]->Fill(e2c);
 			h_E3CT_IC[j->jetR]->Fill(e3c);
-		}
-		}
+				}
+			}
 	
-	
+		}	
+	}
 	}
 	Kinemats->h_n_part->Fill(np);
 	Kinemats->h_n_part_orig->Fill(np_orig);
@@ -800,21 +808,23 @@ int HerwigJetSpectra::Reset(PHCompositeNode *topNode)
 //____________________________________________________________________________..
 void HerwigJetSpectra::Print(const std::string &what) const
 {
+  if(verbosity>5) std::cout << "HerwigJetSpectra::Print(const std::string &what) const Printing info for " << what << std::endl;
+  TFile* f=new TFile(Form("%s_generated_events_with_%s_trigger.root", HerwigKin->gen.c_str(), trig.c_str()), "RECREATE");
   //average over number of jets, need to put into the new form
-  h_pt_R->Scale(1/(float) h_Jet_pt->GetEntries());
-  h_e2c->Scale(1/(float) h_Jet_pt->GetEntries());
-  h_e3c->Scale(1/(float) h_Jet_pt->GetEntries());
-  h_e2c_2->Scale(1/(float) h_Jet_pt->GetEntries());
-  h_e3c_2->Scale(1/(float) h_Jet_pt->GetEntries());
-  h_e2c_4->Scale(1/(float) h_Jet_pt->GetEntries());
-  h_e3c_4->Scale(1/(float) h_Jet_pt->GetEntries());
-  h_e2c_6->Scale(1/(float) h_Jet_pt->GetEntries());
-  h_e3c_6->Scale(1/(float) h_Jet_pt->GetEntries());
-  h_e2c_q->Scale(1/(float) h_Jet_pt->GetEntries());
-  h_e3c_q->Scale(1/(float) h_Jet_pt->GetEntries());
-  h_e2c_g->Scale(1/(float) h_Jet_pt->GetEntries());
-  h_e3c_g->Scale(1/(float) h_Jet_pt->GetEntries());
-  h_pt_R->Write();
+  JetKin->h_pt_R->Scale(1/(float) JetKin->h_Jet_pt->GetEntries());
+  h_e2c->Scale(1/(float) JetKin->h_Jet_pt->GetEntries());
+  h_e3c->Scale(1/(float) JetKin->h_Jet_pt->GetEntries());
+  h_e2c_2->Scale(1/(float) JetKin->h_Jet_pt->GetEntries());
+  h_e3c_2->Scale(1/(float) JetKin->h_Jet_pt->GetEntries());
+  h_e2c_4->Scale(1/(float) JetKin->h_Jet_pt->GetEntries());
+  h_e3c_4->Scale(1/(float) JetKin->h_Jet_pt->GetEntries());
+  h_e2c_6->Scale(1/(float) JetKin->h_Jet_pt->GetEntries());
+  h_e3c_6->Scale(1/(float) JetKin->h_Jet_pt->GetEntries());
+  h_e2c_q->Scale(1/(float) JetKin->h_Jet_pt->GetEntries());
+  h_e3c_q->Scale(1/(float) JetKin->h_Jet_pt->GetEntries());
+  h_e2c_g->Scale(1/(float) JetKin->h_Jet_pt->GetEntries());
+  h_e3c_g->Scale(1/(float) JetKin->h_Jet_pt->GetEntries());
+  JetKin->h_pt_R->Write();
   h_e2c->Write();
   h_e3c->Write();
   h_e2c_q->Write();
@@ -848,8 +858,6 @@ void HerwigJetSpectra::Print(const std::string &what) const
 		h_E3CT_IC.at(r)->Write();
 	}
   }
-  if(verbosity>5) std::cout << "HerwigJetSpectra::Print(const std::string &what) const Printing info for " << what << std::endl;
-  TFile* f=new TFile(Form("herwig_with_pythia_output_%s_jetpt_with_jetalgo.root", trig.c_str()), "RECREATE");
   HerwigKin->h_pt->Write();
   HerwigKin->h_phi->Write();
   HerwigKin->h_eta->Write();
@@ -876,12 +884,13 @@ void HerwigJetSpectra::Print(const std::string &what) const
   HerwigKin->h_weight->Write();
   HerwigKin->h_ET->Write();
   HerwigKin->h_ET_orig->Write();
-  HerwigKin->h_Jet_pt->Write();
-  HerwigKin->h_Jet_R->Write();
-  HerwigKin->h_Jet_npart->Write();
+  JetKin->h_Jet_pt->Write();
+  JetKin->h_Jet_R->Write();
+  JetKin->h_Jet_npart->Write();
   HerwigKin->h_Jet_pt_lead->Write();
   HerwigKin->h_hits->Write();
   HerwigKin->h_hits_orig->Write();
+  HerwigKin->h_cxs->Write();
   if(do_pythia){
 	  PythiaKin->h_pt->Write();
 	  PythiaKin->h_phi->Write();
@@ -910,9 +919,10 @@ void HerwigJetSpectra::Print(const std::string &what) const
 	  PythiaKin->h_weight->Write();
 	  PythiaKin->h_ET->Write();
 	  PythiaKin->h_ET_orig->Write();
-	  PythiaKin->h_Jet_pt->Write();
-	  PythiaKin->h_Jet_R->Write();
-	  PythiaKin->h_Jet_npart->Write();
+	  PythiaKin->h_cxs->Write();
+	//  PythiaKin->h_Jet_pt->Write();
+	 // PythiaKin->h_Jet_R->Write();
+	//  PythiaKin->h_Jet_npart->Write();
 	  PythiaKin->h_Jet_pt_lead->Write();
 	  PythiaKin->h_hits->Write();
 	}	

@@ -49,14 +49,14 @@
 #include <jetbase/FastJetAlgo.h>
 #include <fastjet/JetDefinition.hh>
 #include <fastjet/PseudoJet.hh>
-#include "Jet_Obj_Defs.h"
 
 #include <phpythia8/PHPythia8.h>
 #include <phpythia8/PHPy8JetTrigger.h>
 
+#include "Jet_Obj_Defs.h"
 #include "JetKinematicPlots.h"
 #include "EventKinematicPlots.h"
-#include "EnergyCorrelatorPlots.h"
+//#include "EnergyCorrelatorPlots.h"
 
 class PHCompositeNode;
 //class fastjet::PseudoJet;
@@ -139,16 +139,17 @@ class HerwigJetSpectra : public SubsysReco
 	this->do_pythia = run_pythia;
 	this->seperate_pythia_file = pythia_file;
 	this->verbosity = verbosity;
-	this->HerwigKin=new JetKinematicPlots("Herwig");
+	if(!seperate_pythia_file) this->HerwigKin=new EventKinematicPlots("Herwig");
+	else this->HerwigKin=new EventKinematicPlots("Pythia");
 //	HerwigTree=new TTree("Herwig_tree", "Data Tree for Herwig Generated Events");
-	if(run_pythia){
-		this->PythiaKin=new JetKinematicPlots("Pythia");
+	if(run_pythia && !seperate_pythia_file){
+		this->PythiaKin=new EventKinematicPlots("Pythia");
 //		PythiaTree=new TTree("Pythia_tree", "Data Tree for Pythia Generated Events");
 //		this->RatioKin=new JetKinematicPlots("Ratio");
 		}
 	}
-	truth_ec_plots = new EnergyCorrelatorPlots("truth");
-	ICPR_ec_plots =  new EnergyCorrelatorPlots("ICPR" );
+	//truth_ec_plots = new EnergyCorrelatorPlots("truth");
+	//ICPR_ec_plots =  new EnergyCorrelatorPlots("ICPR" );
   ~HerwigJetSpectra() override;
   //void BuildDataTree(TTree* data_tree){
 	//just build the specific trees for the specific generator 
@@ -189,7 +190,7 @@ class HerwigJetSpectra : public SubsysReco
       This is where you do the real work.
    */
   int process_event(PHCompositeNode *topNode) override; //this allow for just checking the number of events in the file as it seems off
-  int getKinematics(PHCompositeNode *topNode, JetKinematicPlots*, bool); 
+  int getKinematics(PHCompositeNode *topNode, EventKinematicPlots*, bool); 
   /// Clean up internals after each event.
   int ResetEvent(PHCompositeNode *topNode) override;
 
@@ -210,23 +211,21 @@ class HerwigJetSpectra : public SubsysReco
   	std::vector<HepMC::GenParticle*> IDJets(PHCompositeNode *topNode, HepMC::GenParticle* ); 
 	float GetAnIterativeCone(std::vector<HepMC::GenParticle*> *, float, bool, float, JetCollection*);
 	int fastjetID( std::vector<HepMC::GenParticle*>, JetCollection*, int, float, float );
-  	std::string trig="MB";
-  	int n_evt;
   	PHPythia8* PythiaGenerator(PHCompositeNode *topNode, int trigger);
   	PHCompositeNode* pythiaNode;
-  	void Print(const std::string &what = "ALL") const override;
   	std::vector<HepMC::GenParticle*> IDJets(PHCompositeNode *topNode, HepMC::GenParticle*, bool); 
   	std::string trig="MB";
   	int trig_val=0;
-  	int n_evt;
+  	int n_evt=0;
   	bool do_pythia;
-	bool seprate_pythia_file;
+	bool seperate_pythia_file;
   	int verbosity;
  private:
 //	TTree* HerwigTree, PythiaTree; //this will be a later upgrade
 	PHPythia8* pythiagen;
 	EventKinematicPlots* HerwigKin, *PythiaKin/*, *RatioKin*/; 
-	struct jetobj{
+	JetKinematicPlots* JetKin;
+	/*struct jetobj{
 		std::vector<HepMC::GenParticle*> jet_particles;
 		HepMC::GenParticle* originating_parton;
 		float pt;
@@ -237,8 +236,13 @@ class HerwigJetSpectra : public SubsysReco
 		float R;
 		float phi;
 		float eta;
-	};
-	EnergyCorrelatorPlot* truth_plots, ICPR_plots;
+	};*/
+	TH1F *h_e2c, *h_e3c, *h_e2c_q, *h_e3c_q, *h_e2c_g, *h_e3c_g;
+	TH1F *h_e2c_2, *h_e3c_2, *h_e2c_4, *h_e3c_4, *h_e2c_6, *h_e3c_6;
+	TH1F *h_e2ct, *h_e3ct, *h_e2ct_2, *h_e3ct_2, *h_e2ct_4, *h_e3ct_4, *h_e2ct_6, *h_e3ct_6;
+	std::map<float, TH1F*> h_E2C_IC, h_E3C_IC, h_E2CT_IC, h_E3CT_IC;
+
+	//EnergyCorrelatorPlot* truth_plots, ICPR_plots;
 };
 
 #endif // HERWIGJETSPECTRA_H
