@@ -34,12 +34,13 @@ set EventHandler:LuminosityFunction:Energy 200.0*GeV
 
 read Matchbox/StandardModelLike.in
 #read Matchbox/DiagonalCKM.in
-
+cd /Herwig/
+read Matchbox/VBFNLO.in
 cd /Herwig/MatrixElements/Matchbox
 
-set Factory:OrderInAlphaS 1
-set Factory:OrderInAlphaEW 2
-do Factory:Process p p -> q qbar 
+set Factory:OrderInAlphaS 2
+set Factory:OrderInAlphaEW 0
+do Factory:Process p p -> j j 
 ##################################################
 # Cuts to jets					##
 ##################################################
