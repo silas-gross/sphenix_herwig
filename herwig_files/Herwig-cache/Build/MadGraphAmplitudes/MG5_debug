@@ -1,0 +1,597 @@
+#************************************************************
+#*                     MadGraph5_aMC@NLO                    *
+#*                                                          *
+#*                *                       *                 *
+#*                  *        * *        *                   *
+#*                    * * * * 5 * * * *                     *
+#*                  *        * *        *                   *
+#*                *                       *                 *
+#*                                                          *
+#*                                                          *
+#*         VERSION 2.8.1                 2020-09-28         *
+#*                                                          *
+#*    The MadGraph5_aMC@NLO Development Team - Find us at   *
+#*    https://server06.fynu.ucl.ac.be/projects/madgraph     *
+#*                                                          *
+#************************************************************
+#*                                                          *
+#*               Command File for MadGraph5_aMC@NLO         *
+#*                                                          *
+#*     run as ./bin/mg5_aMC  filename                       *
+#*                                                          *
+#************************************************************
+set group_subprocesses Auto
+set ignore_six_quark_processes False
+set low_mem_multicore_nlo_generation False
+set complex_mass_scheme False
+set gauge unitary
+set loop_optimized_output True
+set loop_color_flows False
+set max_npoint_for_channel 0
+set default_unset_couplings 99
+set max_t_for_channel 99
+set zerowidth_tchannel True
+set fortran_compiler gfortran --no_save
+import model loop_sm
+define p = g u c d s u~ c~ d~ s~
+define j = g u c d s u~ c~ d~ s~
+define l+ = e+ mu+
+define l- = e- mu-
+define vl = ve vm vt
+define vl~ = ve~ vm~ vt~
+generate    1 1  > 1 1  QCD<=2 QED<=0 @1
+add process 1 -1  > -1 1  QCD<=2 QED<=0 @2
+add process 1 -1  > -2 2  QCD<=2 QED<=0 @3
+add process 1 -1  > -4 4  QCD<=2 QED<=0 @4
+add process 1 -1  > -3 3  QCD<=2 QED<=0 @5
+add process 1 -1  > -5 5  QCD<=2 QED<=0 @6
+add process 1 -1  > 21 21  QCD<=2 QED<=0 @7
+add process 1 -2  > -2 1  QCD<=2 QED<=0 @8
+add process 1 2  > 1 2  QCD<=2 QED<=0 @9
+add process 1 4  > 1 4  QCD<=2 QED<=0 @10
+add process 1 -4  > -4 1  QCD<=2 QED<=0 @11
+add process 1 -3  > -3 1  QCD<=2 QED<=0 @12
+add process 1 3  > 1 3  QCD<=2 QED<=0 @13
+add process 1 5  > 1 5  QCD<=2 QED<=0 @14
+add process 1 -5  > -5 1  QCD<=2 QED<=0 @15
+add process 1 21  > 1 21  QCD<=2 QED<=0 @16
+add process -1 1  > -1 1  QCD<=2 QED<=0 @17
+add process -1 1  > -2 2  QCD<=2 QED<=0 @18
+add process -1 1  > -4 4  QCD<=2 QED<=0 @19
+add process -1 1  > -3 3  QCD<=2 QED<=0 @20
+add process -1 1  > -5 5  QCD<=2 QED<=0 @21
+add process -1 1  > 21 21  QCD<=2 QED<=0 @22
+add process -1 -1  > -1 -1  QCD<=2 QED<=0 @23
+add process -1 -2  > -2 -1  QCD<=2 QED<=0 @24
+add process -1 2  > -1 2  QCD<=2 QED<=0 @25
+add process -1 4  > -1 4  QCD<=2 QED<=0 @26
+add process -1 -4  > -4 -1  QCD<=2 QED<=0 @27
+add process -1 -3  > -3 -1  QCD<=2 QED<=0 @28
+add process -1 3  > -1 3  QCD<=2 QED<=0 @29
+add process -1 5  > -1 5  QCD<=2 QED<=0 @30
+add process -1 -5  > -5 -1  QCD<=2 QED<=0 @31
+add process -1 21  > -1 21  QCD<=2 QED<=0 @32
+add process -2 1  > -2 1  QCD<=2 QED<=0 @33
+add process -2 -1  > -2 -1  QCD<=2 QED<=0 @34
+add process -2 -2  > -2 -2  QCD<=2 QED<=0 @35
+add process -2 2  > -1 1  QCD<=2 QED<=0 @36
+add process -2 2  > -2 2  QCD<=2 QED<=0 @37
+add process -2 2  > -4 4  QCD<=2 QED<=0 @38
+add process -2 2  > -3 3  QCD<=2 QED<=0 @39
+add process -2 2  > -5 5  QCD<=2 QED<=0 @40
+add process -2 2  > 21 21  QCD<=2 QED<=0 @41
+add process -2 4  > -2 4  QCD<=2 QED<=0 @42
+add process -2 -4  > -4 -2  QCD<=2 QED<=0 @43
+add process -2 -3  > -3 -2  QCD<=2 QED<=0 @44
+add process -2 3  > -2 3  QCD<=2 QED<=0 @45
+add process -2 5  > -2 5  QCD<=2 QED<=0 @46
+add process -2 -5  > -5 -2  QCD<=2 QED<=0 @47
+add process -2 21  > -2 21  QCD<=2 QED<=0 @48
+add process 2 1  > 1 2  QCD<=2 QED<=0 @49
+add process 2 -1  > -1 2  QCD<=2 QED<=0 @50
+add process 2 -2  > -1 1  QCD<=2 QED<=0 @51
+add process 2 -2  > -2 2  QCD<=2 QED<=0 @52
+add process 2 -2  > -4 4  QCD<=2 QED<=0 @53
+add process 2 -2  > -3 3  QCD<=2 QED<=0 @54
+add process 2 -2  > -5 5  QCD<=2 QED<=0 @55
+add process 2 -2  > 21 21  QCD<=2 QED<=0 @56
+add process 2 2  > 2 2  QCD<=2 QED<=0 @57
+add process 2 4  > 2 4  QCD<=2 QED<=0 @58
+add process 2 -4  > -4 2  QCD<=2 QED<=0 @59
+add process 2 -3  > -3 2  QCD<=2 QED<=0 @60
+add process 2 3  > 2 3  QCD<=2 QED<=0 @61
+add process 2 5  > 2 5  QCD<=2 QED<=0 @62
+add process 2 -5  > -5 2  QCD<=2 QED<=0 @63
+add process 2 21  > 2 21  QCD<=2 QED<=0 @64
+add process 4 1  > 1 4  QCD<=2 QED<=0 @65
+add process 4 -1  > -1 4  QCD<=2 QED<=0 @66
+add process 4 -2  > -2 4  QCD<=2 QED<=0 @67
+add process 4 2  > 2 4  QCD<=2 QED<=0 @68
+add process 4 4  > 4 4  QCD<=2 QED<=0 @69
+add process 4 -4  > -1 1  QCD<=2 QED<=0 @70
+add process 4 -4  > -2 2  QCD<=2 QED<=0 @71
+add process 4 -4  > -4 4  QCD<=2 QED<=0 @72
+add process 4 -4  > -3 3  QCD<=2 QED<=0 @73
+add process 4 -4  > -5 5  QCD<=2 QED<=0 @74
+add process 4 -4  > 21 21  QCD<=2 QED<=0 @75
+add process 4 -3  > -3 4  QCD<=2 QED<=0 @76
+add process 4 3  > 3 4  QCD<=2 QED<=0 @77
+add process 4 5  > 4 5  QCD<=2 QED<=0 @78
+add process 4 -5  > -5 4  QCD<=2 QED<=0 @79
+add process 4 21  > 4 21  QCD<=2 QED<=0 @80
+add process -4 1  > -4 1  QCD<=2 QED<=0 @81
+add process -4 -1  > -4 -1  QCD<=2 QED<=0 @82
+add process -4 -2  > -4 -2  QCD<=2 QED<=0 @83
+add process -4 2  > -4 2  QCD<=2 QED<=0 @84
+add process -4 4  > -1 1  QCD<=2 QED<=0 @85
+add process -4 4  > -2 2  QCD<=2 QED<=0 @86
+add process -4 4  > -4 4  QCD<=2 QED<=0 @87
+add process -4 4  > -3 3  QCD<=2 QED<=0 @88
+add process -4 4  > -5 5  QCD<=2 QED<=0 @89
+add process -4 4  > 21 21  QCD<=2 QED<=0 @90
+add process -4 -4  > -4 -4  QCD<=2 QED<=0 @91
+add process -4 -3  > -4 -3  QCD<=2 QED<=0 @92
+add process -4 3  > -4 3  QCD<=2 QED<=0 @93
+add process -4 5  > -4 5  QCD<=2 QED<=0 @94
+add process -4 -5  > -5 -4  QCD<=2 QED<=0 @95
+add process -4 21  > -4 21  QCD<=2 QED<=0 @96
+add process -3 1  > -3 1  QCD<=2 QED<=0 @97
+add process -3 -1  > -3 -1  QCD<=2 QED<=0 @98
+add process -3 -2  > -3 -2  QCD<=2 QED<=0 @99
+add process -3 2  > -3 2  QCD<=2 QED<=0 @100
+add process -3 4  > -3 4  QCD<=2 QED<=0 @101
+add process -3 -4  > -4 -3  QCD<=2 QED<=0 @102
+add process -3 -3  > -3 -3  QCD<=2 QED<=0 @103
+add process -3 3  > -1 1  QCD<=2 QED<=0 @104
+add process -3 3  > -2 2  QCD<=2 QED<=0 @105
+add process -3 3  > -4 4  QCD<=2 QED<=0 @106
+add process -3 3  > -3 3  QCD<=2 QED<=0 @107
+add process -3 3  > -5 5  QCD<=2 QED<=0 @108
+add process -3 3  > 21 21  QCD<=2 QED<=0 @109
+add process -3 5  > -3 5  QCD<=2 QED<=0 @110
+add process -3 -5  > -5 -3  QCD<=2 QED<=0 @111
+add process -3 21  > -3 21  QCD<=2 QED<=0 @112
+add process 3 1  > 1 3  QCD<=2 QED<=0 @113
+add process 3 -1  > -1 3  QCD<=2 QED<=0 @114
+add process 3 -2  > -2 3  QCD<=2 QED<=0 @115
+add process 3 2  > 2 3  QCD<=2 QED<=0 @116
+add process 3 4  > 3 4  QCD<=2 QED<=0 @117
+add process 3 -4  > -4 3  QCD<=2 QED<=0 @118
+add process 3 -3  > -1 1  QCD<=2 QED<=0 @119
+add process 3 -3  > -2 2  QCD<=2 QED<=0 @120
+add process 3 -3  > -4 4  QCD<=2 QED<=0 @121
+add process 3 -3  > -3 3  QCD<=2 QED<=0 @122
+add process 3 -3  > -5 5  QCD<=2 QED<=0 @123
+add process 3 -3  > 21 21  QCD<=2 QED<=0 @124
+add process 3 3  > 3 3  QCD<=2 QED<=0 @125
+add process 3 5  > 3 5  QCD<=2 QED<=0 @126
+add process 3 -5  > -5 3  QCD<=2 QED<=0 @127
+add process 3 21  > 3 21  QCD<=2 QED<=0 @128
+add process 5 1  > 1 5  QCD<=2 QED<=0 @129
+add process 5 -1  > -1 5  QCD<=2 QED<=0 @130
+add process 5 -2  > -2 5  QCD<=2 QED<=0 @131
+add process 5 2  > 2 5  QCD<=2 QED<=0 @132
+add process 5 4  > 4 5  QCD<=2 QED<=0 @133
+add process 5 -4  > -4 5  QCD<=2 QED<=0 @134
+add process 5 -3  > -3 5  QCD<=2 QED<=0 @135
+add process 5 3  > 3 5  QCD<=2 QED<=0 @136
+add process 5 5  > 5 5  QCD<=2 QED<=0 @137
+add process 5 -5  > -1 1  QCD<=2 QED<=0 @138
+add process 5 -5  > -2 2  QCD<=2 QED<=0 @139
+add process 5 -5  > -4 4  QCD<=2 QED<=0 @140
+add process 5 -5  > -3 3  QCD<=2 QED<=0 @141
+add process 5 -5  > -5 5  QCD<=2 QED<=0 @142
+add process 5 -5  > 21 21  QCD<=2 QED<=0 @143
+add process 5 21  > 5 21  QCD<=2 QED<=0 @144
+add process -5 1  > -5 1  QCD<=2 QED<=0 @145
+add process -5 -1  > -5 -1  QCD<=2 QED<=0 @146
+add process -5 -2  > -5 -2  QCD<=2 QED<=0 @147
+add process -5 2  > -5 2  QCD<=2 QED<=0 @148
+add process -5 4  > -5 4  QCD<=2 QED<=0 @149
+add process -5 -4  > -5 -4  QCD<=2 QED<=0 @150
+add process -5 -3  > -5 -3  QCD<=2 QED<=0 @151
+add process -5 3  > -5 3  QCD<=2 QED<=0 @152
+add process -5 5  > -1 1  QCD<=2 QED<=0 @153
+add process -5 5  > -2 2  QCD<=2 QED<=0 @154
+add process -5 5  > -4 4  QCD<=2 QED<=0 @155
+add process -5 5  > -3 3  QCD<=2 QED<=0 @156
+add process -5 5  > -5 5  QCD<=2 QED<=0 @157
+add process -5 5  > 21 21  QCD<=2 QED<=0 @158
+add process -5 -5  > -5 -5  QCD<=2 QED<=0 @159
+add process -5 21  > -5 21  QCD<=2 QED<=0 @160
+add process 21 1  > 1 21  QCD<=2 QED<=0 @161
+add process 21 -1  > -1 21  QCD<=2 QED<=0 @162
+add process 21 -2  > -2 21  QCD<=2 QED<=0 @163
+add process 21 2  > 2 21  QCD<=2 QED<=0 @164
+add process 21 4  > 4 21  QCD<=2 QED<=0 @165
+add process 21 -4  > -4 21  QCD<=2 QED<=0 @166
+add process 21 -3  > -3 21  QCD<=2 QED<=0 @167
+add process 21 3  > 3 21  QCD<=2 QED<=0 @168
+add process 21 5  > 5 21  QCD<=2 QED<=0 @169
+add process 21 -5  > -5 21  QCD<=2 QED<=0 @170
+add process 21 21  > -1 1  QCD<=2 QED<=0 @171
+add process 21 21  > -2 2  QCD<=2 QED<=0 @172
+add process 21 21  > -4 4  QCD<=2 QED<=0 @173
+add process 21 21  > -3 3  QCD<=2 QED<=0 @174
+add process 21 21  > -5 5  QCD<=2 QED<=0 @175
+add process 21 21  > 21 21  QCD<=2 QED<=0 @176
+add process 1 1  > 1 1 21  QCD<=3 QED<=0 @177
+add process 1 -1  > -1 1 21  QCD<=3 QED<=0 @178
+add process 1 -1  > -2 2 21  QCD<=3 QED<=0 @179
+add process 1 -1  > -4 4 21  QCD<=3 QED<=0 @180
+add process 1 -1  > -3 3 21  QCD<=3 QED<=0 @181
+add process 1 -1  > -5 5 21  QCD<=3 QED<=0 @182
+add process 1 -1  > 21 21 21  QCD<=3 QED<=0 @183
+add process 1 -2  > -2 1 21  QCD<=3 QED<=0 @184
+add process 1 2  > 1 2 21  QCD<=3 QED<=0 @185
+add process 1 4  > 1 4 21  QCD<=3 QED<=0 @186
+add process 1 -4  > -4 1 21  QCD<=3 QED<=0 @187
+add process 1 -3  > -3 1 21  QCD<=3 QED<=0 @188
+add process 1 3  > 1 3 21  QCD<=3 QED<=0 @189
+add process 1 5  > 1 5 21  QCD<=3 QED<=0 @190
+add process 1 -5  > -5 1 21  QCD<=3 QED<=0 @191
+add process 1 21  > 1 21 21  QCD<=3 QED<=0 @192
+add process 1 21  > -1 1 1  QCD<=3 QED<=0 @193
+add process 1 21  > -2 1 2  QCD<=3 QED<=0 @194
+add process 1 21  > -4 1 4  QCD<=3 QED<=0 @195
+add process 1 21  > -3 1 3  QCD<=3 QED<=0 @196
+add process 1 21  > -5 1 5  QCD<=3 QED<=0 @197
+add process -1 1  > -1 1 21  QCD<=3 QED<=0 @198
+add process -1 1  > -2 2 21  QCD<=3 QED<=0 @199
+add process -1 1  > -4 4 21  QCD<=3 QED<=0 @200
+add process -1 1  > -3 3 21  QCD<=3 QED<=0 @201
+add process -1 1  > -5 5 21  QCD<=3 QED<=0 @202
+add process -1 1  > 21 21 21  QCD<=3 QED<=0 @203
+add process -1 -1  > -1 -1 21  QCD<=3 QED<=0 @204
+add process -1 -2  > -2 -1 21  QCD<=3 QED<=0 @205
+add process -1 2  > -1 2 21  QCD<=3 QED<=0 @206
+add process -1 4  > -1 4 21  QCD<=3 QED<=0 @207
+add process -1 -4  > -4 -1 21  QCD<=3 QED<=0 @208
+add process -1 -3  > -3 -1 21  QCD<=3 QED<=0 @209
+add process -1 3  > -1 3 21  QCD<=3 QED<=0 @210
+add process -1 5  > -1 5 21  QCD<=3 QED<=0 @211
+add process -1 -5  > -5 -1 21  QCD<=3 QED<=0 @212
+add process -1 21  > -1 -1 1  QCD<=3 QED<=0 @213
+add process -1 21  > -1 21 21  QCD<=3 QED<=0 @214
+add process -1 21  > -2 -1 2  QCD<=3 QED<=0 @215
+add process -1 21  > -4 -1 4  QCD<=3 QED<=0 @216
+add process -1 21  > -3 -1 3  QCD<=3 QED<=0 @217
+add process -1 21  > -5 -1 5  QCD<=3 QED<=0 @218
+add process -2 1  > -2 1 21  QCD<=3 QED<=0 @219
+add process -2 -1  > -2 -1 21  QCD<=3 QED<=0 @220
+add process -2 -2  > -2 -2 21  QCD<=3 QED<=0 @221
+add process -2 2  > -1 1 21  QCD<=3 QED<=0 @222
+add process -2 2  > -2 2 21  QCD<=3 QED<=0 @223
+add process -2 2  > -4 4 21  QCD<=3 QED<=0 @224
+add process -2 2  > -3 3 21  QCD<=3 QED<=0 @225
+add process -2 2  > -5 5 21  QCD<=3 QED<=0 @226
+add process -2 2  > 21 21 21  QCD<=3 QED<=0 @227
+add process -2 4  > -2 4 21  QCD<=3 QED<=0 @228
+add process -2 -4  > -4 -2 21  QCD<=3 QED<=0 @229
+add process -2 -3  > -3 -2 21  QCD<=3 QED<=0 @230
+add process -2 3  > -2 3 21  QCD<=3 QED<=0 @231
+add process -2 5  > -2 5 21  QCD<=3 QED<=0 @232
+add process -2 -5  > -5 -2 21  QCD<=3 QED<=0 @233
+add process -2 21  > -2 -1 1  QCD<=3 QED<=0 @234
+add process -2 21  > -2 -2 2  QCD<=3 QED<=0 @235
+add process -2 21  > -2 21 21  QCD<=3 QED<=0 @236
+add process -2 21  > -4 -2 4  QCD<=3 QED<=0 @237
+add process -2 21  > -3 -2 3  QCD<=3 QED<=0 @238
+add process -2 21  > -5 -2 5  QCD<=3 QED<=0 @239
+add process 2 1  > 1 2 21  QCD<=3 QED<=0 @240
+add process 2 -1  > -1 2 21  QCD<=3 QED<=0 @241
+add process 2 -2  > -1 1 21  QCD<=3 QED<=0 @242
+add process 2 -2  > -2 2 21  QCD<=3 QED<=0 @243
+add process 2 -2  > -4 4 21  QCD<=3 QED<=0 @244
+add process 2 -2  > -3 3 21  QCD<=3 QED<=0 @245
+add process 2 -2  > -5 5 21  QCD<=3 QED<=0 @246
+add process 2 -2  > 21 21 21  QCD<=3 QED<=0 @247
+add process 2 2  > 2 2 21  QCD<=3 QED<=0 @248
+add process 2 4  > 2 4 21  QCD<=3 QED<=0 @249
+add process 2 -4  > -4 2 21  QCD<=3 QED<=0 @250
+add process 2 -3  > -3 2 21  QCD<=3 QED<=0 @251
+add process 2 3  > 2 3 21  QCD<=3 QED<=0 @252
+add process 2 5  > 2 5 21  QCD<=3 QED<=0 @253
+add process 2 -5  > -5 2 21  QCD<=3 QED<=0 @254
+add process 2 21  > -1 1 2  QCD<=3 QED<=0 @255
+add process 2 21  > -2 2 2  QCD<=3 QED<=0 @256
+add process 2 21  > 2 21 21  QCD<=3 QED<=0 @257
+add process 2 21  > -4 2 4  QCD<=3 QED<=0 @258
+add process 2 21  > -3 2 3  QCD<=3 QED<=0 @259
+add process 2 21  > -5 2 5  QCD<=3 QED<=0 @260
+add process 4 1  > 1 4 21  QCD<=3 QED<=0 @261
+add process 4 -1  > -1 4 21  QCD<=3 QED<=0 @262
+add process 4 -2  > -2 4 21  QCD<=3 QED<=0 @263
+add process 4 2  > 2 4 21  QCD<=3 QED<=0 @264
+add process 4 4  > 4 4 21  QCD<=3 QED<=0 @265
+add process 4 -4  > -1 1 21  QCD<=3 QED<=0 @266
+add process 4 -4  > -2 2 21  QCD<=3 QED<=0 @267
+add process 4 -4  > -4 4 21  QCD<=3 QED<=0 @268
+add process 4 -4  > -3 3 21  QCD<=3 QED<=0 @269
+add process 4 -4  > -5 5 21  QCD<=3 QED<=0 @270
+add process 4 -4  > 21 21 21  QCD<=3 QED<=0 @271
+add process 4 -3  > -3 4 21  QCD<=3 QED<=0 @272
+add process 4 3  > 3 4 21  QCD<=3 QED<=0 @273
+add process 4 5  > 4 5 21  QCD<=3 QED<=0 @274
+add process 4 -5  > -5 4 21  QCD<=3 QED<=0 @275
+add process 4 21  > -1 1 4  QCD<=3 QED<=0 @276
+add process 4 21  > -2 2 4  QCD<=3 QED<=0 @277
+add process 4 21  > 4 21 21  QCD<=3 QED<=0 @278
+add process 4 21  > -4 4 4  QCD<=3 QED<=0 @279
+add process 4 21  > -3 3 4  QCD<=3 QED<=0 @280
+add process 4 21  > -5 4 5  QCD<=3 QED<=0 @281
+add process -4 1  > -4 1 21  QCD<=3 QED<=0 @282
+add process -4 -1  > -4 -1 21  QCD<=3 QED<=0 @283
+add process -4 -2  > -4 -2 21  QCD<=3 QED<=0 @284
+add process -4 2  > -4 2 21  QCD<=3 QED<=0 @285
+add process -4 4  > -1 1 21  QCD<=3 QED<=0 @286
+add process -4 4  > -2 2 21  QCD<=3 QED<=0 @287
+add process -4 4  > -4 4 21  QCD<=3 QED<=0 @288
+add process -4 4  > -3 3 21  QCD<=3 QED<=0 @289
+add process -4 4  > -5 5 21  QCD<=3 QED<=0 @290
+add process -4 4  > 21 21 21  QCD<=3 QED<=0 @291
+add process -4 -4  > -4 -4 21  QCD<=3 QED<=0 @292
+add process -4 -3  > -4 -3 21  QCD<=3 QED<=0 @293
+add process -4 3  > -4 3 21  QCD<=3 QED<=0 @294
+add process -4 5  > -4 5 21  QCD<=3 QED<=0 @295
+add process -4 -5  > -5 -4 21  QCD<=3 QED<=0 @296
+add process -4 21  > -4 -1 1  QCD<=3 QED<=0 @297
+add process -4 21  > -4 -2 2  QCD<=3 QED<=0 @298
+add process -4 21  > -4 -4 4  QCD<=3 QED<=0 @299
+add process -4 21  > -4 -3 3  QCD<=3 QED<=0 @300
+add process -4 21  > -4 21 21  QCD<=3 QED<=0 @301
+add process -4 21  > -5 -4 5  QCD<=3 QED<=0 @302
+add process -3 1  > -3 1 21  QCD<=3 QED<=0 @303
+add process -3 -1  > -3 -1 21  QCD<=3 QED<=0 @304
+add process -3 -2  > -3 -2 21  QCD<=3 QED<=0 @305
+add process -3 2  > -3 2 21  QCD<=3 QED<=0 @306
+add process -3 4  > -3 4 21  QCD<=3 QED<=0 @307
+add process -3 -4  > -4 -3 21  QCD<=3 QED<=0 @308
+add process -3 -3  > -3 -3 21  QCD<=3 QED<=0 @309
+add process -3 3  > -1 1 21  QCD<=3 QED<=0 @310
+add process -3 3  > -2 2 21  QCD<=3 QED<=0 @311
+add process -3 3  > -4 4 21  QCD<=3 QED<=0 @312
+add process -3 3  > -3 3 21  QCD<=3 QED<=0 @313
+add process -3 3  > -5 5 21  QCD<=3 QED<=0 @314
+add process -3 3  > 21 21 21  QCD<=3 QED<=0 @315
+add process -3 5  > -3 5 21  QCD<=3 QED<=0 @316
+add process -3 -5  > -5 -3 21  QCD<=3 QED<=0 @317
+add process -3 21  > -4 -3 4  QCD<=3 QED<=0 @318
+add process -3 21  > -3 -1 1  QCD<=3 QED<=0 @319
+add process -3 21  > -3 -2 2  QCD<=3 QED<=0 @320
+add process -3 21  > -3 -3 3  QCD<=3 QED<=0 @321
+add process -3 21  > -3 21 21  QCD<=3 QED<=0 @322
+add process -3 21  > -5 -3 5  QCD<=3 QED<=0 @323
+add process 3 1  > 1 3 21  QCD<=3 QED<=0 @324
+add process 3 -1  > -1 3 21  QCD<=3 QED<=0 @325
+add process 3 -2  > -2 3 21  QCD<=3 QED<=0 @326
+add process 3 2  > 2 3 21  QCD<=3 QED<=0 @327
+add process 3 4  > 3 4 21  QCD<=3 QED<=0 @328
+add process 3 -4  > -4 3 21  QCD<=3 QED<=0 @329
+add process 3 -3  > -1 1 21  QCD<=3 QED<=0 @330
+add process 3 -3  > -2 2 21  QCD<=3 QED<=0 @331
+add process 3 -3  > -4 4 21  QCD<=3 QED<=0 @332
+add process 3 -3  > -3 3 21  QCD<=3 QED<=0 @333
+add process 3 -3  > -5 5 21  QCD<=3 QED<=0 @334
+add process 3 -3  > 21 21 21  QCD<=3 QED<=0 @335
+add process 3 3  > 3 3 21  QCD<=3 QED<=0 @336
+add process 3 5  > 3 5 21  QCD<=3 QED<=0 @337
+add process 3 -5  > -5 3 21  QCD<=3 QED<=0 @338
+add process 3 21  > -1 1 3  QCD<=3 QED<=0 @339
+add process 3 21  > -2 2 3  QCD<=3 QED<=0 @340
+add process 3 21  > -4 3 4  QCD<=3 QED<=0 @341
+add process 3 21  > -3 3 3  QCD<=3 QED<=0 @342
+add process 3 21  > 3 21 21  QCD<=3 QED<=0 @343
+add process 3 21  > -5 3 5  QCD<=3 QED<=0 @344
+add process 5 1  > 1 5 21  QCD<=3 QED<=0 @345
+add process 5 -1  > -1 5 21  QCD<=3 QED<=0 @346
+add process 5 -2  > -2 5 21  QCD<=3 QED<=0 @347
+add process 5 2  > 2 5 21  QCD<=3 QED<=0 @348
+add process 5 4  > 4 5 21  QCD<=3 QED<=0 @349
+add process 5 -4  > -4 5 21  QCD<=3 QED<=0 @350
+add process 5 -3  > -3 5 21  QCD<=3 QED<=0 @351
+add process 5 3  > 3 5 21  QCD<=3 QED<=0 @352
+add process 5 5  > 5 5 21  QCD<=3 QED<=0 @353
+add process 5 -5  > -1 1 21  QCD<=3 QED<=0 @354
+add process 5 -5  > -2 2 21  QCD<=3 QED<=0 @355
+add process 5 -5  > -4 4 21  QCD<=3 QED<=0 @356
+add process 5 -5  > -3 3 21  QCD<=3 QED<=0 @357
+add process 5 -5  > -5 5 21  QCD<=3 QED<=0 @358
+add process 5 -5  > 21 21 21  QCD<=3 QED<=0 @359
+add process 5 21  > -1 1 5  QCD<=3 QED<=0 @360
+add process 5 21  > -2 2 5  QCD<=3 QED<=0 @361
+add process 5 21  > -4 4 5  QCD<=3 QED<=0 @362
+add process 5 21  > -3 3 5  QCD<=3 QED<=0 @363
+add process 5 21  > 5 21 21  QCD<=3 QED<=0 @364
+add process 5 21  > -5 5 5  QCD<=3 QED<=0 @365
+add process -5 1  > -5 1 21  QCD<=3 QED<=0 @366
+add process -5 -1  > -5 -1 21  QCD<=3 QED<=0 @367
+add process -5 -2  > -5 -2 21  QCD<=3 QED<=0 @368
+add process -5 2  > -5 2 21  QCD<=3 QED<=0 @369
+add process -5 4  > -5 4 21  QCD<=3 QED<=0 @370
+add process -5 -4  > -5 -4 21  QCD<=3 QED<=0 @371
+add process -5 -3  > -5 -3 21  QCD<=3 QED<=0 @372
+add process -5 3  > -5 3 21  QCD<=3 QED<=0 @373
+add process -5 5  > -1 1 21  QCD<=3 QED<=0 @374
+add process -5 5  > -2 2 21  QCD<=3 QED<=0 @375
+add process -5 5  > -4 4 21  QCD<=3 QED<=0 @376
+add process -5 5  > -3 3 21  QCD<=3 QED<=0 @377
+add process -5 5  > -5 5 21  QCD<=3 QED<=0 @378
+add process -5 5  > 21 21 21  QCD<=3 QED<=0 @379
+add process -5 -5  > -5 -5 21  QCD<=3 QED<=0 @380
+add process -5 21  > -5 -1 1  QCD<=3 QED<=0 @381
+add process -5 21  > -5 -2 2  QCD<=3 QED<=0 @382
+add process -5 21  > -5 -4 4  QCD<=3 QED<=0 @383
+add process -5 21  > -5 -3 3  QCD<=3 QED<=0 @384
+add process -5 21  > -5 -5 5  QCD<=3 QED<=0 @385
+add process -5 21  > -5 21 21  QCD<=3 QED<=0 @386
+add process 21 1  > 1 21 21  QCD<=3 QED<=0 @387
+add process 21 1  > -1 1 1  QCD<=3 QED<=0 @388
+add process 21 1  > -2 1 2  QCD<=3 QED<=0 @389
+add process 21 1  > -4 1 4  QCD<=3 QED<=0 @390
+add process 21 1  > -3 1 3  QCD<=3 QED<=0 @391
+add process 21 1  > -5 1 5  QCD<=3 QED<=0 @392
+add process 21 -1  > -1 -1 1  QCD<=3 QED<=0 @393
+add process 21 -1  > -1 21 21  QCD<=3 QED<=0 @394
+add process 21 -1  > -2 -1 2  QCD<=3 QED<=0 @395
+add process 21 -1  > -4 -1 4  QCD<=3 QED<=0 @396
+add process 21 -1  > -3 -1 3  QCD<=3 QED<=0 @397
+add process 21 -1  > -5 -1 5  QCD<=3 QED<=0 @398
+add process 21 -2  > -2 -1 1  QCD<=3 QED<=0 @399
+add process 21 -2  > -2 -2 2  QCD<=3 QED<=0 @400
+add process 21 -2  > -2 21 21  QCD<=3 QED<=0 @401
+add process 21 -2  > -4 -2 4  QCD<=3 QED<=0 @402
+add process 21 -2  > -3 -2 3  QCD<=3 QED<=0 @403
+add process 21 -2  > -5 -2 5  QCD<=3 QED<=0 @404
+add process 21 2  > -1 1 2  QCD<=3 QED<=0 @405
+add process 21 2  > -2 2 2  QCD<=3 QED<=0 @406
+add process 21 2  > 2 21 21  QCD<=3 QED<=0 @407
+add process 21 2  > -4 2 4  QCD<=3 QED<=0 @408
+add process 21 2  > -3 2 3  QCD<=3 QED<=0 @409
+add process 21 2  > -5 2 5  QCD<=3 QED<=0 @410
+add process 21 4  > -1 1 4  QCD<=3 QED<=0 @411
+add process 21 4  > -2 2 4  QCD<=3 QED<=0 @412
+add process 21 4  > 4 21 21  QCD<=3 QED<=0 @413
+add process 21 4  > -4 4 4  QCD<=3 QED<=0 @414
+add process 21 4  > -3 3 4  QCD<=3 QED<=0 @415
+add process 21 4  > -5 4 5  QCD<=3 QED<=0 @416
+add process 21 -4  > -4 -1 1  QCD<=3 QED<=0 @417
+add process 21 -4  > -4 -2 2  QCD<=3 QED<=0 @418
+add process 21 -4  > -4 -4 4  QCD<=3 QED<=0 @419
+add process 21 -4  > -4 -3 3  QCD<=3 QED<=0 @420
+add process 21 -4  > -4 21 21  QCD<=3 QED<=0 @421
+add process 21 -4  > -5 -4 5  QCD<=3 QED<=0 @422
+add process 21 -3  > -4 -3 4  QCD<=3 QED<=0 @423
+add process 21 -3  > -3 -1 1  QCD<=3 QED<=0 @424
+add process 21 -3  > -3 -2 2  QCD<=3 QED<=0 @425
+add process 21 -3  > -3 -3 3  QCD<=3 QED<=0 @426
+add process 21 -3  > -3 21 21  QCD<=3 QED<=0 @427
+add process 21 -3  > -5 -3 5  QCD<=3 QED<=0 @428
+add process 21 3  > -1 1 3  QCD<=3 QED<=0 @429
+add process 21 3  > -2 2 3  QCD<=3 QED<=0 @430
+add process 21 3  > -4 3 4  QCD<=3 QED<=0 @431
+add process 21 3  > -3 3 3  QCD<=3 QED<=0 @432
+add process 21 3  > 3 21 21  QCD<=3 QED<=0 @433
+add process 21 3  > -5 3 5  QCD<=3 QED<=0 @434
+add process 21 5  > -1 1 5  QCD<=3 QED<=0 @435
+add process 21 5  > -2 2 5  QCD<=3 QED<=0 @436
+add process 21 5  > -4 4 5  QCD<=3 QED<=0 @437
+add process 21 5  > -3 3 5  QCD<=3 QED<=0 @438
+add process 21 5  > 5 21 21  QCD<=3 QED<=0 @439
+add process 21 5  > -5 5 5  QCD<=3 QED<=0 @440
+add process 21 -5  > -5 -1 1  QCD<=3 QED<=0 @441
+add process 21 -5  > -5 -2 2  QCD<=3 QED<=0 @442
+add process 21 -5  > -5 -4 4  QCD<=3 QED<=0 @443
+add process 21 -5  > -5 -3 3  QCD<=3 QED<=0 @444
+add process 21 -5  > -5 -5 5  QCD<=3 QED<=0 @445
+add process 21 -5  > -5 21 21  QCD<=3 QED<=0 @446
+add process 21 21  > -1 1 21  QCD<=3 QED<=0 @447
+add process 21 21  > -2 2 21  QCD<=3 QED<=0 @448
+add process 21 21  > -4 4 21  QCD<=3 QED<=0 @449
+add process 21 21  > -3 3 21  QCD<=3 QED<=0 @450
+add process 21 21  > -5 5 21  QCD<=3 QED<=0 @451
+add process 21 21  > 21 21 21  QCD<=3 QED<=0 @452
+output matchbox MG5 -f
+Traceback (most recent call last):
+  File "/home/silas/Herwig/opt/MG5_aMC_v2_8_1/madgraph/interface/extended_cmd.py", line 1541, in onecmd
+    return self.onecmd_orig(line, **opt)
+  File "/home/silas/Herwig/opt/MG5_aMC_v2_8_1/madgraph/interface/extended_cmd.py", line 1490, in onecmd_orig
+    return func(arg, **opt)
+  File "/home/silas/Herwig/opt/MG5_aMC_v2_8_1/madgraph/interface/master_interface.py", line 281, in do_import
+    self.cmd.do_import(self, *args, **opts)
+  File "/home/silas/Herwig/opt/MG5_aMC_v2_8_1/madgraph/interface/madgraph_interface.py", line 5555, in do_import
+    self.import_command_file(args[1])
+  File "/home/silas/Herwig/opt/MG5_aMC_v2_8_1/madgraph/interface/extended_cmd.py", line 1687, in import_command_file
+    self.exec_cmd(line, precmd=True)
+  File "/home/silas/Herwig/opt/MG5_aMC_v2_8_1/madgraph/interface/extended_cmd.py", line 1570, in exec_cmd
+    stop = Cmd.onecmd_orig(current_interface, line, **opt)
+  File "/home/silas/Herwig/opt/MG5_aMC_v2_8_1/madgraph/interface/extended_cmd.py", line 1490, in onecmd_orig
+    return func(arg, **opt)
+  File "/home/silas/Herwig/opt/MG5_aMC_v2_8_1/madgraph/interface/master_interface.py", line 299, in do_output
+    self.cmd.do_output(self, line, *args, **opts)
+  File "/home/silas/Herwig/opt/MG5_aMC_v2_8_1/madgraph/interface/madgraph_interface.py", line 7982, in do_output
+    self.export(nojpeg, main_file_name, group_processes, args)
+  File "/home/silas/Herwig/opt/MG5_aMC_v2_8_1/madgraph/interface/master_interface.py", line 313, in export
+    return self.cmd.export(self, *args, **opts)
+  File "/home/silas/Herwig/opt/MG5_aMC_v2_8_1/madgraph/interface/madgraph_interface.py", line 8195, in export
+    new_calls = self._curr_exporter.generate_subprocess_directory(\
+  File "/home/silas/Herwig/opt/MG5_aMC_v2_8_1/madgraph/iolibs/export_v4.py", line 2335, in generate_subprocess_directory
+    calls = self.write_matrix_element_v4(
+  File "/home/silas/Herwig/opt/MG5_aMC_v2_8_1/madgraph/iolibs/export_v4.py", line 2507, in write_matrix_element_v4
+    color_data_lines = self.get_color_data_lines(matrix_element)
+  File "/home/silas/Herwig/opt/MG5_aMC_v2_8_1/madgraph/iolibs/export_v4.py", line 1072, in get_color_data_lines
+    get_line_denominators()):
+  File "/home/silas/Herwig/opt/MG5_aMC_v2_8_1/madgraph/core/color_amp.py", line 683, in get_line_denominators
+    den_list.append(self.lcmm(*[\
+  File "/home/silas/Herwig/opt/MG5_aMC_v2_8_1/madgraph/core/color_amp.py", line 742, in lcmm
+    return reduce(ColorMatrix.lcm, args)
+  File "/home/silas/Herwig/opt/MG5_aMC_v2_8_1/madgraph/core/color_amp.py", line 736, in lcm
+    return a * b // fractions.gcd(a, b)
+AttributeError: module 'fractions' has no attribute 'gcd'
+                          MadGraph5_aMC@NLO Options    
+                          ----------------    
+        complex_mass_scheme 	:	False
+    default_unset_couplings 	:	99
+                      gauge 	:	unitary
+         group_subprocesses 	:	Auto
+  ignore_six_quark_processes 	:	False
+           loop_color_flows 	:	False
+      loop_optimized_output 	:	True
+  low_mem_multicore_nlo_generation 	:	False
+     max_npoint_for_channel 	:	0
+          max_t_for_channel 	:	99
+               stdout_level 	:	20 (user set)
+         zerowidth_tchannel 	:	True
+
+                         MadEvent Options    
+                          ----------------    
+     automatic_html_opening 	:	True
+                    nb_core 	:	None
+        notification_center 	:	True
+                   run_mode 	:	2
+
+                      Configuration Options    
+                      ---------------------    
+                        OLP 	:	MadLoop
+                    amcfast 	:	amcfast-config
+                   applgrid 	:	applgrid-config
+                auto_update 	:	0 (user set)
+         cluster_local_path 	:	None
+           cluster_nb_retry 	:	1
+              cluster_queue 	:	None (user set)
+         cluster_retry_wait 	:	300
+               cluster_size 	:	100
+      cluster_status_update 	:	(600, 30)
+          cluster_temp_path 	:	None
+               cluster_type 	:	condor
+                    collier 	:	None (user set)
+               cpp_compiler 	:	g++ (user set)
+             crash_on_error 	:	False
+               delphes_path 	:	./Delphes
+                 eps_viewer 	:	None
+        exrootanalysis_path 	:	./ExRootAnalysis
+              f2py_compiler 	:	None
+          f2py_compiler_py2 	:	None
+          f2py_compiler_py3 	:	None
+                    fastjet 	:	fastjet-config
+           fortran_compiler 	:	gfortran (user set)
+                      golem 	:	None (user set)
+                 hepmc_path 	:	None (user set)
+                  hwpp_path 	:	None (user set)
+                     lhapdf 	:	lhapdf-config
+                 lhapdf_py2 	:	None
+                 lhapdf_py3 	:	None
+          madanalysis5_path 	:	None (user set)
+           madanalysis_path 	:	./MadAnalysis
+  mg5amc_py8_interface_path 	:	None (user set)
+                      ninja 	:	/home/silas/Herwig/opt/MG5_aMC_v2_8_1/HEPTools/lib (user set)
+        output_dependencies 	:	external
+            pythia-pgs_path 	:	./pythia-pgs
+               pythia8_path 	:	None (user set)
+                    samurai 	:	None
+               syscalc_path 	:	./SysCalc
+                    td_path 	:	./td
+                text_editor 	:	None
+                thepeg_path 	:	None (user set)
+                    timeout 	:	60
+                web_browser 	:	None

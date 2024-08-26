@@ -1,0 +1,1033 @@
+# OLP order file created by Herwig/Matchbox
+
+InterfaceVersion          BLHA2 | OK
+
+Model                     SM | OK
+CorrectionType            QCD | OK
+IRregularisation          CDR | OK
+Extra HelAvgInitial       no | OK
+Extra ColAvgInitial       no | OK
+Extra MCSymmetrizeFinal   no | OK
+
+AlphasPower               2 | OK
+AlphaPower                0 | OK
+AmplitudeType             loop | OK
+1 1 -> 1 1  | Error: unsupported process
+AmplitudeType             cctree | OK
+1 1 -> 1 1  | Error: unsupported process
+AmplitudeType             loop | OK
+1 -1 -> -1 1  | Error: unsupported process
+AmplitudeType             cctree | OK
+1 -1 -> -1 1  | Error: unsupported process
+AmplitudeType             loop | OK
+1 -1 -> -2 2  | Error: unsupported process
+AmplitudeType             cctree | OK
+1 -1 -> -2 2  | Error: unsupported process
+AmplitudeType             loop | OK
+1 -1 -> -4 4  | Error: unsupported process
+AmplitudeType             cctree | OK
+1 -1 -> -4 4  | Error: unsupported process
+AmplitudeType             loop | OK
+1 -1 -> -3 3  | Error: unsupported process
+AmplitudeType             cctree | OK
+1 -1 -> -3 3  | Error: unsupported process
+AmplitudeType             loop | OK
+1 -1 -> -5 5  | Error: unsupported process
+AmplitudeType             cctree | OK
+1 -1 -> -5 5  | Error: unsupported process
+AmplitudeType             loop | OK
+1 -1 -> 21 21  | Error: unsupported process
+AmplitudeType             cctree | OK
+1 -1 -> 21 21  | Error: unsupported process
+AmplitudeType             loop | OK
+1 -2 -> -2 1  | Error: unsupported process
+AmplitudeType             cctree | OK
+1 -2 -> -2 1  | Error: unsupported process
+AmplitudeType             loop | OK
+1 2 -> 1 2  | Error: unsupported process
+AmplitudeType             cctree | OK
+1 2 -> 1 2  | Error: unsupported process
+AmplitudeType             loop | OK
+1 4 -> 1 4  | Error: unsupported process
+AmplitudeType             cctree | OK
+1 4 -> 1 4  | Error: unsupported process
+AmplitudeType             loop | OK
+1 -4 -> -4 1  | Error: unsupported process
+AmplitudeType             cctree | OK
+1 -4 -> -4 1  | Error: unsupported process
+AmplitudeType             loop | OK
+1 -3 -> -3 1  | Error: unsupported process
+AmplitudeType             cctree | OK
+1 -3 -> -3 1  | Error: unsupported process
+AmplitudeType             loop | OK
+1 3 -> 1 3  | Error: unsupported process
+AmplitudeType             cctree | OK
+1 3 -> 1 3  | Error: unsupported process
+AmplitudeType             loop | OK
+1 5 -> 1 5  | Error: unsupported process
+AmplitudeType             cctree | OK
+1 5 -> 1 5  | Error: unsupported process
+AmplitudeType             loop | OK
+1 -5 -> -5 1  | Error: unsupported process
+AmplitudeType             cctree | OK
+1 -5 -> -5 1  | Error: unsupported process
+AmplitudeType             loop | OK
+1 21 -> 1 21  | Error: unsupported process
+AmplitudeType             cctree | OK
+1 21 -> 1 21  | Error: unsupported process
+AmplitudeType             loop | OK
+-1 1 -> -1 1  | Error: unsupported process
+AmplitudeType             cctree | OK
+-1 1 -> -1 1  | Error: unsupported process
+AmplitudeType             loop | OK
+-1 1 -> -2 2  | Error: unsupported process
+AmplitudeType             cctree | OK
+-1 1 -> -2 2  | Error: unsupported process
+AmplitudeType             loop | OK
+-1 1 -> -4 4  | Error: unsupported process
+AmplitudeType             cctree | OK
+-1 1 -> -4 4  | Error: unsupported process
+AmplitudeType             loop | OK
+-1 1 -> -3 3  | Error: unsupported process
+AmplitudeType             cctree | OK
+-1 1 -> -3 3  | Error: unsupported process
+AmplitudeType             loop | OK
+-1 1 -> -5 5  | Error: unsupported process
+AmplitudeType             cctree | OK
+-1 1 -> -5 5  | Error: unsupported process
+AmplitudeType             loop | OK
+-1 1 -> 21 21  | Error: unsupported process
+AmplitudeType             cctree | OK
+-1 1 -> 21 21  | Error: unsupported process
+AmplitudeType             loop | OK
+-1 -1 -> -1 -1  | Error: unsupported process
+AmplitudeType             cctree | OK
+-1 -1 -> -1 -1  | Error: unsupported process
+AmplitudeType             loop | OK
+-1 -2 -> -2 -1  | Error: unsupported process
+AmplitudeType             cctree | OK
+-1 -2 -> -2 -1  | Error: unsupported process
+AmplitudeType             loop | OK
+-1 2 -> -1 2  | Error: unsupported process
+AmplitudeType             cctree | OK
+-1 2 -> -1 2  | Error: unsupported process
+AmplitudeType             loop | OK
+-1 4 -> -1 4  | Error: unsupported process
+AmplitudeType             cctree | OK
+-1 4 -> -1 4  | Error: unsupported process
+AmplitudeType             loop | OK
+-1 -4 -> -4 -1  | Error: unsupported process
+AmplitudeType             cctree | OK
+-1 -4 -> -4 -1  | Error: unsupported process
+AmplitudeType             loop | OK
+-1 -3 -> -3 -1  | Error: unsupported process
+AmplitudeType             cctree | OK
+-1 -3 -> -3 -1  | Error: unsupported process
+AmplitudeType             loop | OK
+-1 3 -> -1 3  | Error: unsupported process
+AmplitudeType             cctree | OK
+-1 3 -> -1 3  | Error: unsupported process
+AmplitudeType             loop | OK
+-1 5 -> -1 5  | Error: unsupported process
+AmplitudeType             cctree | OK
+-1 5 -> -1 5  | Error: unsupported process
+AmplitudeType             loop | OK
+-1 -5 -> -5 -1  | Error: unsupported process
+AmplitudeType             cctree | OK
+-1 -5 -> -5 -1  | Error: unsupported process
+AmplitudeType             loop | OK
+-1 21 -> -1 21  | Error: unsupported process
+AmplitudeType             cctree | OK
+-1 21 -> -1 21  | Error: unsupported process
+AmplitudeType             loop | OK
+-2 1 -> -2 1  | Error: unsupported process
+AmplitudeType             cctree | OK
+-2 1 -> -2 1  | Error: unsupported process
+AmplitudeType             loop | OK
+-2 -1 -> -2 -1  | Error: unsupported process
+AmplitudeType             cctree | OK
+-2 -1 -> -2 -1  | Error: unsupported process
+AmplitudeType             loop | OK
+-2 -2 -> -2 -2  | Error: unsupported process
+AmplitudeType             cctree | OK
+-2 -2 -> -2 -2  | Error: unsupported process
+AmplitudeType             loop | OK
+-2 2 -> -1 1  | Error: unsupported process
+AmplitudeType             cctree | OK
+-2 2 -> -1 1  | Error: unsupported process
+AmplitudeType             loop | OK
+-2 2 -> -2 2  | Error: unsupported process
+AmplitudeType             cctree | OK
+-2 2 -> -2 2  | Error: unsupported process
+AmplitudeType             loop | OK
+-2 2 -> -4 4  | Error: unsupported process
+AmplitudeType             cctree | OK
+-2 2 -> -4 4  | Error: unsupported process
+AmplitudeType             loop | OK
+-2 2 -> -3 3  | Error: unsupported process
+AmplitudeType             cctree | OK
+-2 2 -> -3 3  | Error: unsupported process
+AmplitudeType             loop | OK
+-2 2 -> -5 5  | Error: unsupported process
+AmplitudeType             cctree | OK
+-2 2 -> -5 5  | Error: unsupported process
+AmplitudeType             loop | OK
+-2 2 -> 21 21  | Error: unsupported process
+AmplitudeType             cctree | OK
+-2 2 -> 21 21  | Error: unsupported process
+AmplitudeType             loop | OK
+-2 4 -> -2 4  | Error: unsupported process
+AmplitudeType             cctree | OK
+-2 4 -> -2 4  | Error: unsupported process
+AmplitudeType             loop | OK
+-2 -4 -> -4 -2  | Error: unsupported process
+AmplitudeType             cctree | OK
+-2 -4 -> -4 -2  | Error: unsupported process
+AmplitudeType             loop | OK
+-2 -3 -> -3 -2  | Error: unsupported process
+AmplitudeType             cctree | OK
+-2 -3 -> -3 -2  | Error: unsupported process
+AmplitudeType             loop | OK
+-2 3 -> -2 3  | Error: unsupported process
+AmplitudeType             cctree | OK
+-2 3 -> -2 3  | Error: unsupported process
+AmplitudeType             loop | OK
+-2 5 -> -2 5  | Error: unsupported process
+AmplitudeType             cctree | OK
+-2 5 -> -2 5  | Error: unsupported process
+AmplitudeType             loop | OK
+-2 -5 -> -5 -2  | Error: unsupported process
+AmplitudeType             cctree | OK
+-2 -5 -> -5 -2  | Error: unsupported process
+AmplitudeType             loop | OK
+-2 21 -> -2 21  | Error: unsupported process
+AmplitudeType             cctree | OK
+-2 21 -> -2 21  | Error: unsupported process
+AmplitudeType             loop | OK
+2 1 -> 1 2  | Error: unsupported process
+AmplitudeType             cctree | OK
+2 1 -> 1 2  | Error: unsupported process
+AmplitudeType             loop | OK
+2 -1 -> -1 2  | Error: unsupported process
+AmplitudeType             cctree | OK
+2 -1 -> -1 2  | Error: unsupported process
+AmplitudeType             loop | OK
+2 -2 -> -1 1  | Error: unsupported process
+AmplitudeType             cctree | OK
+2 -2 -> -1 1  | Error: unsupported process
+AmplitudeType             loop | OK
+2 -2 -> -2 2  | Error: unsupported process
+AmplitudeType             cctree | OK
+2 -2 -> -2 2  | Error: unsupported process
+AmplitudeType             loop | OK
+2 -2 -> -4 4  | Error: unsupported process
+AmplitudeType             cctree | OK
+2 -2 -> -4 4  | Error: unsupported process
+AmplitudeType             loop | OK
+2 -2 -> -3 3  | Error: unsupported process
+AmplitudeType             cctree | OK
+2 -2 -> -3 3  | Error: unsupported process
+AmplitudeType             loop | OK
+2 -2 -> -5 5  | Error: unsupported process
+AmplitudeType             cctree | OK
+2 -2 -> -5 5  | Error: unsupported process
+AmplitudeType             loop | OK
+2 -2 -> 21 21  | Error: unsupported process
+AmplitudeType             cctree | OK
+2 -2 -> 21 21  | Error: unsupported process
+AmplitudeType             loop | OK
+2 2 -> 2 2  | Error: unsupported process
+AmplitudeType             cctree | OK
+2 2 -> 2 2  | Error: unsupported process
+AmplitudeType             loop | OK
+2 4 -> 2 4  | Error: unsupported process
+AmplitudeType             cctree | OK
+2 4 -> 2 4  | Error: unsupported process
+AmplitudeType             loop | OK
+2 -4 -> -4 2  | Error: unsupported process
+AmplitudeType             cctree | OK
+2 -4 -> -4 2  | Error: unsupported process
+AmplitudeType             loop | OK
+2 -3 -> -3 2  | Error: unsupported process
+AmplitudeType             cctree | OK
+2 -3 -> -3 2  | Error: unsupported process
+AmplitudeType             loop | OK
+2 3 -> 2 3  | Error: unsupported process
+AmplitudeType             cctree | OK
+2 3 -> 2 3  | Error: unsupported process
+AmplitudeType             loop | OK
+2 5 -> 2 5  | Error: unsupported process
+AmplitudeType             cctree | OK
+2 5 -> 2 5  | Error: unsupported process
+AmplitudeType             loop | OK
+2 -5 -> -5 2  | Error: unsupported process
+AmplitudeType             cctree | OK
+2 -5 -> -5 2  | Error: unsupported process
+AmplitudeType             loop | OK
+2 21 -> 2 21  | Error: unsupported process
+AmplitudeType             cctree | OK
+2 21 -> 2 21  | Error: unsupported process
+AmplitudeType             loop | OK
+4 1 -> 1 4  | Error: unsupported process
+AmplitudeType             cctree | OK
+4 1 -> 1 4  | Error: unsupported process
+AmplitudeType             loop | OK
+4 -1 -> -1 4  | Error: unsupported process
+AmplitudeType             cctree | OK
+4 -1 -> -1 4  | Error: unsupported process
+AmplitudeType             loop | OK
+4 -2 -> -2 4  | Error: unsupported process
+AmplitudeType             cctree | OK
+4 -2 -> -2 4  | Error: unsupported process
+AmplitudeType             loop | OK
+4 2 -> 2 4  | Error: unsupported process
+AmplitudeType             cctree | OK
+4 2 -> 2 4  | Error: unsupported process
+AmplitudeType             loop | OK
+4 4 -> 4 4  | Error: unsupported process
+AmplitudeType             cctree | OK
+4 4 -> 4 4  | Error: unsupported process
+AmplitudeType             loop | OK
+4 -4 -> -1 1  | Error: unsupported process
+AmplitudeType             cctree | OK
+4 -4 -> -1 1  | Error: unsupported process
+AmplitudeType             loop | OK
+4 -4 -> -2 2  | Error: unsupported process
+AmplitudeType             cctree | OK
+4 -4 -> -2 2  | Error: unsupported process
+AmplitudeType             loop | OK
+4 -4 -> -4 4  | Error: unsupported process
+AmplitudeType             cctree | OK
+4 -4 -> -4 4  | Error: unsupported process
+AmplitudeType             loop | OK
+4 -4 -> -3 3  | Error: unsupported process
+AmplitudeType             cctree | OK
+4 -4 -> -3 3  | Error: unsupported process
+AmplitudeType             loop | OK
+4 -4 -> -5 5  | Error: unsupported process
+AmplitudeType             cctree | OK
+4 -4 -> -5 5  | Error: unsupported process
+AmplitudeType             loop | OK
+4 -4 -> 21 21  | Error: unsupported process
+AmplitudeType             cctree | OK
+4 -4 -> 21 21  | Error: unsupported process
+AmplitudeType             loop | OK
+4 -3 -> -3 4  | Error: unsupported process
+AmplitudeType             cctree | OK
+4 -3 -> -3 4  | Error: unsupported process
+AmplitudeType             loop | OK
+4 3 -> 3 4  | Error: unsupported process
+AmplitudeType             cctree | OK
+4 3 -> 3 4  | Error: unsupported process
+AmplitudeType             loop | OK
+4 5 -> 4 5  | Error: unsupported process
+AmplitudeType             cctree | OK
+4 5 -> 4 5  | Error: unsupported process
+AmplitudeType             loop | OK
+4 -5 -> -5 4  | Error: unsupported process
+AmplitudeType             cctree | OK
+4 -5 -> -5 4  | Error: unsupported process
+AmplitudeType             loop | OK
+4 21 -> 4 21  | Error: unsupported process
+AmplitudeType             cctree | OK
+4 21 -> 4 21  | Error: unsupported process
+AmplitudeType             loop | OK
+-4 1 -> -4 1  | Error: unsupported process
+AmplitudeType             cctree | OK
+-4 1 -> -4 1  | Error: unsupported process
+AmplitudeType             loop | OK
+-4 -1 -> -4 -1  | Error: unsupported process
+AmplitudeType             cctree | OK
+-4 -1 -> -4 -1  | Error: unsupported process
+AmplitudeType             loop | OK
+-4 -2 -> -4 -2  | Error: unsupported process
+AmplitudeType             cctree | OK
+-4 -2 -> -4 -2  | Error: unsupported process
+AmplitudeType             loop | OK
+-4 2 -> -4 2  | Error: unsupported process
+AmplitudeType             cctree | OK
+-4 2 -> -4 2  | Error: unsupported process
+AmplitudeType             loop | OK
+-4 4 -> -1 1  | Error: unsupported process
+AmplitudeType             cctree | OK
+-4 4 -> -1 1  | Error: unsupported process
+AmplitudeType             loop | OK
+-4 4 -> -2 2  | Error: unsupported process
+AmplitudeType             cctree | OK
+-4 4 -> -2 2  | Error: unsupported process
+AmplitudeType             loop | OK
+-4 4 -> -4 4  | Error: unsupported process
+AmplitudeType             cctree | OK
+-4 4 -> -4 4  | Error: unsupported process
+AmplitudeType             loop | OK
+-4 4 -> -3 3  | Error: unsupported process
+AmplitudeType             cctree | OK
+-4 4 -> -3 3  | Error: unsupported process
+AmplitudeType             loop | OK
+-4 4 -> -5 5  | Error: unsupported process
+AmplitudeType             cctree | OK
+-4 4 -> -5 5  | Error: unsupported process
+AmplitudeType             loop | OK
+-4 4 -> 21 21  | Error: unsupported process
+AmplitudeType             cctree | OK
+-4 4 -> 21 21  | Error: unsupported process
+AmplitudeType             loop | OK
+-4 -4 -> -4 -4  | Error: unsupported process
+AmplitudeType             cctree | OK
+-4 -4 -> -4 -4  | Error: unsupported process
+AmplitudeType             loop | OK
+-4 -3 -> -4 -3  | Error: unsupported process
+AmplitudeType             cctree | OK
+-4 -3 -> -4 -3  | Error: unsupported process
+AmplitudeType             loop | OK
+-4 3 -> -4 3  | Error: unsupported process
+AmplitudeType             cctree | OK
+-4 3 -> -4 3  | Error: unsupported process
+AmplitudeType             loop | OK
+-4 5 -> -4 5  | Error: unsupported process
+AmplitudeType             cctree | OK
+-4 5 -> -4 5  | Error: unsupported process
+AmplitudeType             loop | OK
+-4 -5 -> -5 -4  | Error: unsupported process
+AmplitudeType             cctree | OK
+-4 -5 -> -5 -4  | Error: unsupported process
+AmplitudeType             loop | OK
+-4 21 -> -4 21  | Error: unsupported process
+AmplitudeType             cctree | OK
+-4 21 -> -4 21  | Error: unsupported process
+AmplitudeType             loop | OK
+-3 1 -> -3 1  | Error: unsupported process
+AmplitudeType             cctree | OK
+-3 1 -> -3 1  | Error: unsupported process
+AmplitudeType             loop | OK
+-3 -1 -> -3 -1  | Error: unsupported process
+AmplitudeType             cctree | OK
+-3 -1 -> -3 -1  | Error: unsupported process
+AmplitudeType             loop | OK
+-3 -2 -> -3 -2  | Error: unsupported process
+AmplitudeType             cctree | OK
+-3 -2 -> -3 -2  | Error: unsupported process
+AmplitudeType             loop | OK
+-3 2 -> -3 2  | Error: unsupported process
+AmplitudeType             cctree | OK
+-3 2 -> -3 2  | Error: unsupported process
+AmplitudeType             loop | OK
+-3 4 -> -3 4  | Error: unsupported process
+AmplitudeType             cctree | OK
+-3 4 -> -3 4  | Error: unsupported process
+AmplitudeType             loop | OK
+-3 -4 -> -4 -3  | Error: unsupported process
+AmplitudeType             cctree | OK
+-3 -4 -> -4 -3  | Error: unsupported process
+AmplitudeType             loop | OK
+-3 -3 -> -3 -3  | Error: unsupported process
+AmplitudeType             cctree | OK
+-3 -3 -> -3 -3  | Error: unsupported process
+AmplitudeType             loop | OK
+-3 3 -> -1 1  | Error: unsupported process
+AmplitudeType             cctree | OK
+-3 3 -> -1 1  | Error: unsupported process
+AmplitudeType             loop | OK
+-3 3 -> -2 2  | Error: unsupported process
+AmplitudeType             cctree | OK
+-3 3 -> -2 2  | Error: unsupported process
+AmplitudeType             loop | OK
+-3 3 -> -4 4  | Error: unsupported process
+AmplitudeType             cctree | OK
+-3 3 -> -4 4  | Error: unsupported process
+AmplitudeType             loop | OK
+-3 3 -> -3 3  | Error: unsupported process
+AmplitudeType             cctree | OK
+-3 3 -> -3 3  | Error: unsupported process
+AmplitudeType             loop | OK
+-3 3 -> -5 5  | Error: unsupported process
+AmplitudeType             cctree | OK
+-3 3 -> -5 5  | Error: unsupported process
+AmplitudeType             loop | OK
+-3 3 -> 21 21  | Error: unsupported process
+AmplitudeType             cctree | OK
+-3 3 -> 21 21  | Error: unsupported process
+AmplitudeType             loop | OK
+-3 5 -> -3 5  | Error: unsupported process
+AmplitudeType             cctree | OK
+-3 5 -> -3 5  | Error: unsupported process
+AmplitudeType             loop | OK
+-3 -5 -> -5 -3  | Error: unsupported process
+AmplitudeType             cctree | OK
+-3 -5 -> -5 -3  | Error: unsupported process
+AmplitudeType             loop | OK
+-3 21 -> -3 21  | Error: unsupported process
+AmplitudeType             cctree | OK
+-3 21 -> -3 21  | Error: unsupported process
+AmplitudeType             loop | OK
+3 1 -> 1 3  | Error: unsupported process
+AmplitudeType             cctree | OK
+3 1 -> 1 3  | Error: unsupported process
+AmplitudeType             loop | OK
+3 -1 -> -1 3  | Error: unsupported process
+AmplitudeType             cctree | OK
+3 -1 -> -1 3  | Error: unsupported process
+AmplitudeType             loop | OK
+3 -2 -> -2 3  | Error: unsupported process
+AmplitudeType             cctree | OK
+3 -2 -> -2 3  | Error: unsupported process
+AmplitudeType             loop | OK
+3 2 -> 2 3  | Error: unsupported process
+AmplitudeType             cctree | OK
+3 2 -> 2 3  | Error: unsupported process
+AmplitudeType             loop | OK
+3 4 -> 3 4  | Error: unsupported process
+AmplitudeType             cctree | OK
+3 4 -> 3 4  | Error: unsupported process
+AmplitudeType             loop | OK
+3 -4 -> -4 3  | Error: unsupported process
+AmplitudeType             cctree | OK
+3 -4 -> -4 3  | Error: unsupported process
+AmplitudeType             loop | OK
+3 -3 -> -1 1  | Error: unsupported process
+AmplitudeType             cctree | OK
+3 -3 -> -1 1  | Error: unsupported process
+AmplitudeType             loop | OK
+3 -3 -> -2 2  | Error: unsupported process
+AmplitudeType             cctree | OK
+3 -3 -> -2 2  | Error: unsupported process
+AmplitudeType             loop | OK
+3 -3 -> -4 4  | Error: unsupported process
+AmplitudeType             cctree | OK
+3 -3 -> -4 4  | Error: unsupported process
+AmplitudeType             loop | OK
+3 -3 -> -3 3  | Error: unsupported process
+AmplitudeType             cctree | OK
+3 -3 -> -3 3  | Error: unsupported process
+AmplitudeType             loop | OK
+3 -3 -> -5 5  | Error: unsupported process
+AmplitudeType             cctree | OK
+3 -3 -> -5 5  | Error: unsupported process
+AmplitudeType             loop | OK
+3 -3 -> 21 21  | Error: unsupported process
+AmplitudeType             cctree | OK
+3 -3 -> 21 21  | Error: unsupported process
+AmplitudeType             loop | OK
+3 3 -> 3 3  | Error: unsupported process
+AmplitudeType             cctree | OK
+3 3 -> 3 3  | Error: unsupported process
+AmplitudeType             loop | OK
+3 5 -> 3 5  | Error: unsupported process
+AmplitudeType             cctree | OK
+3 5 -> 3 5  | Error: unsupported process
+AmplitudeType             loop | OK
+3 -5 -> -5 3  | Error: unsupported process
+AmplitudeType             cctree | OK
+3 -5 -> -5 3  | Error: unsupported process
+AmplitudeType             loop | OK
+3 21 -> 3 21  | Error: unsupported process
+AmplitudeType             cctree | OK
+3 21 -> 3 21  | Error: unsupported process
+AmplitudeType             loop | OK
+5 1 -> 1 5  | Error: unsupported process
+AmplitudeType             cctree | OK
+5 1 -> 1 5  | Error: unsupported process
+AmplitudeType             loop | OK
+5 -1 -> -1 5  | Error: unsupported process
+AmplitudeType             cctree | OK
+5 -1 -> -1 5  | Error: unsupported process
+AmplitudeType             loop | OK
+5 -2 -> -2 5  | Error: unsupported process
+AmplitudeType             cctree | OK
+5 -2 -> -2 5  | Error: unsupported process
+AmplitudeType             loop | OK
+5 2 -> 2 5  | Error: unsupported process
+AmplitudeType             cctree | OK
+5 2 -> 2 5  | Error: unsupported process
+AmplitudeType             loop | OK
+5 4 -> 4 5  | Error: unsupported process
+AmplitudeType             cctree | OK
+5 4 -> 4 5  | Error: unsupported process
+AmplitudeType             loop | OK
+5 -4 -> -4 5  | Error: unsupported process
+AmplitudeType             cctree | OK
+5 -4 -> -4 5  | Error: unsupported process
+AmplitudeType             loop | OK
+5 -3 -> -3 5  | Error: unsupported process
+AmplitudeType             cctree | OK
+5 -3 -> -3 5  | Error: unsupported process
+AmplitudeType             loop | OK
+5 3 -> 3 5  | Error: unsupported process
+AmplitudeType             cctree | OK
+5 3 -> 3 5  | Error: unsupported process
+AmplitudeType             loop | OK
+5 5 -> 5 5  | Error: unsupported process
+AmplitudeType             cctree | OK
+5 5 -> 5 5  | Error: unsupported process
+AmplitudeType             loop | OK
+5 -5 -> -1 1  | Error: unsupported process
+AmplitudeType             cctree | OK
+5 -5 -> -1 1  | Error: unsupported process
+AmplitudeType             loop | OK
+5 -5 -> -2 2  | Error: unsupported process
+AmplitudeType             cctree | OK
+5 -5 -> -2 2  | Error: unsupported process
+AmplitudeType             loop | OK
+5 -5 -> -4 4  | Error: unsupported process
+AmplitudeType             cctree | OK
+5 -5 -> -4 4  | Error: unsupported process
+AmplitudeType             loop | OK
+5 -5 -> -3 3  | Error: unsupported process
+AmplitudeType             cctree | OK
+5 -5 -> -3 3  | Error: unsupported process
+AmplitudeType             loop | OK
+5 -5 -> -5 5  | Error: unsupported process
+AmplitudeType             cctree | OK
+5 -5 -> -5 5  | Error: unsupported process
+AmplitudeType             loop | OK
+5 -5 -> 21 21  | Error: unsupported process
+AmplitudeType             cctree | OK
+5 -5 -> 21 21  | Error: unsupported process
+AmplitudeType             loop | OK
+5 21 -> 5 21  | Error: unsupported process
+AmplitudeType             cctree | OK
+5 21 -> 5 21  | Error: unsupported process
+AmplitudeType             loop | OK
+-5 1 -> -5 1  | Error: unsupported process
+AmplitudeType             cctree | OK
+-5 1 -> -5 1  | Error: unsupported process
+AmplitudeType             loop | OK
+-5 -1 -> -5 -1  | Error: unsupported process
+AmplitudeType             cctree | OK
+-5 -1 -> -5 -1  | Error: unsupported process
+AmplitudeType             loop | OK
+-5 -2 -> -5 -2  | Error: unsupported process
+AmplitudeType             cctree | OK
+-5 -2 -> -5 -2  | Error: unsupported process
+AmplitudeType             loop | OK
+-5 2 -> -5 2  | Error: unsupported process
+AmplitudeType             cctree | OK
+-5 2 -> -5 2  | Error: unsupported process
+AmplitudeType             loop | OK
+-5 4 -> -5 4  | Error: unsupported process
+AmplitudeType             cctree | OK
+-5 4 -> -5 4  | Error: unsupported process
+AmplitudeType             loop | OK
+-5 -4 -> -5 -4  | Error: unsupported process
+AmplitudeType             cctree | OK
+-5 -4 -> -5 -4  | Error: unsupported process
+AmplitudeType             loop | OK
+-5 -3 -> -5 -3  | Error: unsupported process
+AmplitudeType             cctree | OK
+-5 -3 -> -5 -3  | Error: unsupported process
+AmplitudeType             loop | OK
+-5 3 -> -5 3  | Error: unsupported process
+AmplitudeType             cctree | OK
+-5 3 -> -5 3  | Error: unsupported process
+AmplitudeType             loop | OK
+-5 5 -> -1 1  | Error: unsupported process
+AmplitudeType             cctree | OK
+-5 5 -> -1 1  | Error: unsupported process
+AmplitudeType             loop | OK
+-5 5 -> -2 2  | Error: unsupported process
+AmplitudeType             cctree | OK
+-5 5 -> -2 2  | Error: unsupported process
+AmplitudeType             loop | OK
+-5 5 -> -4 4  | Error: unsupported process
+AmplitudeType             cctree | OK
+-5 5 -> -4 4  | Error: unsupported process
+AmplitudeType             loop | OK
+-5 5 -> -3 3  | Error: unsupported process
+AmplitudeType             cctree | OK
+-5 5 -> -3 3  | Error: unsupported process
+AmplitudeType             loop | OK
+-5 5 -> -5 5  | Error: unsupported process
+AmplitudeType             cctree | OK
+-5 5 -> -5 5  | Error: unsupported process
+AmplitudeType             loop | OK
+-5 5 -> 21 21  | Error: unsupported process
+AmplitudeType             cctree | OK
+-5 5 -> 21 21  | Error: unsupported process
+AmplitudeType             loop | OK
+-5 -5 -> -5 -5  | Error: unsupported process
+AmplitudeType             cctree | OK
+-5 -5 -> -5 -5  | Error: unsupported process
+AmplitudeType             loop | OK
+-5 21 -> -5 21  | Error: unsupported process
+AmplitudeType             cctree | OK
+-5 21 -> -5 21  | Error: unsupported process
+AmplitudeType             loop | OK
+21 1 -> 1 21  | Error: unsupported process
+AmplitudeType             cctree | OK
+21 1 -> 1 21  | Error: unsupported process
+AmplitudeType             loop | OK
+21 -1 -> -1 21  | Error: unsupported process
+AmplitudeType             cctree | OK
+21 -1 -> -1 21  | Error: unsupported process
+AmplitudeType             loop | OK
+21 -2 -> -2 21  | Error: unsupported process
+AmplitudeType             cctree | OK
+21 -2 -> -2 21  | Error: unsupported process
+AmplitudeType             loop | OK
+21 2 -> 2 21  | Error: unsupported process
+AmplitudeType             cctree | OK
+21 2 -> 2 21  | Error: unsupported process
+AmplitudeType             loop | OK
+21 4 -> 4 21  | Error: unsupported process
+AmplitudeType             cctree | OK
+21 4 -> 4 21  | Error: unsupported process
+AmplitudeType             loop | OK
+21 -4 -> -4 21  | Error: unsupported process
+AmplitudeType             cctree | OK
+21 -4 -> -4 21  | Error: unsupported process
+AmplitudeType             loop | OK
+21 -3 -> -3 21  | Error: unsupported process
+AmplitudeType             cctree | OK
+21 -3 -> -3 21  | Error: unsupported process
+AmplitudeType             loop | OK
+21 3 -> 3 21  | Error: unsupported process
+AmplitudeType             cctree | OK
+21 3 -> 3 21  | Error: unsupported process
+AmplitudeType             loop | OK
+21 5 -> 5 21  | Error: unsupported process
+AmplitudeType             cctree | OK
+21 5 -> 5 21  | Error: unsupported process
+AmplitudeType             loop | OK
+21 -5 -> -5 21  | Error: unsupported process
+AmplitudeType             cctree | OK
+21 -5 -> -5 21  | Error: unsupported process
+AmplitudeType             loop | OK
+21 21 -> -1 1  | Error: unsupported process
+AmplitudeType             cctree | OK
+21 21 -> -1 1  | Error: unsupported process
+AmplitudeType             loop | OK
+21 21 -> -2 2  | Error: unsupported process
+AmplitudeType             cctree | OK
+21 21 -> -2 2  | Error: unsupported process
+AmplitudeType             loop | OK
+21 21 -> -4 4  | Error: unsupported process
+AmplitudeType             cctree | OK
+21 21 -> -4 4  | Error: unsupported process
+AmplitudeType             loop | OK
+21 21 -> -3 3  | Error: unsupported process
+AmplitudeType             cctree | OK
+21 21 -> -3 3  | Error: unsupported process
+AmplitudeType             loop | OK
+21 21 -> -5 5  | Error: unsupported process
+AmplitudeType             cctree | OK
+21 21 -> -5 5  | Error: unsupported process
+AmplitudeType             loop | OK
+21 21 -> 21 21  | Error: unsupported process
+AmplitudeType             cctree | OK
+21 21 -> 21 21  | Error: unsupported process
+AmplitudeType             sctree | OK
+1 -1 -> 21 21  | Error: unsupported process
+1 21 -> 1 21  | Error: unsupported process
+-1 1 -> 21 21  | Error: unsupported process
+-1 21 -> -1 21  | Error: unsupported process
+-2 2 -> 21 21  | Error: unsupported process
+-2 21 -> -2 21  | Error: unsupported process
+2 -2 -> 21 21  | Error: unsupported process
+2 21 -> 2 21  | Error: unsupported process
+4 -4 -> 21 21  | Error: unsupported process
+4 21 -> 4 21  | Error: unsupported process
+-4 4 -> 21 21  | Error: unsupported process
+-4 21 -> -4 21  | Error: unsupported process
+-3 3 -> 21 21  | Error: unsupported process
+-3 21 -> -3 21  | Error: unsupported process
+3 -3 -> 21 21  | Error: unsupported process
+3 21 -> 3 21  | Error: unsupported process
+5 -5 -> 21 21  | Error: unsupported process
+5 21 -> 5 21  | Error: unsupported process
+-5 5 -> 21 21  | Error: unsupported process
+-5 21 -> -5 21  | Error: unsupported process
+21 1 -> 1 21  | Error: unsupported process
+21 -1 -> -1 21  | Error: unsupported process
+21 -2 -> -2 21  | Error: unsupported process
+21 2 -> 2 21  | Error: unsupported process
+21 4 -> 4 21  | Error: unsupported process
+21 -4 -> -4 21  | Error: unsupported process
+21 -3 -> -3 21  | Error: unsupported process
+21 3 -> 3 21  | Error: unsupported process
+21 5 -> 5 21  | Error: unsupported process
+21 -5 -> -5 21  | Error: unsupported process
+21 21 -> -1 1  | Error: unsupported process
+21 21 -> -2 2  | Error: unsupported process
+21 21 -> -4 4  | Error: unsupported process
+21 21 -> -3 3  | Error: unsupported process
+21 21 -> -5 5  | Error: unsupported process
+21 21 -> 21 21  | Error: unsupported process
+AlphasPower               3 | OK
+AmplitudeType             tree | OK
+1 1 -> 1 1 21  | Error: unsupported process
+1 -1 -> -1 1 21  | Error: unsupported process
+1 -1 -> -2 2 21  | Error: unsupported process
+1 -1 -> -4 4 21  | Error: unsupported process
+1 -1 -> -3 3 21  | Error: unsupported process
+1 -1 -> -5 5 21  | Error: unsupported process
+1 -1 -> 21 21 21  | Error: unsupported process
+1 -2 -> -2 1 21  | Error: unsupported process
+1 2 -> 1 2 21  | Error: unsupported process
+1 4 -> 1 4 21  | Error: unsupported process
+1 -4 -> -4 1 21  | Error: unsupported process
+1 -3 -> -3 1 21  | Error: unsupported process
+1 3 -> 1 3 21  | Error: unsupported process
+1 5 -> 1 5 21  | Error: unsupported process
+1 -5 -> -5 1 21  | Error: unsupported process
+1 21 -> 1 21 21  | Error: unsupported process
+1 21 -> -1 1 1  | Error: unsupported process
+1 21 -> -2 1 2  | Error: unsupported process
+1 21 -> -4 1 4  | Error: unsupported process
+1 21 -> -3 1 3  | Error: unsupported process
+1 21 -> -5 1 5  | Error: unsupported process
+-1 1 -> -1 1 21  | Error: unsupported process
+-1 1 -> -2 2 21  | Error: unsupported process
+-1 1 -> -4 4 21  | Error: unsupported process
+-1 1 -> -3 3 21  | Error: unsupported process
+-1 1 -> -5 5 21  | Error: unsupported process
+-1 1 -> 21 21 21  | Error: unsupported process
+-1 -1 -> -1 -1 21  | Error: unsupported process
+-1 -2 -> -2 -1 21  | Error: unsupported process
+-1 2 -> -1 2 21  | Error: unsupported process
+-1 4 -> -1 4 21  | Error: unsupported process
+-1 -4 -> -4 -1 21  | Error: unsupported process
+-1 -3 -> -3 -1 21  | Error: unsupported process
+-1 3 -> -1 3 21  | Error: unsupported process
+-1 5 -> -1 5 21  | Error: unsupported process
+-1 -5 -> -5 -1 21  | Error: unsupported process
+-1 21 -> -1 -1 1  | Error: unsupported process
+-1 21 -> -1 21 21  | Error: unsupported process
+-1 21 -> -2 -1 2  | Error: unsupported process
+-1 21 -> -4 -1 4  | Error: unsupported process
+-1 21 -> -3 -1 3  | Error: unsupported process
+-1 21 -> -5 -1 5  | Error: unsupported process
+-2 1 -> -2 1 21  | Error: unsupported process
+-2 -1 -> -2 -1 21  | Error: unsupported process
+-2 -2 -> -2 -2 21  | Error: unsupported process
+-2 2 -> -1 1 21  | Error: unsupported process
+-2 2 -> -2 2 21  | Error: unsupported process
+-2 2 -> -4 4 21  | Error: unsupported process
+-2 2 -> -3 3 21  | Error: unsupported process
+-2 2 -> -5 5 21  | Error: unsupported process
+-2 2 -> 21 21 21  | Error: unsupported process
+-2 4 -> -2 4 21  | Error: unsupported process
+-2 -4 -> -4 -2 21  | Error: unsupported process
+-2 -3 -> -3 -2 21  | Error: unsupported process
+-2 3 -> -2 3 21  | Error: unsupported process
+-2 5 -> -2 5 21  | Error: unsupported process
+-2 -5 -> -5 -2 21  | Error: unsupported process
+-2 21 -> -2 -1 1  | Error: unsupported process
+-2 21 -> -2 -2 2  | Error: unsupported process
+-2 21 -> -2 21 21  | Error: unsupported process
+-2 21 -> -4 -2 4  | Error: unsupported process
+-2 21 -> -3 -2 3  | Error: unsupported process
+-2 21 -> -5 -2 5  | Error: unsupported process
+2 1 -> 1 2 21  | Error: unsupported process
+2 -1 -> -1 2 21  | Error: unsupported process
+2 -2 -> -1 1 21  | Error: unsupported process
+2 -2 -> -2 2 21  | Error: unsupported process
+2 -2 -> -4 4 21  | Error: unsupported process
+2 -2 -> -3 3 21  | Error: unsupported process
+2 -2 -> -5 5 21  | Error: unsupported process
+2 -2 -> 21 21 21  | Error: unsupported process
+2 2 -> 2 2 21  | Error: unsupported process
+2 4 -> 2 4 21  | Error: unsupported process
+2 -4 -> -4 2 21  | Error: unsupported process
+2 -3 -> -3 2 21  | Error: unsupported process
+2 3 -> 2 3 21  | Error: unsupported process
+2 5 -> 2 5 21  | Error: unsupported process
+2 -5 -> -5 2 21  | Error: unsupported process
+2 21 -> -1 1 2  | Error: unsupported process
+2 21 -> -2 2 2  | Error: unsupported process
+2 21 -> 2 21 21  | Error: unsupported process
+2 21 -> -4 2 4  | Error: unsupported process
+2 21 -> -3 2 3  | Error: unsupported process
+2 21 -> -5 2 5  | Error: unsupported process
+4 1 -> 1 4 21  | Error: unsupported process
+4 -1 -> -1 4 21  | Error: unsupported process
+4 -2 -> -2 4 21  | Error: unsupported process
+4 2 -> 2 4 21  | Error: unsupported process
+4 4 -> 4 4 21  | Error: unsupported process
+4 -4 -> -1 1 21  | Error: unsupported process
+4 -4 -> -2 2 21  | Error: unsupported process
+4 -4 -> -4 4 21  | Error: unsupported process
+4 -4 -> -3 3 21  | Error: unsupported process
+4 -4 -> -5 5 21  | Error: unsupported process
+4 -4 -> 21 21 21  | Error: unsupported process
+4 -3 -> -3 4 21  | Error: unsupported process
+4 3 -> 3 4 21  | Error: unsupported process
+4 5 -> 4 5 21  | Error: unsupported process
+4 -5 -> -5 4 21  | Error: unsupported process
+4 21 -> -1 1 4  | Error: unsupported process
+4 21 -> -2 2 4  | Error: unsupported process
+4 21 -> 4 21 21  | Error: unsupported process
+4 21 -> -4 4 4  | Error: unsupported process
+4 21 -> -3 3 4  | Error: unsupported process
+4 21 -> -5 4 5  | Error: unsupported process
+-4 1 -> -4 1 21  | Error: unsupported process
+-4 -1 -> -4 -1 21  | Error: unsupported process
+-4 -2 -> -4 -2 21  | Error: unsupported process
+-4 2 -> -4 2 21  | Error: unsupported process
+-4 4 -> -1 1 21  | Error: unsupported process
+-4 4 -> -2 2 21  | Error: unsupported process
+-4 4 -> -4 4 21  | Error: unsupported process
+-4 4 -> -3 3 21  | Error: unsupported process
+-4 4 -> -5 5 21  | Error: unsupported process
+-4 4 -> 21 21 21  | Error: unsupported process
+-4 -4 -> -4 -4 21  | Error: unsupported process
+-4 -3 -> -4 -3 21  | Error: unsupported process
+-4 3 -> -4 3 21  | Error: unsupported process
+-4 5 -> -4 5 21  | Error: unsupported process
+-4 -5 -> -5 -4 21  | Error: unsupported process
+-4 21 -> -4 -1 1  | Error: unsupported process
+-4 21 -> -4 -2 2  | Error: unsupported process
+-4 21 -> -4 -4 4  | Error: unsupported process
+-4 21 -> -4 -3 3  | Error: unsupported process
+-4 21 -> -4 21 21  | Error: unsupported process
+-4 21 -> -5 -4 5  | Error: unsupported process
+-3 1 -> -3 1 21  | Error: unsupported process
+-3 -1 -> -3 -1 21  | Error: unsupported process
+-3 -2 -> -3 -2 21  | Error: unsupported process
+-3 2 -> -3 2 21  | Error: unsupported process
+-3 4 -> -3 4 21  | Error: unsupported process
+-3 -4 -> -4 -3 21  | Error: unsupported process
+-3 -3 -> -3 -3 21  | Error: unsupported process
+-3 3 -> -1 1 21  | Error: unsupported process
+-3 3 -> -2 2 21  | Error: unsupported process
+-3 3 -> -4 4 21  | Error: unsupported process
+-3 3 -> -3 3 21  | Error: unsupported process
+-3 3 -> -5 5 21  | Error: unsupported process
+-3 3 -> 21 21 21  | Error: unsupported process
+-3 5 -> -3 5 21  | Error: unsupported process
+-3 -5 -> -5 -3 21  | Error: unsupported process
+-3 21 -> -4 -3 4  | Error: unsupported process
+-3 21 -> -3 -1 1  | Error: unsupported process
+-3 21 -> -3 -2 2  | Error: unsupported process
+-3 21 -> -3 -3 3  | Error: unsupported process
+-3 21 -> -3 21 21  | Error: unsupported process
+-3 21 -> -5 -3 5  | Error: unsupported process
+3 1 -> 1 3 21  | Error: unsupported process
+3 -1 -> -1 3 21  | Error: unsupported process
+3 -2 -> -2 3 21  | Error: unsupported process
+3 2 -> 2 3 21  | Error: unsupported process
+3 4 -> 3 4 21  | Error: unsupported process
+3 -4 -> -4 3 21  | Error: unsupported process
+3 -3 -> -1 1 21  | Error: unsupported process
+3 -3 -> -2 2 21  | Error: unsupported process
+3 -3 -> -4 4 21  | Error: unsupported process
+3 -3 -> -3 3 21  | Error: unsupported process
+3 -3 -> -5 5 21  | Error: unsupported process
+3 -3 -> 21 21 21  | Error: unsupported process
+3 3 -> 3 3 21  | Error: unsupported process
+3 5 -> 3 5 21  | Error: unsupported process
+3 -5 -> -5 3 21  | Error: unsupported process
+3 21 -> -1 1 3  | Error: unsupported process
+3 21 -> -2 2 3  | Error: unsupported process
+3 21 -> -4 3 4  | Error: unsupported process
+3 21 -> -3 3 3  | Error: unsupported process
+3 21 -> 3 21 21  | Error: unsupported process
+3 21 -> -5 3 5  | Error: unsupported process
+5 1 -> 1 5 21  | Error: unsupported process
+5 -1 -> -1 5 21  | Error: unsupported process
+5 -2 -> -2 5 21  | Error: unsupported process
+5 2 -> 2 5 21  | Error: unsupported process
+5 4 -> 4 5 21  | Error: unsupported process
+5 -4 -> -4 5 21  | Error: unsupported process
+5 -3 -> -3 5 21  | Error: unsupported process
+5 3 -> 3 5 21  | Error: unsupported process
+5 5 -> 5 5 21  | Error: unsupported process
+5 -5 -> -1 1 21  | Error: unsupported process
+5 -5 -> -2 2 21  | Error: unsupported process
+5 -5 -> -4 4 21  | Error: unsupported process
+5 -5 -> -3 3 21  | Error: unsupported process
+5 -5 -> -5 5 21  | Error: unsupported process
+5 -5 -> 21 21 21  | Error: unsupported process
+5 21 -> -1 1 5  | Error: unsupported process
+5 21 -> -2 2 5  | Error: unsupported process
+5 21 -> -4 4 5  | Error: unsupported process
+5 21 -> -3 3 5  | Error: unsupported process
+5 21 -> 5 21 21  | Error: unsupported process
+5 21 -> -5 5 5  | Error: unsupported process
+-5 1 -> -5 1 21  | Error: unsupported process
+-5 -1 -> -5 -1 21  | Error: unsupported process
+-5 -2 -> -5 -2 21  | Error: unsupported process
+-5 2 -> -5 2 21  | Error: unsupported process
+-5 4 -> -5 4 21  | Error: unsupported process
+-5 -4 -> -5 -4 21  | Error: unsupported process
+-5 -3 -> -5 -3 21  | Error: unsupported process
+-5 3 -> -5 3 21  | Error: unsupported process
+-5 5 -> -1 1 21  | Error: unsupported process
+-5 5 -> -2 2 21  | Error: unsupported process
+-5 5 -> -4 4 21  | Error: unsupported process
+-5 5 -> -3 3 21  | Error: unsupported process
+-5 5 -> -5 5 21  | Error: unsupported process
+-5 5 -> 21 21 21  | Error: unsupported process
+-5 -5 -> -5 -5 21  | Error: unsupported process
+-5 21 -> -5 -1 1  | Error: unsupported process
+-5 21 -> -5 -2 2  | Error: unsupported process
+-5 21 -> -5 -4 4  | Error: unsupported process
+-5 21 -> -5 -3 3  | Error: unsupported process
+-5 21 -> -5 -5 5  | Error: unsupported process
+-5 21 -> -5 21 21  | Error: unsupported process
+21 1 -> 1 21 21  | Error: unsupported process
+21 1 -> -1 1 1  | Error: unsupported process
+21 1 -> -2 1 2  | Error: unsupported process
+21 1 -> -4 1 4  | Error: unsupported process
+21 1 -> -3 1 3  | Error: unsupported process
+21 1 -> -5 1 5  | Error: unsupported process
+21 -1 -> -1 -1 1  | Error: unsupported process
+21 -1 -> -1 21 21  | Error: unsupported process
+21 -1 -> -2 -1 2  | Error: unsupported process
+21 -1 -> -4 -1 4  | Error: unsupported process
+21 -1 -> -3 -1 3  | Error: unsupported process
+21 -1 -> -5 -1 5  | Error: unsupported process
+21 -2 -> -2 -1 1  | Error: unsupported process
+21 -2 -> -2 -2 2  | Error: unsupported process
+21 -2 -> -2 21 21  | Error: unsupported process
+21 -2 -> -4 -2 4  | Error: unsupported process
+21 -2 -> -3 -2 3  | Error: unsupported process
+21 -2 -> -5 -2 5  | Error: unsupported process
+21 2 -> -1 1 2  | Error: unsupported process
+21 2 -> -2 2 2  | Error: unsupported process
+21 2 -> 2 21 21  | Error: unsupported process
+21 2 -> -4 2 4  | Error: unsupported process
+21 2 -> -3 2 3  | Error: unsupported process
+21 2 -> -5 2 5  | Error: unsupported process
+21 4 -> -1 1 4  | Error: unsupported process
+21 4 -> -2 2 4  | Error: unsupported process
+21 4 -> 4 21 21  | Error: unsupported process
+21 4 -> -4 4 4  | Error: unsupported process
+21 4 -> -3 3 4  | Error: unsupported process
+21 4 -> -5 4 5  | Error: unsupported process
+21 -4 -> -4 -1 1  | Error: unsupported process
+21 -4 -> -4 -2 2  | Error: unsupported process
+21 -4 -> -4 -4 4  | Error: unsupported process
+21 -4 -> -4 -3 3  | Error: unsupported process
+21 -4 -> -4 21 21  | Error: unsupported process
+21 -4 -> -5 -4 5  | Error: unsupported process
+21 -3 -> -4 -3 4  | Error: unsupported process
+21 -3 -> -3 -1 1  | Error: unsupported process
+21 -3 -> -3 -2 2  | Error: unsupported process
+21 -3 -> -3 -3 3  | Error: unsupported process
+21 -3 -> -3 21 21  | Error: unsupported process
+21 -3 -> -5 -3 5  | Error: unsupported process
+21 3 -> -1 1 3  | Error: unsupported process
+21 3 -> -2 2 3  | Error: unsupported process
+21 3 -> -4 3 4  | Error: unsupported process
+21 3 -> -3 3 3  | Error: unsupported process
+21 3 -> 3 21 21  | Error: unsupported process
+21 3 -> -5 3 5  | Error: unsupported process
+21 5 -> -1 1 5  | Error: unsupported process
+21 5 -> -2 2 5  | Error: unsupported process
+21 5 -> -4 4 5  | Error: unsupported process
+21 5 -> -3 3 5  | Error: unsupported process
+21 5 -> 5 21 21  | Error: unsupported process
+21 5 -> -5 5 5  | Error: unsupported process
+21 -5 -> -5 -1 1  | Error: unsupported process
+21 -5 -> -5 -2 2  | Error: unsupported process
+21 -5 -> -5 -4 4  | Error: unsupported process
+21 -5 -> -5 -3 3  | Error: unsupported process
+21 -5 -> -5 -5 5  | Error: unsupported process
+21 -5 -> -5 21 21  | Error: unsupported process
+21 21 -> -1 1 21  | Error: unsupported process
+21 21 -> -2 2 21  | Error: unsupported process
+21 21 -> -4 4 21  | Error: unsupported process
+21 21 -> -3 3 21  | Error: unsupported process
+21 21 -> -5 5 21  | Error: unsupported process
+21 21 -> 21 21 21  | Error: unsupported process
+

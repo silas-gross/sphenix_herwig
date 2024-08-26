@@ -1,0 +1,1035 @@
+# OLP order file created by Herwig/Matchbox
+
+InterfaceVersion          BLHA2
+
+Model                     SM
+CorrectionType            QCD
+IRregularisation          CDR
+Extra HelAvgInitial       no
+Extra ColAvgInitial       no
+Extra MCSymmetrizeFinal   no
+
+NJetReturnAccuracy        yes
+NJetRenormalize           yes
+SetParameter qcd(nf) 5
+AlphasPower               2
+AlphaPower                0
+AmplitudeType             loop
+1 1 -> 1 1 
+AmplitudeType             cctree
+1 1 -> 1 1 
+AmplitudeType             loop
+1 -1 -> -1 1 
+AmplitudeType             cctree
+1 -1 -> -1 1 
+AmplitudeType             loop
+1 -1 -> -2 2 
+AmplitudeType             cctree
+1 -1 -> -2 2 
+AmplitudeType             loop
+1 -1 -> -4 4 
+AmplitudeType             cctree
+1 -1 -> -4 4 
+AmplitudeType             loop
+1 -1 -> -3 3 
+AmplitudeType             cctree
+1 -1 -> -3 3 
+AmplitudeType             loop
+1 -1 -> -5 5 
+AmplitudeType             cctree
+1 -1 -> -5 5 
+AmplitudeType             loop
+1 -1 -> 21 21 
+AmplitudeType             cctree
+1 -1 -> 21 21 
+AmplitudeType             loop
+1 -2 -> -2 1 
+AmplitudeType             cctree
+1 -2 -> -2 1 
+AmplitudeType             loop
+1 2 -> 1 2 
+AmplitudeType             cctree
+1 2 -> 1 2 
+AmplitudeType             loop
+1 4 -> 1 4 
+AmplitudeType             cctree
+1 4 -> 1 4 
+AmplitudeType             loop
+1 -4 -> -4 1 
+AmplitudeType             cctree
+1 -4 -> -4 1 
+AmplitudeType             loop
+1 -3 -> -3 1 
+AmplitudeType             cctree
+1 -3 -> -3 1 
+AmplitudeType             loop
+1 3 -> 1 3 
+AmplitudeType             cctree
+1 3 -> 1 3 
+AmplitudeType             loop
+1 5 -> 1 5 
+AmplitudeType             cctree
+1 5 -> 1 5 
+AmplitudeType             loop
+1 -5 -> -5 1 
+AmplitudeType             cctree
+1 -5 -> -5 1 
+AmplitudeType             loop
+1 21 -> 1 21 
+AmplitudeType             cctree
+1 21 -> 1 21 
+AmplitudeType             loop
+-1 1 -> -1 1 
+AmplitudeType             cctree
+-1 1 -> -1 1 
+AmplitudeType             loop
+-1 1 -> -2 2 
+AmplitudeType             cctree
+-1 1 -> -2 2 
+AmplitudeType             loop
+-1 1 -> -4 4 
+AmplitudeType             cctree
+-1 1 -> -4 4 
+AmplitudeType             loop
+-1 1 -> -3 3 
+AmplitudeType             cctree
+-1 1 -> -3 3 
+AmplitudeType             loop
+-1 1 -> -5 5 
+AmplitudeType             cctree
+-1 1 -> -5 5 
+AmplitudeType             loop
+-1 1 -> 21 21 
+AmplitudeType             cctree
+-1 1 -> 21 21 
+AmplitudeType             loop
+-1 -1 -> -1 -1 
+AmplitudeType             cctree
+-1 -1 -> -1 -1 
+AmplitudeType             loop
+-1 -2 -> -2 -1 
+AmplitudeType             cctree
+-1 -2 -> -2 -1 
+AmplitudeType             loop
+-1 2 -> -1 2 
+AmplitudeType             cctree
+-1 2 -> -1 2 
+AmplitudeType             loop
+-1 4 -> -1 4 
+AmplitudeType             cctree
+-1 4 -> -1 4 
+AmplitudeType             loop
+-1 -4 -> -4 -1 
+AmplitudeType             cctree
+-1 -4 -> -4 -1 
+AmplitudeType             loop
+-1 -3 -> -3 -1 
+AmplitudeType             cctree
+-1 -3 -> -3 -1 
+AmplitudeType             loop
+-1 3 -> -1 3 
+AmplitudeType             cctree
+-1 3 -> -1 3 
+AmplitudeType             loop
+-1 5 -> -1 5 
+AmplitudeType             cctree
+-1 5 -> -1 5 
+AmplitudeType             loop
+-1 -5 -> -5 -1 
+AmplitudeType             cctree
+-1 -5 -> -5 -1 
+AmplitudeType             loop
+-1 21 -> -1 21 
+AmplitudeType             cctree
+-1 21 -> -1 21 
+AmplitudeType             loop
+-2 1 -> -2 1 
+AmplitudeType             cctree
+-2 1 -> -2 1 
+AmplitudeType             loop
+-2 -1 -> -2 -1 
+AmplitudeType             cctree
+-2 -1 -> -2 -1 
+AmplitudeType             loop
+-2 -2 -> -2 -2 
+AmplitudeType             cctree
+-2 -2 -> -2 -2 
+AmplitudeType             loop
+-2 2 -> -1 1 
+AmplitudeType             cctree
+-2 2 -> -1 1 
+AmplitudeType             loop
+-2 2 -> -2 2 
+AmplitudeType             cctree
+-2 2 -> -2 2 
+AmplitudeType             loop
+-2 2 -> -4 4 
+AmplitudeType             cctree
+-2 2 -> -4 4 
+AmplitudeType             loop
+-2 2 -> -3 3 
+AmplitudeType             cctree
+-2 2 -> -3 3 
+AmplitudeType             loop
+-2 2 -> -5 5 
+AmplitudeType             cctree
+-2 2 -> -5 5 
+AmplitudeType             loop
+-2 2 -> 21 21 
+AmplitudeType             cctree
+-2 2 -> 21 21 
+AmplitudeType             loop
+-2 4 -> -2 4 
+AmplitudeType             cctree
+-2 4 -> -2 4 
+AmplitudeType             loop
+-2 -4 -> -4 -2 
+AmplitudeType             cctree
+-2 -4 -> -4 -2 
+AmplitudeType             loop
+-2 -3 -> -3 -2 
+AmplitudeType             cctree
+-2 -3 -> -3 -2 
+AmplitudeType             loop
+-2 3 -> -2 3 
+AmplitudeType             cctree
+-2 3 -> -2 3 
+AmplitudeType             loop
+-2 5 -> -2 5 
+AmplitudeType             cctree
+-2 5 -> -2 5 
+AmplitudeType             loop
+-2 -5 -> -5 -2 
+AmplitudeType             cctree
+-2 -5 -> -5 -2 
+AmplitudeType             loop
+-2 21 -> -2 21 
+AmplitudeType             cctree
+-2 21 -> -2 21 
+AmplitudeType             loop
+2 1 -> 1 2 
+AmplitudeType             cctree
+2 1 -> 1 2 
+AmplitudeType             loop
+2 -1 -> -1 2 
+AmplitudeType             cctree
+2 -1 -> -1 2 
+AmplitudeType             loop
+2 -2 -> -1 1 
+AmplitudeType             cctree
+2 -2 -> -1 1 
+AmplitudeType             loop
+2 -2 -> -2 2 
+AmplitudeType             cctree
+2 -2 -> -2 2 
+AmplitudeType             loop
+2 -2 -> -4 4 
+AmplitudeType             cctree
+2 -2 -> -4 4 
+AmplitudeType             loop
+2 -2 -> -3 3 
+AmplitudeType             cctree
+2 -2 -> -3 3 
+AmplitudeType             loop
+2 -2 -> -5 5 
+AmplitudeType             cctree
+2 -2 -> -5 5 
+AmplitudeType             loop
+2 -2 -> 21 21 
+AmplitudeType             cctree
+2 -2 -> 21 21 
+AmplitudeType             loop
+2 2 -> 2 2 
+AmplitudeType             cctree
+2 2 -> 2 2 
+AmplitudeType             loop
+2 4 -> 2 4 
+AmplitudeType             cctree
+2 4 -> 2 4 
+AmplitudeType             loop
+2 -4 -> -4 2 
+AmplitudeType             cctree
+2 -4 -> -4 2 
+AmplitudeType             loop
+2 -3 -> -3 2 
+AmplitudeType             cctree
+2 -3 -> -3 2 
+AmplitudeType             loop
+2 3 -> 2 3 
+AmplitudeType             cctree
+2 3 -> 2 3 
+AmplitudeType             loop
+2 5 -> 2 5 
+AmplitudeType             cctree
+2 5 -> 2 5 
+AmplitudeType             loop
+2 -5 -> -5 2 
+AmplitudeType             cctree
+2 -5 -> -5 2 
+AmplitudeType             loop
+2 21 -> 2 21 
+AmplitudeType             cctree
+2 21 -> 2 21 
+AmplitudeType             loop
+4 1 -> 1 4 
+AmplitudeType             cctree
+4 1 -> 1 4 
+AmplitudeType             loop
+4 -1 -> -1 4 
+AmplitudeType             cctree
+4 -1 -> -1 4 
+AmplitudeType             loop
+4 -2 -> -2 4 
+AmplitudeType             cctree
+4 -2 -> -2 4 
+AmplitudeType             loop
+4 2 -> 2 4 
+AmplitudeType             cctree
+4 2 -> 2 4 
+AmplitudeType             loop
+4 4 -> 4 4 
+AmplitudeType             cctree
+4 4 -> 4 4 
+AmplitudeType             loop
+4 -4 -> -1 1 
+AmplitudeType             cctree
+4 -4 -> -1 1 
+AmplitudeType             loop
+4 -4 -> -2 2 
+AmplitudeType             cctree
+4 -4 -> -2 2 
+AmplitudeType             loop
+4 -4 -> -4 4 
+AmplitudeType             cctree
+4 -4 -> -4 4 
+AmplitudeType             loop
+4 -4 -> -3 3 
+AmplitudeType             cctree
+4 -4 -> -3 3 
+AmplitudeType             loop
+4 -4 -> -5 5 
+AmplitudeType             cctree
+4 -4 -> -5 5 
+AmplitudeType             loop
+4 -4 -> 21 21 
+AmplitudeType             cctree
+4 -4 -> 21 21 
+AmplitudeType             loop
+4 -3 -> -3 4 
+AmplitudeType             cctree
+4 -3 -> -3 4 
+AmplitudeType             loop
+4 3 -> 3 4 
+AmplitudeType             cctree
+4 3 -> 3 4 
+AmplitudeType             loop
+4 5 -> 4 5 
+AmplitudeType             cctree
+4 5 -> 4 5 
+AmplitudeType             loop
+4 -5 -> -5 4 
+AmplitudeType             cctree
+4 -5 -> -5 4 
+AmplitudeType             loop
+4 21 -> 4 21 
+AmplitudeType             cctree
+4 21 -> 4 21 
+AmplitudeType             loop
+-4 1 -> -4 1 
+AmplitudeType             cctree
+-4 1 -> -4 1 
+AmplitudeType             loop
+-4 -1 -> -4 -1 
+AmplitudeType             cctree
+-4 -1 -> -4 -1 
+AmplitudeType             loop
+-4 -2 -> -4 -2 
+AmplitudeType             cctree
+-4 -2 -> -4 -2 
+AmplitudeType             loop
+-4 2 -> -4 2 
+AmplitudeType             cctree
+-4 2 -> -4 2 
+AmplitudeType             loop
+-4 4 -> -1 1 
+AmplitudeType             cctree
+-4 4 -> -1 1 
+AmplitudeType             loop
+-4 4 -> -2 2 
+AmplitudeType             cctree
+-4 4 -> -2 2 
+AmplitudeType             loop
+-4 4 -> -4 4 
+AmplitudeType             cctree
+-4 4 -> -4 4 
+AmplitudeType             loop
+-4 4 -> -3 3 
+AmplitudeType             cctree
+-4 4 -> -3 3 
+AmplitudeType             loop
+-4 4 -> -5 5 
+AmplitudeType             cctree
+-4 4 -> -5 5 
+AmplitudeType             loop
+-4 4 -> 21 21 
+AmplitudeType             cctree
+-4 4 -> 21 21 
+AmplitudeType             loop
+-4 -4 -> -4 -4 
+AmplitudeType             cctree
+-4 -4 -> -4 -4 
+AmplitudeType             loop
+-4 -3 -> -4 -3 
+AmplitudeType             cctree
+-4 -3 -> -4 -3 
+AmplitudeType             loop
+-4 3 -> -4 3 
+AmplitudeType             cctree
+-4 3 -> -4 3 
+AmplitudeType             loop
+-4 5 -> -4 5 
+AmplitudeType             cctree
+-4 5 -> -4 5 
+AmplitudeType             loop
+-4 -5 -> -5 -4 
+AmplitudeType             cctree
+-4 -5 -> -5 -4 
+AmplitudeType             loop
+-4 21 -> -4 21 
+AmplitudeType             cctree
+-4 21 -> -4 21 
+AmplitudeType             loop
+-3 1 -> -3 1 
+AmplitudeType             cctree
+-3 1 -> -3 1 
+AmplitudeType             loop
+-3 -1 -> -3 -1 
+AmplitudeType             cctree
+-3 -1 -> -3 -1 
+AmplitudeType             loop
+-3 -2 -> -3 -2 
+AmplitudeType             cctree
+-3 -2 -> -3 -2 
+AmplitudeType             loop
+-3 2 -> -3 2 
+AmplitudeType             cctree
+-3 2 -> -3 2 
+AmplitudeType             loop
+-3 4 -> -3 4 
+AmplitudeType             cctree
+-3 4 -> -3 4 
+AmplitudeType             loop
+-3 -4 -> -4 -3 
+AmplitudeType             cctree
+-3 -4 -> -4 -3 
+AmplitudeType             loop
+-3 -3 -> -3 -3 
+AmplitudeType             cctree
+-3 -3 -> -3 -3 
+AmplitudeType             loop
+-3 3 -> -1 1 
+AmplitudeType             cctree
+-3 3 -> -1 1 
+AmplitudeType             loop
+-3 3 -> -2 2 
+AmplitudeType             cctree
+-3 3 -> -2 2 
+AmplitudeType             loop
+-3 3 -> -4 4 
+AmplitudeType             cctree
+-3 3 -> -4 4 
+AmplitudeType             loop
+-3 3 -> -3 3 
+AmplitudeType             cctree
+-3 3 -> -3 3 
+AmplitudeType             loop
+-3 3 -> -5 5 
+AmplitudeType             cctree
+-3 3 -> -5 5 
+AmplitudeType             loop
+-3 3 -> 21 21 
+AmplitudeType             cctree
+-3 3 -> 21 21 
+AmplitudeType             loop
+-3 5 -> -3 5 
+AmplitudeType             cctree
+-3 5 -> -3 5 
+AmplitudeType             loop
+-3 -5 -> -5 -3 
+AmplitudeType             cctree
+-3 -5 -> -5 -3 
+AmplitudeType             loop
+-3 21 -> -3 21 
+AmplitudeType             cctree
+-3 21 -> -3 21 
+AmplitudeType             loop
+3 1 -> 1 3 
+AmplitudeType             cctree
+3 1 -> 1 3 
+AmplitudeType             loop
+3 -1 -> -1 3 
+AmplitudeType             cctree
+3 -1 -> -1 3 
+AmplitudeType             loop
+3 -2 -> -2 3 
+AmplitudeType             cctree
+3 -2 -> -2 3 
+AmplitudeType             loop
+3 2 -> 2 3 
+AmplitudeType             cctree
+3 2 -> 2 3 
+AmplitudeType             loop
+3 4 -> 3 4 
+AmplitudeType             cctree
+3 4 -> 3 4 
+AmplitudeType             loop
+3 -4 -> -4 3 
+AmplitudeType             cctree
+3 -4 -> -4 3 
+AmplitudeType             loop
+3 -3 -> -1 1 
+AmplitudeType             cctree
+3 -3 -> -1 1 
+AmplitudeType             loop
+3 -3 -> -2 2 
+AmplitudeType             cctree
+3 -3 -> -2 2 
+AmplitudeType             loop
+3 -3 -> -4 4 
+AmplitudeType             cctree
+3 -3 -> -4 4 
+AmplitudeType             loop
+3 -3 -> -3 3 
+AmplitudeType             cctree
+3 -3 -> -3 3 
+AmplitudeType             loop
+3 -3 -> -5 5 
+AmplitudeType             cctree
+3 -3 -> -5 5 
+AmplitudeType             loop
+3 -3 -> 21 21 
+AmplitudeType             cctree
+3 -3 -> 21 21 
+AmplitudeType             loop
+3 3 -> 3 3 
+AmplitudeType             cctree
+3 3 -> 3 3 
+AmplitudeType             loop
+3 5 -> 3 5 
+AmplitudeType             cctree
+3 5 -> 3 5 
+AmplitudeType             loop
+3 -5 -> -5 3 
+AmplitudeType             cctree
+3 -5 -> -5 3 
+AmplitudeType             loop
+3 21 -> 3 21 
+AmplitudeType             cctree
+3 21 -> 3 21 
+AmplitudeType             loop
+5 1 -> 1 5 
+AmplitudeType             cctree
+5 1 -> 1 5 
+AmplitudeType             loop
+5 -1 -> -1 5 
+AmplitudeType             cctree
+5 -1 -> -1 5 
+AmplitudeType             loop
+5 -2 -> -2 5 
+AmplitudeType             cctree
+5 -2 -> -2 5 
+AmplitudeType             loop
+5 2 -> 2 5 
+AmplitudeType             cctree
+5 2 -> 2 5 
+AmplitudeType             loop
+5 4 -> 4 5 
+AmplitudeType             cctree
+5 4 -> 4 5 
+AmplitudeType             loop
+5 -4 -> -4 5 
+AmplitudeType             cctree
+5 -4 -> -4 5 
+AmplitudeType             loop
+5 -3 -> -3 5 
+AmplitudeType             cctree
+5 -3 -> -3 5 
+AmplitudeType             loop
+5 3 -> 3 5 
+AmplitudeType             cctree
+5 3 -> 3 5 
+AmplitudeType             loop
+5 5 -> 5 5 
+AmplitudeType             cctree
+5 5 -> 5 5 
+AmplitudeType             loop
+5 -5 -> -1 1 
+AmplitudeType             cctree
+5 -5 -> -1 1 
+AmplitudeType             loop
+5 -5 -> -2 2 
+AmplitudeType             cctree
+5 -5 -> -2 2 
+AmplitudeType             loop
+5 -5 -> -4 4 
+AmplitudeType             cctree
+5 -5 -> -4 4 
+AmplitudeType             loop
+5 -5 -> -3 3 
+AmplitudeType             cctree
+5 -5 -> -3 3 
+AmplitudeType             loop
+5 -5 -> -5 5 
+AmplitudeType             cctree
+5 -5 -> -5 5 
+AmplitudeType             loop
+5 -5 -> 21 21 
+AmplitudeType             cctree
+5 -5 -> 21 21 
+AmplitudeType             loop
+5 21 -> 5 21 
+AmplitudeType             cctree
+5 21 -> 5 21 
+AmplitudeType             loop
+-5 1 -> -5 1 
+AmplitudeType             cctree
+-5 1 -> -5 1 
+AmplitudeType             loop
+-5 -1 -> -5 -1 
+AmplitudeType             cctree
+-5 -1 -> -5 -1 
+AmplitudeType             loop
+-5 -2 -> -5 -2 
+AmplitudeType             cctree
+-5 -2 -> -5 -2 
+AmplitudeType             loop
+-5 2 -> -5 2 
+AmplitudeType             cctree
+-5 2 -> -5 2 
+AmplitudeType             loop
+-5 4 -> -5 4 
+AmplitudeType             cctree
+-5 4 -> -5 4 
+AmplitudeType             loop
+-5 -4 -> -5 -4 
+AmplitudeType             cctree
+-5 -4 -> -5 -4 
+AmplitudeType             loop
+-5 -3 -> -5 -3 
+AmplitudeType             cctree
+-5 -3 -> -5 -3 
+AmplitudeType             loop
+-5 3 -> -5 3 
+AmplitudeType             cctree
+-5 3 -> -5 3 
+AmplitudeType             loop
+-5 5 -> -1 1 
+AmplitudeType             cctree
+-5 5 -> -1 1 
+AmplitudeType             loop
+-5 5 -> -2 2 
+AmplitudeType             cctree
+-5 5 -> -2 2 
+AmplitudeType             loop
+-5 5 -> -4 4 
+AmplitudeType             cctree
+-5 5 -> -4 4 
+AmplitudeType             loop
+-5 5 -> -3 3 
+AmplitudeType             cctree
+-5 5 -> -3 3 
+AmplitudeType             loop
+-5 5 -> -5 5 
+AmplitudeType             cctree
+-5 5 -> -5 5 
+AmplitudeType             loop
+-5 5 -> 21 21 
+AmplitudeType             cctree
+-5 5 -> 21 21 
+AmplitudeType             loop
+-5 -5 -> -5 -5 
+AmplitudeType             cctree
+-5 -5 -> -5 -5 
+AmplitudeType             loop
+-5 21 -> -5 21 
+AmplitudeType             cctree
+-5 21 -> -5 21 
+AmplitudeType             loop
+21 1 -> 1 21 
+AmplitudeType             cctree
+21 1 -> 1 21 
+AmplitudeType             loop
+21 -1 -> -1 21 
+AmplitudeType             cctree
+21 -1 -> -1 21 
+AmplitudeType             loop
+21 -2 -> -2 21 
+AmplitudeType             cctree
+21 -2 -> -2 21 
+AmplitudeType             loop
+21 2 -> 2 21 
+AmplitudeType             cctree
+21 2 -> 2 21 
+AmplitudeType             loop
+21 4 -> 4 21 
+AmplitudeType             cctree
+21 4 -> 4 21 
+AmplitudeType             loop
+21 -4 -> -4 21 
+AmplitudeType             cctree
+21 -4 -> -4 21 
+AmplitudeType             loop
+21 -3 -> -3 21 
+AmplitudeType             cctree
+21 -3 -> -3 21 
+AmplitudeType             loop
+21 3 -> 3 21 
+AmplitudeType             cctree
+21 3 -> 3 21 
+AmplitudeType             loop
+21 5 -> 5 21 
+AmplitudeType             cctree
+21 5 -> 5 21 
+AmplitudeType             loop
+21 -5 -> -5 21 
+AmplitudeType             cctree
+21 -5 -> -5 21 
+AmplitudeType             loop
+21 21 -> -1 1 
+AmplitudeType             cctree
+21 21 -> -1 1 
+AmplitudeType             loop
+21 21 -> -2 2 
+AmplitudeType             cctree
+21 21 -> -2 2 
+AmplitudeType             loop
+21 21 -> -4 4 
+AmplitudeType             cctree
+21 21 -> -4 4 
+AmplitudeType             loop
+21 21 -> -3 3 
+AmplitudeType             cctree
+21 21 -> -3 3 
+AmplitudeType             loop
+21 21 -> -5 5 
+AmplitudeType             cctree
+21 21 -> -5 5 
+AmplitudeType             loop
+21 21 -> 21 21 
+AmplitudeType             cctree
+21 21 -> 21 21 
+AmplitudeType             sctree
+1 -1 -> 21 21 
+1 21 -> 1 21 
+-1 1 -> 21 21 
+-1 21 -> -1 21 
+-2 2 -> 21 21 
+-2 21 -> -2 21 
+2 -2 -> 21 21 
+2 21 -> 2 21 
+4 -4 -> 21 21 
+4 21 -> 4 21 
+-4 4 -> 21 21 
+-4 21 -> -4 21 
+-3 3 -> 21 21 
+-3 21 -> -3 21 
+3 -3 -> 21 21 
+3 21 -> 3 21 
+5 -5 -> 21 21 
+5 21 -> 5 21 
+-5 5 -> 21 21 
+-5 21 -> -5 21 
+21 1 -> 1 21 
+21 -1 -> -1 21 
+21 -2 -> -2 21 
+21 2 -> 2 21 
+21 4 -> 4 21 
+21 -4 -> -4 21 
+21 -3 -> -3 21 
+21 3 -> 3 21 
+21 5 -> 5 21 
+21 -5 -> -5 21 
+21 21 -> -1 1 
+21 21 -> -2 2 
+21 21 -> -4 4 
+21 21 -> -3 3 
+21 21 -> -5 5 
+21 21 -> 21 21 
+AlphasPower               3
+AmplitudeType             tree
+1 1 -> 1 1 21 
+1 -1 -> -1 1 21 
+1 -1 -> -2 2 21 
+1 -1 -> -4 4 21 
+1 -1 -> -3 3 21 
+1 -1 -> -5 5 21 
+1 -1 -> 21 21 21 
+1 -2 -> -2 1 21 
+1 2 -> 1 2 21 
+1 4 -> 1 4 21 
+1 -4 -> -4 1 21 
+1 -3 -> -3 1 21 
+1 3 -> 1 3 21 
+1 5 -> 1 5 21 
+1 -5 -> -5 1 21 
+1 21 -> 1 21 21 
+1 21 -> -1 1 1 
+1 21 -> -2 1 2 
+1 21 -> -4 1 4 
+1 21 -> -3 1 3 
+1 21 -> -5 1 5 
+-1 1 -> -1 1 21 
+-1 1 -> -2 2 21 
+-1 1 -> -4 4 21 
+-1 1 -> -3 3 21 
+-1 1 -> -5 5 21 
+-1 1 -> 21 21 21 
+-1 -1 -> -1 -1 21 
+-1 -2 -> -2 -1 21 
+-1 2 -> -1 2 21 
+-1 4 -> -1 4 21 
+-1 -4 -> -4 -1 21 
+-1 -3 -> -3 -1 21 
+-1 3 -> -1 3 21 
+-1 5 -> -1 5 21 
+-1 -5 -> -5 -1 21 
+-1 21 -> -1 -1 1 
+-1 21 -> -1 21 21 
+-1 21 -> -2 -1 2 
+-1 21 -> -4 -1 4 
+-1 21 -> -3 -1 3 
+-1 21 -> -5 -1 5 
+-2 1 -> -2 1 21 
+-2 -1 -> -2 -1 21 
+-2 -2 -> -2 -2 21 
+-2 2 -> -1 1 21 
+-2 2 -> -2 2 21 
+-2 2 -> -4 4 21 
+-2 2 -> -3 3 21 
+-2 2 -> -5 5 21 
+-2 2 -> 21 21 21 
+-2 4 -> -2 4 21 
+-2 -4 -> -4 -2 21 
+-2 -3 -> -3 -2 21 
+-2 3 -> -2 3 21 
+-2 5 -> -2 5 21 
+-2 -5 -> -5 -2 21 
+-2 21 -> -2 -1 1 
+-2 21 -> -2 -2 2 
+-2 21 -> -2 21 21 
+-2 21 -> -4 -2 4 
+-2 21 -> -3 -2 3 
+-2 21 -> -5 -2 5 
+2 1 -> 1 2 21 
+2 -1 -> -1 2 21 
+2 -2 -> -1 1 21 
+2 -2 -> -2 2 21 
+2 -2 -> -4 4 21 
+2 -2 -> -3 3 21 
+2 -2 -> -5 5 21 
+2 -2 -> 21 21 21 
+2 2 -> 2 2 21 
+2 4 -> 2 4 21 
+2 -4 -> -4 2 21 
+2 -3 -> -3 2 21 
+2 3 -> 2 3 21 
+2 5 -> 2 5 21 
+2 -5 -> -5 2 21 
+2 21 -> -1 1 2 
+2 21 -> -2 2 2 
+2 21 -> 2 21 21 
+2 21 -> -4 2 4 
+2 21 -> -3 2 3 
+2 21 -> -5 2 5 
+4 1 -> 1 4 21 
+4 -1 -> -1 4 21 
+4 -2 -> -2 4 21 
+4 2 -> 2 4 21 
+4 4 -> 4 4 21 
+4 -4 -> -1 1 21 
+4 -4 -> -2 2 21 
+4 -4 -> -4 4 21 
+4 -4 -> -3 3 21 
+4 -4 -> -5 5 21 
+4 -4 -> 21 21 21 
+4 -3 -> -3 4 21 
+4 3 -> 3 4 21 
+4 5 -> 4 5 21 
+4 -5 -> -5 4 21 
+4 21 -> -1 1 4 
+4 21 -> -2 2 4 
+4 21 -> 4 21 21 
+4 21 -> -4 4 4 
+4 21 -> -3 3 4 
+4 21 -> -5 4 5 
+-4 1 -> -4 1 21 
+-4 -1 -> -4 -1 21 
+-4 -2 -> -4 -2 21 
+-4 2 -> -4 2 21 
+-4 4 -> -1 1 21 
+-4 4 -> -2 2 21 
+-4 4 -> -4 4 21 
+-4 4 -> -3 3 21 
+-4 4 -> -5 5 21 
+-4 4 -> 21 21 21 
+-4 -4 -> -4 -4 21 
+-4 -3 -> -4 -3 21 
+-4 3 -> -4 3 21 
+-4 5 -> -4 5 21 
+-4 -5 -> -5 -4 21 
+-4 21 -> -4 -1 1 
+-4 21 -> -4 -2 2 
+-4 21 -> -4 -4 4 
+-4 21 -> -4 -3 3 
+-4 21 -> -4 21 21 
+-4 21 -> -5 -4 5 
+-3 1 -> -3 1 21 
+-3 -1 -> -3 -1 21 
+-3 -2 -> -3 -2 21 
+-3 2 -> -3 2 21 
+-3 4 -> -3 4 21 
+-3 -4 -> -4 -3 21 
+-3 -3 -> -3 -3 21 
+-3 3 -> -1 1 21 
+-3 3 -> -2 2 21 
+-3 3 -> -4 4 21 
+-3 3 -> -3 3 21 
+-3 3 -> -5 5 21 
+-3 3 -> 21 21 21 
+-3 5 -> -3 5 21 
+-3 -5 -> -5 -3 21 
+-3 21 -> -4 -3 4 
+-3 21 -> -3 -1 1 
+-3 21 -> -3 -2 2 
+-3 21 -> -3 -3 3 
+-3 21 -> -3 21 21 
+-3 21 -> -5 -3 5 
+3 1 -> 1 3 21 
+3 -1 -> -1 3 21 
+3 -2 -> -2 3 21 
+3 2 -> 2 3 21 
+3 4 -> 3 4 21 
+3 -4 -> -4 3 21 
+3 -3 -> -1 1 21 
+3 -3 -> -2 2 21 
+3 -3 -> -4 4 21 
+3 -3 -> -3 3 21 
+3 -3 -> -5 5 21 
+3 -3 -> 21 21 21 
+3 3 -> 3 3 21 
+3 5 -> 3 5 21 
+3 -5 -> -5 3 21 
+3 21 -> -1 1 3 
+3 21 -> -2 2 3 
+3 21 -> -4 3 4 
+3 21 -> -3 3 3 
+3 21 -> 3 21 21 
+3 21 -> -5 3 5 
+5 1 -> 1 5 21 
+5 -1 -> -1 5 21 
+5 -2 -> -2 5 21 
+5 2 -> 2 5 21 
+5 4 -> 4 5 21 
+5 -4 -> -4 5 21 
+5 -3 -> -3 5 21 
+5 3 -> 3 5 21 
+5 5 -> 5 5 21 
+5 -5 -> -1 1 21 
+5 -5 -> -2 2 21 
+5 -5 -> -4 4 21 
+5 -5 -> -3 3 21 
+5 -5 -> -5 5 21 
+5 -5 -> 21 21 21 
+5 21 -> -1 1 5 
+5 21 -> -2 2 5 
+5 21 -> -4 4 5 
+5 21 -> -3 3 5 
+5 21 -> 5 21 21 
+5 21 -> -5 5 5 
+-5 1 -> -5 1 21 
+-5 -1 -> -5 -1 21 
+-5 -2 -> -5 -2 21 
+-5 2 -> -5 2 21 
+-5 4 -> -5 4 21 
+-5 -4 -> -5 -4 21 
+-5 -3 -> -5 -3 21 
+-5 3 -> -5 3 21 
+-5 5 -> -1 1 21 
+-5 5 -> -2 2 21 
+-5 5 -> -4 4 21 
+-5 5 -> -3 3 21 
+-5 5 -> -5 5 21 
+-5 5 -> 21 21 21 
+-5 -5 -> -5 -5 21 
+-5 21 -> -5 -1 1 
+-5 21 -> -5 -2 2 
+-5 21 -> -5 -4 4 
+-5 21 -> -5 -3 3 
+-5 21 -> -5 -5 5 
+-5 21 -> -5 21 21 
+21 1 -> 1 21 21 
+21 1 -> -1 1 1 
+21 1 -> -2 1 2 
+21 1 -> -4 1 4 
+21 1 -> -3 1 3 
+21 1 -> -5 1 5 
+21 -1 -> -1 -1 1 
+21 -1 -> -1 21 21 
+21 -1 -> -2 -1 2 
+21 -1 -> -4 -1 4 
+21 -1 -> -3 -1 3 
+21 -1 -> -5 -1 5 
+21 -2 -> -2 -1 1 
+21 -2 -> -2 -2 2 
+21 -2 -> -2 21 21 
+21 -2 -> -4 -2 4 
+21 -2 -> -3 -2 3 
+21 -2 -> -5 -2 5 
+21 2 -> -1 1 2 
+21 2 -> -2 2 2 
+21 2 -> 2 21 21 
+21 2 -> -4 2 4 
+21 2 -> -3 2 3 
+21 2 -> -5 2 5 
+21 4 -> -1 1 4 
+21 4 -> -2 2 4 
+21 4 -> 4 21 21 
+21 4 -> -4 4 4 
+21 4 -> -3 3 4 
+21 4 -> -5 4 5 
+21 -4 -> -4 -1 1 
+21 -4 -> -4 -2 2 
+21 -4 -> -4 -4 4 
+21 -4 -> -4 -3 3 
+21 -4 -> -4 21 21 
+21 -4 -> -5 -4 5 
+21 -3 -> -4 -3 4 
+21 -3 -> -3 -1 1 
+21 -3 -> -3 -2 2 
+21 -3 -> -3 -3 3 
+21 -3 -> -3 21 21 
+21 -3 -> -5 -3 5 
+21 3 -> -1 1 3 
+21 3 -> -2 2 3 
+21 3 -> -4 3 4 
+21 3 -> -3 3 3 
+21 3 -> 3 21 21 
+21 3 -> -5 3 5 
+21 5 -> -1 1 5 
+21 5 -> -2 2 5 
+21 5 -> -4 4 5 
+21 5 -> -3 3 5 
+21 5 -> 5 21 21 
+21 5 -> -5 5 5 
+21 -5 -> -5 -1 1 
+21 -5 -> -5 -2 2 
+21 -5 -> -5 -4 4 
+21 -5 -> -5 -3 3 
+21 -5 -> -5 -5 5 
+21 -5 -> -5 21 21 
+21 21 -> -1 1 21 
+21 21 -> -2 2 21 
+21 21 -> -4 4 21 
+21 21 -> -3 3 21 
+21 21 -> -5 5 21 
+21 21 -> 21 21 21 

@@ -35,7 +35,18 @@ set EventHandler:LuminosityFunction:Energy 200.0*GeV
 read Matchbox/StandardModelLike.in
 #read Matchbox/DiagonalCKM.in
 cd /Herwig/
-read Matchbox/VBFNLO.in
+#trying to just put in the pieces bit by bit to do minimum change
+cd /Herwig/MatrixElements/Matchbox/Amplitudes
+
+clear /Herwig/MatrixElements/Matchbox/Factory:Amplitudes
+insert /Herwig/MatrixElements/Matchbox/Factory:Amplitudes 0 GenericProcesses
+
+set GenericProcesses:TreeLevelAmplitude MadGraph
+set GenericProcesses:OneLoopAmplitude NJet
+
+clear /Herwig/Merging/MergingFactory:Amplitudes
+insert /Herwig/Merging/MergingFactory:Amplitudes 0 GenericProcesses
+#read Matchbox/
 cd /Herwig/MatrixElements/Matchbox
 
 set Factory:OrderInAlphaS 2
@@ -50,7 +61,7 @@ cd /Herwig/Cuts
 #This is the Matchbox stuff
 read Matchbox/DefaultPPJets.in
 set Cuts:JetFinder JetFinder
-set /Herwig/Cuts/JetFinder:Variant Kt
+set /Herwig/Cuts/JetFinder:Variant AntiKt
 set /Herwig/Cuts/JetFinder:ConeRadius 0.4
 insert JetCuts:JetRegions 0 FirstJet
 set /Herwig/Cuts/FirstJet:PtMin 10*GeV

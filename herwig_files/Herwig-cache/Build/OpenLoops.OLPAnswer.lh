@@ -1,0 +1,689 @@
+# OLP order file created by Herwig/Matchbox for OpenLoops
+
+CorrectionType           QCD      | OK
+IRregularization         CDR      | OK
+extra answerfile      ./Herwig-cache/Build/OpenLoops.OLPAnswer.lh      | OK
+extra psp_tolerance 12      | OK
+extra use_cms 1      | OK
+extra preset 2      | OK
+
+
+
+CouplingPower QCD       2     | OK
+
+#AlphasPower            2
+AmplitudeType ccTree      | OK
+1 1 -> 1 1     | Process not found
+1 -1 -> -1 1     | Process not found
+1 -1 -> -2 2     | Process not found
+1 -1 -> -4 4     | Process not found
+1 -1 -> -3 3     | Process not found
+1 -1 -> -5 5     | Process not found
+1 -1 -> 21 21     | Process not found
+1 -2 -> -2 1     | Process not found
+1 2 -> 1 2     | Process not found
+1 4 -> 1 4     | Process not found
+1 -4 -> -4 1     | Process not found
+1 -3 -> -3 1     | Process not found
+1 3 -> 1 3     | Process not found
+1 5 -> 1 5     | Process not found
+1 -5 -> -5 1     | Process not found
+1 21 -> 1 21     | Process not found
+-1 1 -> -1 1     | Process not found
+-1 1 -> -2 2     | Process not found
+-1 1 -> -4 4     | Process not found
+-1 1 -> -3 3     | Process not found
+-1 1 -> -5 5     | Process not found
+-1 1 -> 21 21     | Process not found
+-1 -1 -> -1 -1     | Process not found
+-1 -2 -> -2 -1     | Process not found
+-1 2 -> -1 2     | Process not found
+-1 4 -> -1 4     | Process not found
+-1 -4 -> -4 -1     | Process not found
+-1 -3 -> -3 -1     | Process not found
+-1 3 -> -1 3     | Process not found
+-1 5 -> -1 5     | Process not found
+-1 -5 -> -5 -1     | Process not found
+-1 21 -> -1 21     | Process not found
+-2 1 -> -2 1     | Process not found
+-2 -1 -> -2 -1     | Process not found
+-2 -2 -> -2 -2     | Process not found
+-2 2 -> -1 1     | Process not found
+-2 2 -> -2 2     | Process not found
+-2 2 -> -4 4     | Process not found
+-2 2 -> -3 3     | Process not found
+-2 2 -> -5 5     | Process not found
+-2 2 -> 21 21     | Process not found
+-2 4 -> -2 4     | Process not found
+-2 -4 -> -4 -2     | Process not found
+-2 -3 -> -3 -2     | Process not found
+-2 3 -> -2 3     | Process not found
+-2 5 -> -2 5     | Process not found
+-2 -5 -> -5 -2     | Process not found
+-2 21 -> -2 21     | Process not found
+2 1 -> 1 2     | Process not found
+2 -1 -> -1 2     | Process not found
+2 -2 -> -1 1     | Process not found
+2 -2 -> -2 2     | Process not found
+2 -2 -> -4 4     | Process not found
+2 -2 -> -3 3     | Process not found
+2 -2 -> -5 5     | Process not found
+2 -2 -> 21 21     | Process not found
+2 2 -> 2 2     | Process not found
+2 4 -> 2 4     | Process not found
+2 -4 -> -4 2     | Process not found
+2 -3 -> -3 2     | Process not found
+2 3 -> 2 3     | Process not found
+2 5 -> 2 5     | Process not found
+2 -5 -> -5 2     | Process not found
+2 21 -> 2 21     | Process not found
+4 1 -> 1 4     | Process not found
+4 -1 -> -1 4     | Process not found
+4 -2 -> -2 4     | Process not found
+4 2 -> 2 4     | Process not found
+4 4 -> 4 4     | Process not found
+4 -4 -> -1 1     | Process not found
+4 -4 -> -2 2     | Process not found
+4 -4 -> -4 4     | Process not found
+4 -4 -> -3 3     | Process not found
+4 -4 -> -5 5     | Process not found
+4 -4 -> 21 21     | Process not found
+4 -3 -> -3 4     | Process not found
+4 3 -> 3 4     | Process not found
+4 5 -> 4 5     | Process not found
+4 -5 -> -5 4     | Process not found
+4 21 -> 4 21     | Process not found
+-4 1 -> -4 1     | Process not found
+-4 -1 -> -4 -1     | Process not found
+-4 -2 -> -4 -2     | Process not found
+-4 2 -> -4 2     | Process not found
+-4 4 -> -1 1     | Process not found
+-4 4 -> -2 2     | Process not found
+-4 4 -> -4 4     | Process not found
+-4 4 -> -3 3     | Process not found
+-4 4 -> -5 5     | Process not found
+-4 4 -> 21 21     | Process not found
+-4 -4 -> -4 -4     | Process not found
+-4 -3 -> -4 -3     | Process not found
+-4 3 -> -4 3     | Process not found
+-4 5 -> -4 5     | Process not found
+-4 -5 -> -5 -4     | Process not found
+-4 21 -> -4 21     | Process not found
+-3 1 -> -3 1     | Process not found
+-3 -1 -> -3 -1     | Process not found
+-3 -2 -> -3 -2     | Process not found
+-3 2 -> -3 2     | Process not found
+-3 4 -> -3 4     | Process not found
+-3 -4 -> -4 -3     | Process not found
+-3 -3 -> -3 -3     | Process not found
+-3 3 -> -1 1     | Process not found
+-3 3 -> -2 2     | Process not found
+-3 3 -> -4 4     | Process not found
+-3 3 -> -3 3     | Process not found
+-3 3 -> -5 5     | Process not found
+-3 3 -> 21 21     | Process not found
+-3 5 -> -3 5     | Process not found
+-3 -5 -> -5 -3     | Process not found
+-3 21 -> -3 21     | Process not found
+3 1 -> 1 3     | Process not found
+3 -1 -> -1 3     | Process not found
+3 -2 -> -2 3     | Process not found
+3 2 -> 2 3     | Process not found
+3 4 -> 3 4     | Process not found
+3 -4 -> -4 3     | Process not found
+3 -3 -> -1 1     | Process not found
+3 -3 -> -2 2     | Process not found
+3 -3 -> -4 4     | Process not found
+3 -3 -> -3 3     | Process not found
+3 -3 -> -5 5     | Process not found
+3 -3 -> 21 21     | Process not found
+3 3 -> 3 3     | Process not found
+3 5 -> 3 5     | Process not found
+3 -5 -> -5 3     | Process not found
+3 21 -> 3 21     | Process not found
+5 1 -> 1 5     | Process not found
+5 -1 -> -1 5     | Process not found
+5 -2 -> -2 5     | Process not found
+5 2 -> 2 5     | Process not found
+5 4 -> 4 5     | Process not found
+5 -4 -> -4 5     | Process not found
+5 -3 -> -3 5     | Process not found
+5 3 -> 3 5     | Process not found
+5 5 -> 5 5     | Process not found
+5 -5 -> -1 1     | Process not found
+5 -5 -> -2 2     | Process not found
+5 -5 -> -4 4     | Process not found
+5 -5 -> -3 3     | Process not found
+5 -5 -> -5 5     | Process not found
+5 -5 -> 21 21     | Process not found
+5 21 -> 5 21     | Process not found
+-5 1 -> -5 1     | Process not found
+-5 -1 -> -5 -1     | Process not found
+-5 -2 -> -5 -2     | Process not found
+-5 2 -> -5 2     | Process not found
+-5 4 -> -5 4     | Process not found
+-5 -4 -> -5 -4     | Process not found
+-5 -3 -> -5 -3     | Process not found
+-5 3 -> -5 3     | Process not found
+-5 5 -> -1 1     | Process not found
+-5 5 -> -2 2     | Process not found
+-5 5 -> -4 4     | Process not found
+-5 5 -> -3 3     | Process not found
+-5 5 -> -5 5     | Process not found
+-5 5 -> 21 21     | Process not found
+-5 -5 -> -5 -5     | Process not found
+-5 21 -> -5 21     | Process not found
+21 1 -> 1 21     | Process not found
+21 -1 -> -1 21     | Process not found
+21 -2 -> -2 21     | Process not found
+21 2 -> 2 21     | Process not found
+21 4 -> 4 21     | Process not found
+21 -4 -> -4 21     | Process not found
+21 -3 -> -3 21     | Process not found
+21 3 -> 3 21     | Process not found
+21 5 -> 5 21     | Process not found
+21 -5 -> -5 21     | Process not found
+21 21 -> -1 1     | Process not found
+21 21 -> -2 2     | Process not found
+21 21 -> -4 4     | Process not found
+21 21 -> -3 3     | Process not found
+21 21 -> -5 5     | Process not found
+21 21 -> 21 21     | Process not found
+
+AmplitudeType sctree_polvect      | OK
+1 -1 -> 21 21     | Process not found
+1 21 -> 1 21     | Process not found
+-1 1 -> 21 21     | Process not found
+-1 21 -> -1 21     | Process not found
+-2 2 -> 21 21     | Process not found
+-2 21 -> -2 21     | Process not found
+2 -2 -> 21 21     | Process not found
+2 21 -> 2 21     | Process not found
+4 -4 -> 21 21     | Process not found
+4 21 -> 4 21     | Process not found
+-4 4 -> 21 21     | Process not found
+-4 21 -> -4 21     | Process not found
+-3 3 -> 21 21     | Process not found
+-3 21 -> -3 21     | Process not found
+3 -3 -> 21 21     | Process not found
+3 21 -> 3 21     | Process not found
+5 -5 -> 21 21     | Process not found
+5 21 -> 5 21     | Process not found
+-5 5 -> 21 21     | Process not found
+-5 21 -> -5 21     | Process not found
+21 1 -> 1 21     | Process not found
+21 -1 -> -1 21     | Process not found
+21 -2 -> -2 21     | Process not found
+21 2 -> 2 21     | Process not found
+21 4 -> 4 21     | Process not found
+21 -4 -> -4 21     | Process not found
+21 -3 -> -3 21     | Process not found
+21 3 -> 3 21     | Process not found
+21 5 -> 5 21     | Process not found
+21 -5 -> -5 21     | Process not found
+21 21 -> -1 1     | Process not found
+21 21 -> -2 2     | Process not found
+21 21 -> -4 4     | Process not found
+21 21 -> -3 3     | Process not found
+21 21 -> -5 5     | Process not found
+21 21 -> 21 21     | Process not found
+
+AmplitudeType Loop      | OK
+1 1 -> 1 1     | Process not found
+1 -1 -> -1 1     | Process not found
+1 -1 -> -2 2     | Process not found
+1 -1 -> -4 4     | Process not found
+1 -1 -> -3 3     | Process not found
+1 -1 -> -5 5     | Process not found
+1 -1 -> 21 21     | Process not found
+1 -2 -> -2 1     | Process not found
+1 2 -> 1 2     | Process not found
+1 4 -> 1 4     | Process not found
+1 -4 -> -4 1     | Process not found
+1 -3 -> -3 1     | Process not found
+1 3 -> 1 3     | Process not found
+1 5 -> 1 5     | Process not found
+1 -5 -> -5 1     | Process not found
+1 21 -> 1 21     | Process not found
+-1 1 -> -1 1     | Process not found
+-1 1 -> -2 2     | Process not found
+-1 1 -> -4 4     | Process not found
+-1 1 -> -3 3     | Process not found
+-1 1 -> -5 5     | Process not found
+-1 1 -> 21 21     | Process not found
+-1 -1 -> -1 -1     | Process not found
+-1 -2 -> -2 -1     | Process not found
+-1 2 -> -1 2     | Process not found
+-1 4 -> -1 4     | Process not found
+-1 -4 -> -4 -1     | Process not found
+-1 -3 -> -3 -1     | Process not found
+-1 3 -> -1 3     | Process not found
+-1 5 -> -1 5     | Process not found
+-1 -5 -> -5 -1     | Process not found
+-1 21 -> -1 21     | Process not found
+-2 1 -> -2 1     | Process not found
+-2 -1 -> -2 -1     | Process not found
+-2 -2 -> -2 -2     | Process not found
+-2 2 -> -1 1     | Process not found
+-2 2 -> -2 2     | Process not found
+-2 2 -> -4 4     | Process not found
+-2 2 -> -3 3     | Process not found
+-2 2 -> -5 5     | Process not found
+-2 2 -> 21 21     | Process not found
+-2 4 -> -2 4     | Process not found
+-2 -4 -> -4 -2     | Process not found
+-2 -3 -> -3 -2     | Process not found
+-2 3 -> -2 3     | Process not found
+-2 5 -> -2 5     | Process not found
+-2 -5 -> -5 -2     | Process not found
+-2 21 -> -2 21     | Process not found
+2 1 -> 1 2     | Process not found
+2 -1 -> -1 2     | Process not found
+2 -2 -> -1 1     | Process not found
+2 -2 -> -2 2     | Process not found
+2 -2 -> -4 4     | Process not found
+2 -2 -> -3 3     | Process not found
+2 -2 -> -5 5     | Process not found
+2 -2 -> 21 21     | Process not found
+2 2 -> 2 2     | Process not found
+2 4 -> 2 4     | Process not found
+2 -4 -> -4 2     | Process not found
+2 -3 -> -3 2     | Process not found
+2 3 -> 2 3     | Process not found
+2 5 -> 2 5     | Process not found
+2 -5 -> -5 2     | Process not found
+2 21 -> 2 21     | Process not found
+4 1 -> 1 4     | Process not found
+4 -1 -> -1 4     | Process not found
+4 -2 -> -2 4     | Process not found
+4 2 -> 2 4     | Process not found
+4 4 -> 4 4     | Process not found
+4 -4 -> -1 1     | Process not found
+4 -4 -> -2 2     | Process not found
+4 -4 -> -4 4     | Process not found
+4 -4 -> -3 3     | Process not found
+4 -4 -> -5 5     | Process not found
+4 -4 -> 21 21     | Process not found
+4 -3 -> -3 4     | Process not found
+4 3 -> 3 4     | Process not found
+4 5 -> 4 5     | Process not found
+4 -5 -> -5 4     | Process not found
+4 21 -> 4 21     | Process not found
+-4 1 -> -4 1     | Process not found
+-4 -1 -> -4 -1     | Process not found
+-4 -2 -> -4 -2     | Process not found
+-4 2 -> -4 2     | Process not found
+-4 4 -> -1 1     | Process not found
+-4 4 -> -2 2     | Process not found
+-4 4 -> -4 4     | Process not found
+-4 4 -> -3 3     | Process not found
+-4 4 -> -5 5     | Process not found
+-4 4 -> 21 21     | Process not found
+-4 -4 -> -4 -4     | Process not found
+-4 -3 -> -4 -3     | Process not found
+-4 3 -> -4 3     | Process not found
+-4 5 -> -4 5     | Process not found
+-4 -5 -> -5 -4     | Process not found
+-4 21 -> -4 21     | Process not found
+-3 1 -> -3 1     | Process not found
+-3 -1 -> -3 -1     | Process not found
+-3 -2 -> -3 -2     | Process not found
+-3 2 -> -3 2     | Process not found
+-3 4 -> -3 4     | Process not found
+-3 -4 -> -4 -3     | Process not found
+-3 -3 -> -3 -3     | Process not found
+-3 3 -> -1 1     | Process not found
+-3 3 -> -2 2     | Process not found
+-3 3 -> -4 4     | Process not found
+-3 3 -> -3 3     | Process not found
+-3 3 -> -5 5     | Process not found
+-3 3 -> 21 21     | Process not found
+-3 5 -> -3 5     | Process not found
+-3 -5 -> -5 -3     | Process not found
+-3 21 -> -3 21     | Process not found
+3 1 -> 1 3     | Process not found
+3 -1 -> -1 3     | Process not found
+3 -2 -> -2 3     | Process not found
+3 2 -> 2 3     | Process not found
+3 4 -> 3 4     | Process not found
+3 -4 -> -4 3     | Process not found
+3 -3 -> -1 1     | Process not found
+3 -3 -> -2 2     | Process not found
+3 -3 -> -4 4     | Process not found
+3 -3 -> -3 3     | Process not found
+3 -3 -> -5 5     | Process not found
+3 -3 -> 21 21     | Process not found
+3 3 -> 3 3     | Process not found
+3 5 -> 3 5     | Process not found
+3 -5 -> -5 3     | Process not found
+3 21 -> 3 21     | Process not found
+5 1 -> 1 5     | Process not found
+5 -1 -> -1 5     | Process not found
+5 -2 -> -2 5     | Process not found
+5 2 -> 2 5     | Process not found
+5 4 -> 4 5     | Process not found
+5 -4 -> -4 5     | Process not found
+5 -3 -> -3 5     | Process not found
+5 3 -> 3 5     | Process not found
+5 5 -> 5 5     | Process not found
+5 -5 -> -1 1     | Process not found
+5 -5 -> -2 2     | Process not found
+5 -5 -> -4 4     | Process not found
+5 -5 -> -3 3     | Process not found
+5 -5 -> -5 5     | Process not found
+5 -5 -> 21 21     | Process not found
+5 21 -> 5 21     | Process not found
+-5 1 -> -5 1     | Process not found
+-5 -1 -> -5 -1     | Process not found
+-5 -2 -> -5 -2     | Process not found
+-5 2 -> -5 2     | Process not found
+-5 4 -> -5 4     | Process not found
+-5 -4 -> -5 -4     | Process not found
+-5 -3 -> -5 -3     | Process not found
+-5 3 -> -5 3     | Process not found
+-5 5 -> -1 1     | Process not found
+-5 5 -> -2 2     | Process not found
+-5 5 -> -4 4     | Process not found
+-5 5 -> -3 3     | Process not found
+-5 5 -> -5 5     | Process not found
+-5 5 -> 21 21     | Process not found
+-5 -5 -> -5 -5     | Process not found
+-5 21 -> -5 21     | Process not found
+21 1 -> 1 21     | Process not found
+21 -1 -> -1 21     | Process not found
+21 -2 -> -2 21     | Process not found
+21 2 -> 2 21     | Process not found
+21 4 -> 4 21     | Process not found
+21 -4 -> -4 21     | Process not found
+21 -3 -> -3 21     | Process not found
+21 3 -> 3 21     | Process not found
+21 5 -> 5 21     | Process not found
+21 -5 -> -5 21     | Process not found
+21 21 -> -1 1     | Process not found
+21 21 -> -2 2     | Process not found
+21 21 -> -4 4     | Process not found
+21 21 -> -3 3     | Process not found
+21 21 -> -5 5     | Process not found
+21 21 -> 21 21     | Process not found
+
+
+CouplingPower QCD       3     | OK
+
+#AlphasPower            3
+AmplitudeType Tree      | OK
+1 1 -> 1 1 21     | Process not found
+1 -1 -> -1 1 21     | Process not found
+1 -1 -> -2 2 21     | Process not found
+1 -1 -> -4 4 21     | Process not found
+1 -1 -> -3 3 21     | Process not found
+1 -1 -> -5 5 21     | Process not found
+1 -1 -> 21 21 21     | Process not found
+1 -2 -> -2 1 21     | Process not found
+1 2 -> 1 2 21     | Process not found
+1 4 -> 1 4 21     | Process not found
+1 -4 -> -4 1 21     | Process not found
+1 -3 -> -3 1 21     | Process not found
+1 3 -> 1 3 21     | Process not found
+1 5 -> 1 5 21     | Process not found
+1 -5 -> -5 1 21     | Process not found
+1 21 -> 1 21 21     | Process not found
+1 21 -> -1 1 1     | Process not found
+1 21 -> -2 1 2     | Process not found
+1 21 -> -4 1 4     | Process not found
+1 21 -> -3 1 3     | Process not found
+1 21 -> -5 1 5     | Process not found
+-1 1 -> -1 1 21     | Process not found
+-1 1 -> -2 2 21     | Process not found
+-1 1 -> -4 4 21     | Process not found
+-1 1 -> -3 3 21     | Process not found
+-1 1 -> -5 5 21     | Process not found
+-1 1 -> 21 21 21     | Process not found
+-1 -1 -> -1 -1 21     | Process not found
+-1 -2 -> -2 -1 21     | Process not found
+-1 2 -> -1 2 21     | Process not found
+-1 4 -> -1 4 21     | Process not found
+-1 -4 -> -4 -1 21     | Process not found
+-1 -3 -> -3 -1 21     | Process not found
+-1 3 -> -1 3 21     | Process not found
+-1 5 -> -1 5 21     | Process not found
+-1 -5 -> -5 -1 21     | Process not found
+-1 21 -> -1 -1 1     | Process not found
+-1 21 -> -1 21 21     | Process not found
+-1 21 -> -2 -1 2     | Process not found
+-1 21 -> -4 -1 4     | Process not found
+-1 21 -> -3 -1 3     | Process not found
+-1 21 -> -5 -1 5     | Process not found
+-2 1 -> -2 1 21     | Process not found
+-2 -1 -> -2 -1 21     | Process not found
+-2 -2 -> -2 -2 21     | Process not found
+-2 2 -> -1 1 21     | Process not found
+-2 2 -> -2 2 21     | Process not found
+-2 2 -> -4 4 21     | Process not found
+-2 2 -> -3 3 21     | Process not found
+-2 2 -> -5 5 21     | Process not found
+-2 2 -> 21 21 21     | Process not found
+-2 4 -> -2 4 21     | Process not found
+-2 -4 -> -4 -2 21     | Process not found
+-2 -3 -> -3 -2 21     | Process not found
+-2 3 -> -2 3 21     | Process not found
+-2 5 -> -2 5 21     | Process not found
+-2 -5 -> -5 -2 21     | Process not found
+-2 21 -> -2 -1 1     | Process not found
+-2 21 -> -2 -2 2     | Process not found
+-2 21 -> -2 21 21     | Process not found
+-2 21 -> -4 -2 4     | Process not found
+-2 21 -> -3 -2 3     | Process not found
+-2 21 -> -5 -2 5     | Process not found
+2 1 -> 1 2 21     | Process not found
+2 -1 -> -1 2 21     | Process not found
+2 -2 -> -1 1 21     | Process not found
+2 -2 -> -2 2 21     | Process not found
+2 -2 -> -4 4 21     | Process not found
+2 -2 -> -3 3 21     | Process not found
+2 -2 -> -5 5 21     | Process not found
+2 -2 -> 21 21 21     | Process not found
+2 2 -> 2 2 21     | Process not found
+2 4 -> 2 4 21     | Process not found
+2 -4 -> -4 2 21     | Process not found
+2 -3 -> -3 2 21     | Process not found
+2 3 -> 2 3 21     | Process not found
+2 5 -> 2 5 21     | Process not found
+2 -5 -> -5 2 21     | Process not found
+2 21 -> -1 1 2     | Process not found
+2 21 -> -2 2 2     | Process not found
+2 21 -> 2 21 21     | Process not found
+2 21 -> -4 2 4     | Process not found
+2 21 -> -3 2 3     | Process not found
+2 21 -> -5 2 5     | Process not found
+4 1 -> 1 4 21     | Process not found
+4 -1 -> -1 4 21     | Process not found
+4 -2 -> -2 4 21     | Process not found
+4 2 -> 2 4 21     | Process not found
+4 4 -> 4 4 21     | Process not found
+4 -4 -> -1 1 21     | Process not found
+4 -4 -> -2 2 21     | Process not found
+4 -4 -> -4 4 21     | Process not found
+4 -4 -> -3 3 21     | Process not found
+4 -4 -> -5 5 21     | Process not found
+4 -4 -> 21 21 21     | Process not found
+4 -3 -> -3 4 21     | Process not found
+4 3 -> 3 4 21     | Process not found
+4 5 -> 4 5 21     | Process not found
+4 -5 -> -5 4 21     | Process not found
+4 21 -> -1 1 4     | Process not found
+4 21 -> -2 2 4     | Process not found
+4 21 -> 4 21 21     | Process not found
+4 21 -> -4 4 4     | Process not found
+4 21 -> -3 3 4     | Process not found
+4 21 -> -5 4 5     | Process not found
+-4 1 -> -4 1 21     | Process not found
+-4 -1 -> -4 -1 21     | Process not found
+-4 -2 -> -4 -2 21     | Process not found
+-4 2 -> -4 2 21     | Process not found
+-4 4 -> -1 1 21     | Process not found
+-4 4 -> -2 2 21     | Process not found
+-4 4 -> -4 4 21     | Process not found
+-4 4 -> -3 3 21     | Process not found
+-4 4 -> -5 5 21     | Process not found
+-4 4 -> 21 21 21     | Process not found
+-4 -4 -> -4 -4 21     | Process not found
+-4 -3 -> -4 -3 21     | Process not found
+-4 3 -> -4 3 21     | Process not found
+-4 5 -> -4 5 21     | Process not found
+-4 -5 -> -5 -4 21     | Process not found
+-4 21 -> -4 -1 1     | Process not found
+-4 21 -> -4 -2 2     | Process not found
+-4 21 -> -4 -4 4     | Process not found
+-4 21 -> -4 -3 3     | Process not found
+-4 21 -> -4 21 21     | Process not found
+-4 21 -> -5 -4 5     | Process not found
+-3 1 -> -3 1 21     | Process not found
+-3 -1 -> -3 -1 21     | Process not found
+-3 -2 -> -3 -2 21     | Process not found
+-3 2 -> -3 2 21     | Process not found
+-3 4 -> -3 4 21     | Process not found
+-3 -4 -> -4 -3 21     | Process not found
+-3 -3 -> -3 -3 21     | Process not found
+-3 3 -> -1 1 21     | Process not found
+-3 3 -> -2 2 21     | Process not found
+-3 3 -> -4 4 21     | Process not found
+-3 3 -> -3 3 21     | Process not found
+-3 3 -> -5 5 21     | Process not found
+-3 3 -> 21 21 21     | Process not found
+-3 5 -> -3 5 21     | Process not found
+-3 -5 -> -5 -3 21     | Process not found
+-3 21 -> -4 -3 4     | Process not found
+-3 21 -> -3 -1 1     | Process not found
+-3 21 -> -3 -2 2     | Process not found
+-3 21 -> -3 -3 3     | Process not found
+-3 21 -> -3 21 21     | Process not found
+-3 21 -> -5 -3 5     | Process not found
+3 1 -> 1 3 21     | Process not found
+3 -1 -> -1 3 21     | Process not found
+3 -2 -> -2 3 21     | Process not found
+3 2 -> 2 3 21     | Process not found
+3 4 -> 3 4 21     | Process not found
+3 -4 -> -4 3 21     | Process not found
+3 -3 -> -1 1 21     | Process not found
+3 -3 -> -2 2 21     | Process not found
+3 -3 -> -4 4 21     | Process not found
+3 -3 -> -3 3 21     | Process not found
+3 -3 -> -5 5 21     | Process not found
+3 -3 -> 21 21 21     | Process not found
+3 3 -> 3 3 21     | Process not found
+3 5 -> 3 5 21     | Process not found
+3 -5 -> -5 3 21     | Process not found
+3 21 -> -1 1 3     | Process not found
+3 21 -> -2 2 3     | Process not found
+3 21 -> -4 3 4     | Process not found
+3 21 -> -3 3 3     | Process not found
+3 21 -> 3 21 21     | Process not found
+3 21 -> -5 3 5     | Process not found
+5 1 -> 1 5 21     | Process not found
+5 -1 -> -1 5 21     | Process not found
+5 -2 -> -2 5 21     | Process not found
+5 2 -> 2 5 21     | Process not found
+5 4 -> 4 5 21     | Process not found
+5 -4 -> -4 5 21     | Process not found
+5 -3 -> -3 5 21     | Process not found
+5 3 -> 3 5 21     | Process not found
+5 5 -> 5 5 21     | Process not found
+5 -5 -> -1 1 21     | Process not found
+5 -5 -> -2 2 21     | Process not found
+5 -5 -> -4 4 21     | Process not found
+5 -5 -> -3 3 21     | Process not found
+5 -5 -> -5 5 21     | Process not found
+5 -5 -> 21 21 21     | Process not found
+5 21 -> -1 1 5     | Process not found
+5 21 -> -2 2 5     | Process not found
+5 21 -> -4 4 5     | Process not found
+5 21 -> -3 3 5     | Process not found
+5 21 -> 5 21 21     | Process not found
+5 21 -> -5 5 5     | Process not found
+-5 1 -> -5 1 21     | Process not found
+-5 -1 -> -5 -1 21     | Process not found
+-5 -2 -> -5 -2 21     | Process not found
+-5 2 -> -5 2 21     | Process not found
+-5 4 -> -5 4 21     | Process not found
+-5 -4 -> -5 -4 21     | Process not found
+-5 -3 -> -5 -3 21     | Process not found
+-5 3 -> -5 3 21     | Process not found
+-5 5 -> -1 1 21     | Process not found
+-5 5 -> -2 2 21     | Process not found
+-5 5 -> -4 4 21     | Process not found
+-5 5 -> -3 3 21     | Process not found
+-5 5 -> -5 5 21     | Process not found
+-5 5 -> 21 21 21     | Process not found
+-5 -5 -> -5 -5 21     | Process not found
+-5 21 -> -5 -1 1     | Process not found
+-5 21 -> -5 -2 2     | Process not found
+-5 21 -> -5 -4 4     | Process not found
+-5 21 -> -5 -3 3     | Process not found
+-5 21 -> -5 -5 5     | Process not found
+-5 21 -> -5 21 21     | Process not found
+21 1 -> 1 21 21     | Process not found
+21 1 -> -1 1 1     | Process not found
+21 1 -> -2 1 2     | Process not found
+21 1 -> -4 1 4     | Process not found
+21 1 -> -3 1 3     | Process not found
+21 1 -> -5 1 5     | Process not found
+21 -1 -> -1 -1 1     | Process not found
+21 -1 -> -1 21 21     | Process not found
+21 -1 -> -2 -1 2     | Process not found
+21 -1 -> -4 -1 4     | Process not found
+21 -1 -> -3 -1 3     | Process not found
+21 -1 -> -5 -1 5     | Process not found
+21 -2 -> -2 -1 1     | Process not found
+21 -2 -> -2 -2 2     | Process not found
+21 -2 -> -2 21 21     | Process not found
+21 -2 -> -4 -2 4     | Process not found
+21 -2 -> -3 -2 3     | Process not found
+21 -2 -> -5 -2 5     | Process not found
+21 2 -> -1 1 2     | Process not found
+21 2 -> -2 2 2     | Process not found
+21 2 -> 2 21 21     | Process not found
+21 2 -> -4 2 4     | Process not found
+21 2 -> -3 2 3     | Process not found
+21 2 -> -5 2 5     | Process not found
+21 4 -> -1 1 4     | Process not found
+21 4 -> -2 2 4     | Process not found
+21 4 -> 4 21 21     | Process not found
+21 4 -> -4 4 4     | Process not found
+21 4 -> -3 3 4     | Process not found
+21 4 -> -5 4 5     | Process not found
+21 -4 -> -4 -1 1     | Process not found
+21 -4 -> -4 -2 2     | Process not found
+21 -4 -> -4 -4 4     | Process not found
+21 -4 -> -4 -3 3     | Process not found
+21 -4 -> -4 21 21     | Process not found
+21 -4 -> -5 -4 5     | Process not found
+21 -3 -> -4 -3 4     | Process not found
+21 -3 -> -3 -1 1     | Process not found
+21 -3 -> -3 -2 2     | Process not found
+21 -3 -> -3 -3 3     | Process not found
+21 -3 -> -3 21 21     | Process not found
+21 -3 -> -5 -3 5     | Process not found
+21 3 -> -1 1 3     | Process not found
+21 3 -> -2 2 3     | Process not found
+21 3 -> -4 3 4     | Process not found
+21 3 -> -3 3 3     | Process not found
+21 3 -> 3 21 21     | Process not found
+21 3 -> -5 3 5     | Process not found
+21 5 -> -1 1 5     | Process not found
+21 5 -> -2 2 5     | Process not found
+21 5 -> -4 4 5     | Process not found
+21 5 -> -3 3 5     | Process not found
+21 5 -> 5 21 21     | Process not found
+21 5 -> -5 5 5     | Process not found
+21 -5 -> -5 -1 1     | Process not found
+21 -5 -> -5 -2 2     | Process not found
+21 -5 -> -5 -4 4     | Process not found
+21 -5 -> -5 -3 3     | Process not found
+21 -5 -> -5 -5 5     | Process not found
+21 -5 -> -5 21 21     | Process not found
+21 21 -> -1 1 21     | Process not found
+21 21 -> -2 2 21     | Process not found
+21 21 -> -4 4 21     | Process not found
+21 21 -> -3 3 21     | Process not found
+21 21 -> -5 5 21     | Process not found
+21 21 -> 21 21 21     | Process not found
