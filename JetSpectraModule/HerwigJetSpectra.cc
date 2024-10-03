@@ -144,7 +144,7 @@ int HerwigJetSpectra::getKinematics(PHCompositeNode *topNode, EventKinematicPlot
 		if(ev->weights().size() > 0 )
 			 for(auto w:ev->weights())
 				 Kinemats->h_weight->Fill(w);
-		Kinemats->h_cxs->Fill(ev->cross_section()->cross_section());
+//		Kinemats->h_cxs->Fill(ev->cross_section()->cross_section());
 		if(verbosity == 2 ) std::cout<<"The cross section is " <<ev->cross_section()->cross_section() <<std::endl;
 		float x_vtx=origvtx->get_collision_vertex().x(), y_vtx=origvtx->get_collision_vertex().y(), z_vtx=origvtx->get_collision_vertex().z(); //here is the vertex
 		float r=sqrt(x_vtx*x_vtx+y_vtx*y_vtx);
@@ -191,7 +191,7 @@ int HerwigJetSpectra::getKinematics(PHCompositeNode *topNode, EventKinematicPlot
 				//if(pt>pt_lead) pt_lead=pt;
 				Kinemats->h_status_orig->Fill((*iter)->status());
 				Kinemats->h_ET_orig->Fill(ET);
-				float mj=0, R=0, etj=0, ptj=0, ej=0;
+				float mj=0, R=0, etj=0, /*ptj=0,*/ ej=0, pxj=0, pyj=0;
 				if(verbosity>1) std::cout<<"Measuring the kinematics of the jet" <<std::endl;
 				if(Jet->jet_particles.size() == 0 ) continue;
 				HepMC::GenParticle* seed=NULL;
@@ -205,9 +205,9 @@ int HerwigJetSpectra::getKinematics(PHCompositeNode *topNode, EventKinematicPlot
 				}
 				for(auto p:Jet->jet_particles){
 					mj+=p->momentum().m();
-					//pxj+=p->momentum().px();
-					//pyj+=p->momentum().py();
-					ptj=getPt(p);
+					pxj+=abs(p->momentum().px());
+					pyj+=abs(p->momentum().py());
+					//ptj+=getPt(p);
 					etj+=p->momentum().e()/cosh(p->momentum().eta());
 					ej+=p->momentum().e();
 					for(auto n:Jet->jet_particles){
@@ -245,7 +245,7 @@ int HerwigJetSpectra::getKinematics(PHCompositeNode *topNode, EventKinematicPlot
 				else if (abs(Jet->originating_parton->pdg_id()) < 9 ) getE3C(Jet->jet_particles, h_e3c_q);
 				std::cout<<"Have now calculated the 2pt and 3pt energy correlators" <<std::endl;
 				Jet->ET=etj;
-				Jet->pt=ptj;
+				Jet->pt=sqrt(pow(pxj,2) + pow(pyj,2));
 				Jet->R=R/2;
 				Jet->phi=phi;
 				Jet->eta=eta;
@@ -258,8 +258,9 @@ int HerwigJetSpectra::getKinematics(PHCompositeNode *topNode, EventKinematicPlot
 		if(jetptlead > 0 ) Kinemats->h_Jet_pt_lead->Fill(jetptlead);
 		//Now need to get the produced particles and differentiate from the end particles
 		std::vector<HepMC::GenParticle*> final_state_particles;
+		float pttot=0;
 		for(HepMC::GenEvent::particle_const_iterator iter=ev->particles_begin(); iter !=ev->particles_end(); ++iter){
-	if(!(*iter)->end_vertex() && ((*iter)->status() == 1 || (pythia_run && (*iter)->status() > 0 ))){ //only pick up final state particles
+	if(!(*iter)->end_vertex() && ((*iter)->status() == 1 || (do_pythia && (*iter)->status() > 0 ))){ //only pick up final state particles
 		double px=(*iter)->momentum().px();
 		double py=(*iter)->momentum().py();
 		double pz=(*iter)->momentum().pz();
@@ -278,12 +279,18 @@ int HerwigJetSpectra::getKinematics(PHCompositeNode *topNode, EventKinematicPlot
 		Kinemats->h_phi_hit->Fill(phi);
 		Kinemats->h_hits->Fill(eta, phi);
 		Kinemats->h_pt->Fill(pt);
+		pttot+=pt;
 		Kinemats->h_mass->Fill(mass);
 		Kinemats->h_pdg_id->Fill((*iter)->pdg_id());
 		Kinemats->h_E->Fill(E);
 		Kinemats->h_ET->Fill(ET);
 		Kinemats->h_status->Fill((*iter)->status());
+		float delta=pow(ET,2)-pow(pt,2) -pow(mass,2);
+		Kinemats->h_delta->Fill(delta);
+		final_state_particles.push_back((*iter));
 	}
+	}
+		Kinemats->h_pt_total->Fill(pttot);
 	
 	//	JetCollection* ICPRjets1=new JetCollection("Itterative Cone with Progressive Removal", 0.1, 0.1);
 		JetCollection* ICPRjets2=new JetCollection("Itterative Cone with Progressive Removal", 0.2, 0.1);
@@ -315,7 +322,7 @@ int HerwigJetSpectra::getKinematics(PHCompositeNode *topNode, EventKinematicPlot
 				}
 			}
 	
-		}	
+			
 	}
 	}
 	Kinemats->h_n_part->Fill(np);
@@ -323,7 +330,6 @@ int HerwigJetSpectra::getKinematics(PHCompositeNode *topNode, EventKinematicPlot
 	Kinemats->h_pt_leading->Fill(pt_lead);
 	Kinemats->h_E_total->Fill(E_total);
 	Kinemats->h_ev->Fill(hep_ev);
-	
   return Fun4AllReturnCodes::EVENT_OK;
 }
 //__________________________________________________________________________
@@ -424,7 +430,7 @@ std::vector<HepMC::GenParticle*> HerwigJetSpectra::IDJets(PHCompositeNode *topNo
 					else{
 						if(verbosity>4) std::cout<<"Will treat as a final state? Depends on status which is " <<(*par)->status() <<std::endl;
 						if(final_state_barcodes.find((*par)->barcode()) == final_state_barcodes.end()){
-							if( (*par)->status() == 1 || (pythia_run && (*par)->status() > 0 )){
+							if( (*par)->status() == 1 || (do_pythia && (*par)->status() > 0 )){
 								 final_state_jet.push_back(*par);
 								if(verbosity>2) std::cout<<"Added a parton to the final state jet, have  " <<final_state_jet.size() <<std::endl;
 							}
@@ -890,7 +896,8 @@ void HerwigJetSpectra::Print(const std::string &what) const
   HerwigKin->h_Jet_pt_lead->Write();
   HerwigKin->h_hits->Write();
   HerwigKin->h_hits_orig->Write();
-  HerwigKin->h_cxs->Write();
+  HerwigKin->h_delta->Write();
+  HerwigKin->h_pt_total->Write();
   if(do_pythia){
 	  PythiaKin->h_pt->Write();
 	  PythiaKin->h_phi->Write();
@@ -919,7 +926,7 @@ void HerwigJetSpectra::Print(const std::string &what) const
 	  PythiaKin->h_weight->Write();
 	  PythiaKin->h_ET->Write();
 	  PythiaKin->h_ET_orig->Write();
-	  PythiaKin->h_cxs->Write();
+	  PythiaKin->h_delta->Write();
 	//  PythiaKin->h_Jet_pt->Write();
 	 // PythiaKin->h_Jet_R->Write();
 	//  PythiaKin->h_Jet_npart->Write();

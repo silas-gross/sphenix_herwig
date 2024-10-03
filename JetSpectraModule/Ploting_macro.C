@@ -7,6 +7,16 @@
 int Pythia_to_Herwig(TFile* herwig, TFile* pythia, std::string trig, std::string trigval)
 {
 	SetsPhenixStyle();
+	float herwig_weight=1.0, pythia_weight=1.0;
+	std::cout<<std::stoi(trigval)<<std::endl;
+	if(std::stoi(trigval) == 10){
+		herwig_weight=4253.0/33852000.0;
+		pythia_weight=0.198/41.973;
+	}
+	if(std::stoi(trigval) == 30) {
+		herwig_weight=2.2836/33852000.0;
+		pythia_weight=0.001/41.973;
+	}
 	TH1F* evts_h=(TH1F*) herwig->Get("event_Herwig");
 	TH1F* evts_pg=(TH1F*) herwig->Get("event_Pythia");
 	TH1F* evts_p=(TH1F*) pythia->Get("event_Pythia");
@@ -35,7 +45,7 @@ int Pythia_to_Herwig(TFile* herwig, TFile* pythia, std::string trig, std::string
 	TH1F* pt_h=(TH1F*) herwig->Get("pt_Herwig");
 	TH1F* e_h=(TH1F*) herwig->Get("energy_Herwig");
 	TH1F* et_h=(TH1F*) herwig->Get("transverse_energy_Herwig");
-	TH1F* cxs_h=(TH1F*) herwig->Get("cross_sect_Herwig"); 
+	//TH1F* cxs_h=(TH1F*) herwig->Get("cross_sect_Herwig"); 
 	TH1F* phi_pg=(TH1F*) herwig->Get("phi_Pythia");
 	TH1F* eta_pg=(TH1F*) herwig->Get("eta_Pythia");
 	TH1F* phi_hit_pg=(TH1F*) herwig->Get("phi_hit_Pythia");
@@ -43,7 +53,7 @@ int Pythia_to_Herwig(TFile* herwig, TFile* pythia, std::string trig, std::string
 	TH1F* pt_pg=(TH1F*) herwig->Get("pt_Pythia");
 	TH1F* e_pg=(TH1F*) herwig->Get("energy_Pythia");
 	TH1F* et_pg=(TH1F*) herwig->Get("transverse_energy_Pythia");
-	TH1F* cxs_pg=(TH1F*) herwig->Get("cross_sect_Pythia"); 
+	//TH1F* cxs_pg=(TH1F*) herwig->Get("cross_sect_Pythia"); 
 	TH1F* phi_p=(TH1F*) pythia->Get("phi_Pythia");
 	TH1F* eta_p=(TH1F*) pythia->Get("eta_Pythia");
 	TH1F* phi_hit_p=(TH1F*) pythia->Get("phi_hit_Pythia");
@@ -51,7 +61,7 @@ int Pythia_to_Herwig(TFile* herwig, TFile* pythia, std::string trig, std::string
 	TH1F* pt_p=(TH1F*) pythia->Get("pt_Pythia");
 	TH1F* e_p=(TH1F*) pythia->Get("energy_Pythia");
 	TH1F* et_p=(TH1F*) pythia->Get("transverse_energy_Pythia");
-	TH1F* cxs_p=(TH1F*) pythia->Get("cross_sect_Pythia"); 
+	//TH1F* cxs_p=(TH1F*) pythia->Get("cross_sect_Pythia"); 
 	float upperx_pythia=0.0, upperx_herwig=0.0;
 	for(int i=0; i<pt_p->GetNbinsX(); i++)if(pt_p->GetBinContent(i) > 0) upperx_pythia=pt_p->GetBinCenter(i);
 	for(int i=0; i<pt_h->GetNbinsX(); i++)if(pt_h->GetBinContent(i) > 0) upperx_herwig=pt_h->GetBinCenter(i);
@@ -68,17 +78,19 @@ int Pythia_to_Herwig(TFile* herwig, TFile* pythia, std::string trig, std::string
 	e_p->GetXaxis()->SetRangeUser(0, 100);
 	e_h->GetXaxis()->SetRangeUser(0, 100);
 	e_pg->GetXaxis()->SetRangeUser(0, 100);
-	std::vector<TH1F*> herwig_plots {phi_h, eta_h, phi_hit_h, eta_hit_h, pt_h, e_h, et_h, cxs_h};
-	std::vector<TH1F*> pythia_plots {phi_p, eta_p, phi_hit_p, eta_hit_p, pt_p, e_p, et_p, cxs_p};
-	std::vector<TH1F*> pythiag_plots {phi_pg, eta_pg, phi_hit_pg, eta_hit_pg, pt_pg, e_pg, et_pg, cxs_pg};
+	std::vector<TH1F*> herwig_plots {phi_h, eta_h, phi_hit_h, eta_hit_h, pt_h, e_h, et_h/*, cxs_h*/};
+	std::vector<TH1F*> pythia_plots {phi_p, eta_p, phi_hit_p, eta_hit_p, pt_p, e_p, et_p/*, cxs_p*/};
+	std::vector<TH1F*> pythiag_plots {phi_pg, eta_pg, phi_hit_pg, eta_hit_pg, pt_pg, e_pg, et_pg/*, cxs_pg*/};
 	std::vector<TH1F*> ratios_hp, ratios_hpg, ratios_p;	
 	std::vector<float> maxs, ratmaxs;
 	for(int i=0; i<(int) herwig_plots.size(); i++){
-		if(i==3 || i==2)herwig_plots.at(i)->SetYTitle(Form("#frac{d N_{particles}}{d %s}", herwig_plots.at(i)->GetXaxis()->GetTitle()));
-		else if (i >3) herwig_plots.at(i)->SetYTitle(Form("#frac{d %s }{d%s}", herwig_plots.at(i)->GetYaxis()->GetTitle(), herwig_plots.at(i)->GetXaxis()->GetTitle()));
+		if(i==3 || i==2)herwig_plots.at(i)->SetYTitle(Form("#frac{d N_{particles}}{d %s} #times #frac{#sigma_{MB}}{#sigma_{%s}}", herwig_plots.at(i)->GetXaxis()->GetTitle(), trig.c_str()));
+		else if (i >3) herwig_plots.at(i)->SetYTitle(Form("#frac{d %s }{d%s} #times #frac{#sigma_{MB}}{#sigma_{%s}}", herwig_plots.at(i)->GetYaxis()->GetTitle(), herwig_plots.at(i)->GetXaxis()->GetTitle(), trig.c_str()));
 		herwig_plots.at(i)->Scale(1/(float)herwig_plots.at(i)->GetBinWidth(5));
 		pythiag_plots.at(i)->Scale(1/(float)pythiag_plots.at(i)->GetBinWidth(5));
 		pythia_plots.at(i)->Scale(1/(float)pythia_plots.at(i)->GetBinWidth(5));
+		herwig_plots.at(i)->Scale(1/(float)herwig_weight);
+		pythia_plots.at(i)->Scale(1/(float)pythia_weight);
 		pythia_plots.at(i)->SetLineColor(7);
 		pythia_plots.at(i)->SetMarkerColor(7);
 		pythiag_plots.at(i)->SetLineColor(kPink+1);
@@ -87,7 +99,8 @@ int Pythia_to_Herwig(TFile* herwig, TFile* pythia, std::string trig, std::string
 		TH1F* pythia_clone=(TH1F*)pythia_plots.at(i)->Clone();
 		TH1F* herwig_clone2=(TH1F*)herwig_plots.at(i)->Clone();
 		float maxval=std::max(herwig_plots.at(i)->GetMaximum(), pythia_plots.at(i)->GetMaximum());
-		maxval=std::max(maxval,(float) pythiag_plots.at(i)->GetMaximum());
+		//maxval=std::max(maxval,(float) pythiag_plots.at(i)->GetMaximum());
+		if(i < 4) maxval=std::max(1.25*herwig_plots.at(i)->GetBinContent(5), 1.25*pythia_plots.at(i)->GetMaximum());
 		maxs.push_back(maxval);
 		herwig_clone->SetMarkerStyle(22);
 		herwig_clone2->SetMarkerColor(kPink+1);
@@ -97,6 +110,7 @@ int Pythia_to_Herwig(TFile* herwig, TFile* pythia, std::string trig, std::string
 		herwig_clone->Divide(pythia_plots.at(i));
 		herwig_clone2->Divide(pythiag_plots.at(i));
 		pythia_clone->Divide(pythiag_plots.at(i));
+		herwig_clone->SetYTitle("Ratio Herwig/Pythia");
 		ratios_hp.push_back(herwig_clone);
 		ratios_hpg.push_back(herwig_clone2);
 		ratios_p.push_back(pythia_clone);
@@ -123,11 +137,11 @@ int Pythia_to_Herwig(TFile* herwig, TFile* pythia, std::string trig, std::string
 	mhg->SetMarkerColor(kPink+1);
 	
 	l1->AddEntry(mh, "Herwig", "p");  
-	l1->AddEntry(mp, "Pythia from HepMC file", "p");  
-	l1->AddEntry(mpg, "Pythia Generated with Herwig event analysis", "p");  
-	l1->AddEntry(mhp, "Herwig / Pythia HepMC", "p");  
-	l1->AddEntry(mhg, "Herwig / Pythia Generated with Herwig", "p");  
-	l1->AddEntry(mppg, "Pythia HepMC/Pythia Generated with Herwig", "p"); 
+	l1->AddEntry(mp, "Pythia", "p");  
+//	l1->AddEntry(mpg, "Pythia Generated with Herwig event analysis", "p");  
+	l1->AddEntry(mhp, "Herwig / Pythia", "p");  
+//	l1->AddEntry(mhg, "Herwig / Pythia Generated with Herwig", "p");  
+//	l1->AddEntry(mppg, "Pythia HepMC/Pythia Generated with Herwig", "p"); 
 /*	l1->AddEntry(herwig_plots.at(0), "Herwig", "p");  
 	l1->AddEntry(pythia_plots.at(0), "Pythia from HepMC file", "p");  
 	l1->AddEntry(pythiag_plots.at(0), "Pythia Generated with Herwig event analysis", "p");  
@@ -138,8 +152,8 @@ int Pythia_to_Herwig(TFile* herwig, TFile* pythia, std::string trig, std::string
 	std::vector<std::string> fnames {"E_phi", "E_eta", "phi_hit", "eta_hit", "p_T", "E", "ET", "cross_sec"};
 	for(int i=0; i<(int) herwig_plots.size()-1; i++)
 	{
-		if(i > 3) herwig_plots.at(i)->GetYaxis()->SetRangeUser(1, 1.3*maxs.at(i));
-		else  herwig_plots.at(i)->GetYaxis()->SetRangeUser(0.001*maxs.at(i), 1.3*maxs.at(i));
+		if(i > 3) herwig_plots.at(i)->GetYaxis()->SetRangeUser(1, 1.1*maxs.at(i));
+		else  herwig_plots.at(i)->GetYaxis()->SetRangeUser(0.03*pythia_plots.at(i)->GetMinimum(), 1.5*maxs.at(i));
 		if(i > 3) ratios_hp.at(i)->GetYaxis()->SetRangeUser(0.9*ratios_hp.at(i)->GetMinimum(), 1.25*ratmaxs.at(i));
 		else ratios_hp.at(i)->GetYaxis()->SetRangeUser(0.09*ratios_hp.at(i)->GetMinimum(), 1.25*ratmaxs.at(i));
 		p1->cd();
@@ -147,17 +161,17 @@ int Pythia_to_Herwig(TFile* herwig, TFile* pythia, std::string trig, std::string
 		l->AddEntry("", sphenix_label.c_str(), "");
 		l->AddEntry("", Form("2 #rightarrow 2 Monte Carlo %s, %s", trig.c_str(), evts.c_str()), "");
 		l->AddEntry("", labels.at(i).c_str(), "");
-		herwig_plots.at(i)->Draw("e2");
-		pythia_plots.at(i)->Draw("e2 same");
-		pythiag_plots.at(i)->Draw("e2 same");
+		herwig_plots.at(i)->Draw("e1");
+		pythia_plots.at(i)->Draw("e1 same");
+	//	pythiag_plots.at(i)->Draw("e2 same");
 		l->Draw();
 		l1->Draw();
 		c1->cd();
 		p1->Draw();
 		p2->cd();
 		ratios_hp.at(i)->Draw("HIST p");
-		ratios_hpg.at(i)->Draw("HIST p same");
-		ratios_p.at(i)->Draw("HIST p same");
+		//ratios_hpg.at(i)->Draw("HIST p same");
+		//ratios_p.at(i)->Draw("HIST p same");
 		c1->cd();
 		p2->Draw();
 		c1->Print(Form("~/%s_%s.pdf", fnames.at(i).c_str(), trigval.c_str()));

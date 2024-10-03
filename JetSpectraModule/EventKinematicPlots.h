@@ -14,23 +14,23 @@ struct EventKinematicPlots{
 	TH1F* h_eta=new TH1F(Form("eta_%s",  gen.c_str()), Form("Transverse Energy #eta distribution of all particles produced in decay chain of Hepmc record in sPHENIX acceptance %s; #eta; #sum_{particles} E_{T} [GeV]", gen_label.c_str()), 24, -1.12, 1.1); 
 	TH1F* h_phi_hit=new TH1F(Form("phi_hit_%s",  gen.c_str()), Form("hit distribution #varphi distribution of all particles produced in the decay chain of Hepmc record %s ; #varphi", gen_label.c_str()), 64, -3.1416, 3.14);
 	TH1F* h_eta_hit=new TH1F(Form("eta_hit_%s",  gen.c_str()), Form("hit #eta distribution of all particles produced in decay chain of Hepmc record in sPHENIX acceptance %s ; #eta", gen_label.c_str()), 24, -1.12, 1.1); 
-	TH1F* h_pt=new TH1F(Form("pt_%s",  gen.c_str()), Form("p_{T} distribution of final state particles %s ; p_{T} [GeV]; N_{part}", gen_label.c_str()), 1000,-0.5, 49.5);
+	TH1F* h_pt=new TH1F(Form("pt_%s",  gen.c_str()), Form("p_{T} distribution of final state particles %s ; p_{T} [GeV]; N_{part}", gen_label.c_str()), 500,-0.5, 49.5);
 	TH1F* h_n_part=new TH1F(Form("n_part_%s",  gen.c_str()), Form("Number of total particles produced in decay chain of a Hepmc event %s; n_{part}; N_{event}", gen_label.c_str()), 1000, -0.5, 999.5);
 	TH1F* h_mass=new TH1F(Form("mass_%s",  gen.c_str()), Form("Particle masses of final state particles %s ; m [GeV]; N_{part}", gen_label.c_str()), 100, 0, 1.5);
 	TH1F* h_pdg_id=new TH1F(Form("pdg_%s",  gen.c_str()), Form("Particle id of final state particles %s ; pdg id; N_{part}", gen_label.c_str()), 4600, -2300.5, 2299.5);
 	TH1F* h_E=new TH1F(Form("energy_%s",  gen.c_str()), Form("Energy of all particles in decay chain %s ; E [GeV]; N_{part}", gen_label.c_str()), 200, -0.5, 199.5);
-	TH1F* h_ET=new TH1F(Form("transverse_energy_%s",  gen.c_str()), Form("Transverse Energy of final state particles %s; E_{T} [GeV]; N_{part}", gen_label.c_str()), 100, -0.5, 49.5);
+	TH1F* h_ET=new TH1F(Form("transverse_energy_%s",  gen.c_str()), Form("Transverse Energy of final state particles %s; E_{T} [GeV]; N_{part}", gen_label.c_str()), 500, -0.5, 49.5);
 	TH1F* h_status=new TH1F(Form("status_%s",  gen.c_str()), Form("HepMC status of final state particles %s; status", gen_label.c_str()), 30, -0.5, 29.5);
 	TH1F* h_phi_orig=new TH1F(Form("phi_orig_%s",  gen.c_str()), Form("#varphi distribution of primary particles produced in Hepmc record %s; #varphi; #sum_{particles} E_{T} [GeV]", gen_label.c_str()), 64, -3.1416, 3.14);
 	TH1F* h_eta_orig=new TH1F(Form("eta_orig_%s",  gen.c_str()), Form("#eta distribution of primary particles produced in decay chain of Hepmc record in sPHENIX acceptance %s; #eta; #sum_{particles} E_{T} [GeV]", gen_label.c_str()), 24, -1.12, 1.1); 
 	TH1F* h_phi_hit_orig=new TH1F(Form("phi_hit_orig_%s", gen.c_str()), Form( "hit #varphi distribution of primary particles produced in Hepmc record %s; #varphi; N_{hits}", gen_label.c_str()), 64, -3.1416, 3.14);
 	TH1F* h_eta_hit_orig=new TH1F(Form("eta_hit_orig_%s",  gen.c_str()), Form("#eta distribution of primary partons produced Hepmc record in sPHENIX acceptance %s; #eta; N_{hits}", gen_label.c_str()), 24, -1.12, 1.1); 
-	TH1F* h_pt_orig=new TH1F(Form("pt_orig_%s",  gen.c_str()), Form("p_{T} distribution of primary particles produced in decay chain of Hepmc record %s; p_{T} [GeV]; N_{part}", gen_label.c_str()), 1000,-0.5, 99.5);
+	TH1F* h_pt_orig=new TH1F(Form("pt_orig_%s",  gen.c_str()), Form("p_{T} distribution of primary particles produced in decay chain of Hepmc record %s; p_{T} [GeV]; N_{part}", gen_label.c_str()), 500,-0.5, 99.5);
 	TH1F* h_n_part_orig=new TH1F(Form("n_part_orig_%s",  gen.c_str()), Form("Number of total primary particles produced in decay chain of a Hepmc event %s; n_{part}; N_{event}", gen_label.c_str()), 1000, -0.5, 999.5);
 	TH1F* h_mass_orig=new TH1F(Form("mass_orig_%s",  gen.c_str()), Form("Particle masses of primary particle in decay chain of Hepmc record %s; m [GeV]; N_{part}", gen_label.c_str()), 100, 0, 1.5);
 	TH1F* h_status_orig=new TH1F(Form("status_orig_%s",  gen.c_str()), Form("HepMC status of primary partons %s; status", gen_label.c_str()), 30, -0.5, 29.5);
 	TH1F* h_E_orig=new TH1F(Form("energy_orig_%s",  gen.c_str()), Form("Energy of primary partons %s; E[GeV]; N_{part}", gen_label.c_str()), 200, -0.5, 199.5);
-	TH1F* h_ET_orig=new TH1F(Form("transverse_energy_orig_%s",  gen.c_str()), Form("Transverse Energy of primary partons %s; E_{T} [GeV]; N_{part}", gen_label.c_str()), 100, -0.5, 49.5);
+	TH1F* h_ET_orig=new TH1F(Form("transverse_energy_orig_%s",  gen.c_str()), Form("Transverse Energy of primary partons %s; E_{T} [GeV]; N_{part}", gen_label.c_str()), 500, -0.5, 49.5);
 	TH1F* h_pdg_id_orig=new TH1F(Form("pdg_orig_%s",  gen.c_str()), Form("Particle id of originating parton %s ; pdg id; N_{part}", gen_label.c_str()), 4600, -2300.5, 2299.5);
 	TH1F* h_pt_leading=new TH1F(Form("pt_leading_%s",  gen.c_str()), Form("p_{T} of leading primary particle in Hepmc record %s; p_{T}[GeV]; N_{part}", gen_label.c_str()), 1000, -0.5, 49.5);
 	TH1F* h_E_total=new TH1F(Form("energy_total_%s",  gen.c_str()), Form("Total energy of event %s; E[GeV]; N_{event}", gen_label.c_str()), 200, -0.5, 799.5);
@@ -38,13 +38,14 @@ struct EventKinematicPlots{
 	TH1F* h_ev=new TH1F(Form("event_%s",  gen.c_str()), Form("Number of HepMC Events per Fun4All event %s; N_{event}", gen_label.c_str()), 10, -0.5, 9.5); 
 	TH1F* h_weight=new TH1F(Form("weights_%s",  gen.c_str()), Form("HEPMC event weights %s", gen_label.c_str()), 100, -0.5, 1.5); 
 	TH1F* h_Jet_pt_lead=new TH1F(Form("jet_pt_leading_%s",  gen.c_str()), Form("p_{T} of identified leading jets in final state %s; p_{T} [GeV]; Counts", gen_label.c_str()), 100, -0.5, 49.5);
-	TH1F* h_cxs=new TH1F(Form("cross_sect_%s", gen.c_str()), Form("Cross section of event from HepMC Record %s; #sigma", gen_label.c_str()), 100, -0.5, 99.5); 
+	TH1F* h_delta=new TH1F(Form("delta_%s", gen.c_str()), Form("Difference between E_{T} and #sqrt{p_{T}^2 + m^2} %s;  E_{T}^2 - p_{T}^2-m^2", gen_label.c_str()), 100, -49.5, 50.5);
+	TH1F* h_pt_total=new TH1F(Form("pt_tot_%s", gen.c_str()), Form("#Sigma p_{T} of final state particles %s; p_{T}; N_{evts}", gen_label.c_str()), 1000, -0.5,  99.5);
 	TH2F* h_hits=new TH2F(Form("hits_%s",  gen.c_str()), Form("N final state particles %s; #eta; #phi; N_{particles}", gen_label.c_str()), 24, -1.1, 1.1, 64, -3.1416, 3.1414);
 	TH2F* h_hits_orig=new TH2F(Form("hits_orig_%s",  gen.c_str()), Form("N inital state partons %s; #eta; #phi; N_{partons}", gen_label.c_str()), 24, -1.1, 1.1, 64, -3.1416, 3.1414);
 	//does not have the jet kinematics by default needs to be called seperately for initialization
 	std::map<std::string, TH1F*> OneDPlotsFinalStates {{"phi", h_phi}, {"eta", h_eta}, {"phi hits", h_phi_hit}, {"eta hits", h_eta_hit}, {"pt", h_pt},{"et", h_ET}, {"e", h_E}, {"m", h_mass}, {"n", h_n_part}, {"PDGID", h_pdg_id}, {"Status", h_status}};
 	std::map<std::string, TH1F*> OneDPlotsInitalStates {{"phi", h_phi_orig}, {"eta", h_eta_orig}, {"phi hits", h_phi_hit_orig}, {"eta hits", h_eta_hit_orig}, {"pt", h_pt_orig},{"et", h_ET_orig}, {"e", h_E_orig}, {"m", h_mass_orig}, {"n", h_n_part_orig}, {"PDGID", h_pdg_id_orig}, {"Status", h_status_orig}};
-	std::map<std::string, TH1F*> OneDPlotsOther {{"pt lead", h_pt_leading}, {"e", h_E_total}, {"Event", h_ev}, {"Weight", h_weight}, {"Cross Section", h_cxs}};
+	std::map<std::string, TH1F*> OneDPlotsOther {{"pt lead", h_pt_leading}, {"e", h_E_total}, {"Event", h_ev}, {"Weight", h_weight}, {"Delta", h_delta}, {"pt total", h_pt_total}};
 	std::map<std::string, TH2F*> TwoDPlots {{"vertex", h_vertex}, {"hits", h_hits}, {"hits originating", h_hits_orig}, {"Vertex", h_vertex}};
 };
 #endif
