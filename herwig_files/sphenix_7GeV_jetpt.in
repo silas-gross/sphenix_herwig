@@ -157,4 +157,4 @@ set /Herwig/Analysis/HepMCFile:Units GeV_mm
 ##################################################
 # Save run for later usage with 'Herwig run'
 ##################################################
-saverun sphenix_10GeV_jetpt EventGenerator
+saverun sphenix_7GeV_jetpt EventGenerator
