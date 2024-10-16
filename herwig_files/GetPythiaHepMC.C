@@ -20,14 +20,19 @@ int GetPythiaHepMC(std::string config_file="pythia_10GeV.cfg", std::string trigg
 	}
     	float ptmin=0.;
 	if(strippeddown.find("none") == std::string::npos) ptmin=std::stof(strippeddown);
-	for(int iEvent=0; iEvent < 50000; ++iEvent){
+	int goal=100000;
+	float ntry=0., eff=1.;
+	std::cout<<"converted trigger name is " <<strippeddown<<std::endl;
+	for(int iEvent=0; iEvent < 100000; ++iEvent){
 		std::cout<<"Generating on event " <<iEvent <<std::endl;
 		if(!pythia.next()) continue;
+		ntry++;
 		bool oneabove=false;
     		for(int i=0; i<pythia.event.size(); ++i){
-            		int status=pythia.event[i].status();
+            		//ntry++;
+			int status=pythia.event[i].status();
             //cut on getting at least one parton above threshold i.e. Herwig cut
-            		if(pythia.event[i].isParton() && status == -23 && pythia.event[i].pT() >=ptmin)
+            		if(trigger.find("MB") || (pythia.event[i].isParton() && status == -23 && pythia.event[i].pT() >=ptmin))
                     		oneabove=true;
             }
             //                                        //only keep events with the cut and generate a new event
@@ -37,7 +42,9 @@ int GetPythiaHepMC(std::string config_file="pythia_10GeV.cfg", std::string trigg
                         }	
 		hepmcoutput.writeNextEvent(pythia);
 	}
+	eff=goal/ntry*100;
+	 cout<<"The number of generated events was " <<ntry <<"\n goal was " <<goal <<"\n efficiency was " <<eff <<" %" <<endl;
 	std::cout<<"Cross section is " <<pythia.info.sigmaGen() <<std::endl;
-	std::cout<<"Generated 500,000 pythia events for the config file : " <<config_file <<std::endl;
+	std::cout<<"Generated 100,000 pythia events for the config file : " <<config_file <<std::endl;
 	return 0;
 }

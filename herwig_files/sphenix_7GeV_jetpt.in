@@ -32,14 +32,8 @@ set EventGenerator:EventHandler:LuminosityFunction:Energy 200.0*GeV
 ##################################################
 
 cd /Herwig/Cuts
-set /Herwig/Cuts/JetKtCut:MinEta -1
-set /Herwig/Cuts/JetKtCut:MaxEta 1
-set /Herwig/Cuts/JetKtCut:MinKT 30*GeV
-#This is the Matchbox stuff
-#set /Herwig/Cuts/JetFinder:Variant Kt
-#set /Herwig/Cuts/JetFinder:ConeRadius 0.4
-#insert JetFinder:JetRegion FirstJet
-#set /Herwig/Cuts/FirstJet:PtMin 30*GeV
+set /Herwig/Cuts/JetKtCut:MinKT 7*GeV
+#7 GeV to match pythia "10GeV" pthatmin cut
 ##################################################
 # Matrix Elements for hadron-hadron collisions 
 # (by default only gamma/Z switched on)
@@ -154,13 +148,13 @@ cd /Herwig/Generators
 #insert /Herwig/Analysis/Rivet:Analyses 0 XXX_2015_ABC123
 read snippets/HepMC.in
 #insert EventGenerator:AnalysisHandlers 0 /Herwig/Analysis/HepMCFile
-#set /Herwig/Analysis/HepMC:PrintEvent 100
-#set /Herwig/Analysis/HepMC:Format GenEvent
-#set /Herwig/Analysis/HepMCFile:Units GeV_mm
+set /Herwig/Analysis/HepMC:PrintEvent 5000000
+set /Herwig/Analysis/HepMC:Format GenEvent
+set /Herwig/Analysis/HepMCFile:Units GeV_mm
 #set /Herwig/Analsysis/Plot:EventNumber 12
 #insert EventGenerator:AnalysisHandlers 0 /Herwig/Analysis/Plot
 
 ##################################################
 # Save run for later usage with 'Herwig run'
 ##################################################
-saverun sphenix_30GeV_jetpt EventGenerator
+saverun sphenix_10GeV_jetpt EventGenerator
