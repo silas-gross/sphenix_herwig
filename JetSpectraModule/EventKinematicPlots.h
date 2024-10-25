@@ -20,7 +20,9 @@ struct EventKinematicPlots{
 	TH1F* h_pdg_id=new TH1F(Form("pdg_%s",  gen.c_str()), Form("Particle id of final state particles %s ; pdg id; N_{part}", gen_label.c_str()), 4600, -2300.5, 2299.5);
 	TH1F* h_E=new TH1F(Form("energy_%s",  gen.c_str()), Form("Energy of all particles in decay chain %s ; E [GeV]; N_{part}", gen_label.c_str()), 200, -0.5, 199.5);
 	TH1F* h_ET=new TH1F(Form("transverse_energy_%s",  gen.c_str()), Form("Transverse Energy of final state particles %s; E_{T} [GeV]; N_{part}", gen_label.c_str()), 500, -0.5, 49.5);
-	TH1F* h_status=new TH1F(Form("status_%s",  gen.c_str()), Form("HepMC status of final state particles %s; status", gen_label.c_str()), 30, -0.5, 29.5);
+	TH1F* h_status=new TH1F(Form("status_%s",  gen.c_str()), Form("HepMC status of final state particles %s; status", gen_label.c_str()), 60, -0.5, 59.5);
+	TH1F* h_status_pos=new TH1F(Form("pos_status_%s",  gen.c_str()), Form("HepMC status of final state particles %s; status", gen_label.c_str()), 60, -0.5, 59.5);
+	TH1F* h_status_all=new TH1F(Form("all_status_%s",  gen.c_str()), Form("HepMC status of final state particles %s; status", gen_label.c_str()), 60, -0.5, 59.5);
 	TH1F* h_phi_orig=new TH1F(Form("phi_orig_%s",  gen.c_str()), Form("#varphi distribution of primary particles produced in Hepmc record %s; #varphi; #sum_{particles} E_{T} [GeV]", gen_label.c_str()), 64, -3.1416, 3.14);
 	TH1F* h_eta_orig=new TH1F(Form("eta_orig_%s",  gen.c_str()), Form("#eta distribution of primary particles produced in decay chain of Hepmc record in sPHENIX acceptance %s; #eta; #sum_{particles} E_{T} [GeV]", gen_label.c_str()), 24, -1.12, 1.1); 
 	TH1F* h_phi_hit_orig=new TH1F(Form("phi_hit_orig_%s", gen.c_str()), Form( "hit #varphi distribution of primary particles produced in Hepmc record %s; #varphi; N_{hits}", gen_label.c_str()), 64, -3.1416, 3.14);
@@ -28,7 +30,7 @@ struct EventKinematicPlots{
 	TH1F* h_pt_orig=new TH1F(Form("pt_orig_%s",  gen.c_str()), Form("p_{T} distribution of primary particles produced in decay chain of Hepmc record %s; p_{T} [GeV]; N_{part}", gen_label.c_str()), 500,-0.5, 99.5);
 	TH1F* h_n_part_orig=new TH1F(Form("n_part_orig_%s",  gen.c_str()), Form("Number of total primary particles produced in decay chain of a Hepmc event %s; n_{part}; N_{event}", gen_label.c_str()), 1000, -0.5, 999.5);
 	TH1F* h_mass_orig=new TH1F(Form("mass_orig_%s",  gen.c_str()), Form("Particle masses of primary particle in decay chain of Hepmc record %s; m [GeV]; N_{part}", gen_label.c_str()), 100, 0, 1.5);
-	TH1F* h_status_orig=new TH1F(Form("status_orig_%s",  gen.c_str()), Form("HepMC status of primary partons %s; status", gen_label.c_str()), 30, -0.5, 29.5);
+	TH1F* h_status_orig=new TH1F(Form("status_orig_%s",  gen.c_str()), Form("HepMC status of primary partons %s; status", gen_label.c_str()), 60, 0, 59.5);
 	TH1F* h_E_orig=new TH1F(Form("energy_orig_%s",  gen.c_str()), Form("Energy of primary partons %s; E[GeV]; N_{part}", gen_label.c_str()), 200, -0.5, 199.5);
 	TH1F* h_ET_orig=new TH1F(Form("transverse_energy_orig_%s",  gen.c_str()), Form("Transverse Energy of primary partons %s; E_{T} [GeV]; N_{part}", gen_label.c_str()), 500, -0.5, 49.5);
 	TH1F* h_pdg_id_orig=new TH1F(Form("pdg_orig_%s",  gen.c_str()), Form("Particle id of originating parton %s ; pdg id; N_{part}", gen_label.c_str()), 4600, -2300.5, 2299.5);

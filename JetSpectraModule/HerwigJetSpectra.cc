@@ -155,6 +155,7 @@ int HerwigJetSpectra::getKinematics(PHCompositeNode *topNode, EventKinematicPlot
 		float jetptlead=0;
 		for(HepMC::GenVertex::particles_out_const_iterator iter=ov->particles_out_const_begin(); iter !=ov->particles_out_const_end(); ++iter)
 		{
+				Kinemats->h_status_orig->Fill((*iter)->status());
 				if(verbosity>2) std::cout<<"starting the analysis on the parton" <<std::endl;
 				jetobj* Jet=new jetobj;
 				if(verbosity>2) std::cout<<"successfully created the jet object" <<std::endl;
@@ -189,7 +190,6 @@ int HerwigJetSpectra::getKinematics(PHCompositeNode *topNode, EventKinematicPlot
 				Kinemats->h_hits_orig->Fill(eta, phi);
 				np_orig++;
 				//if(pt>pt_lead) pt_lead=pt;
-				Kinemats->h_status_orig->Fill((*iter)->status());
 				Kinemats->h_ET_orig->Fill(ET);
 				float mj=0, R=0, etj=0, /*ptj=0,*/ ej=0, pxj=0, pyj=0;
 				if(verbosity>1) std::cout<<"Measuring the kinematics of the jet" <<std::endl;
@@ -260,6 +260,8 @@ int HerwigJetSpectra::getKinematics(PHCompositeNode *topNode, EventKinematicPlot
 		std::vector<HepMC::GenParticle*> final_state_particles;
 		float pttot=0;
 		for(HepMC::GenEvent::particle_const_iterator iter=ev->particles_begin(); iter !=ev->particles_end(); ++iter){
+			Kinemats->h_status_all->Fill((*iter)->status());
+			if( (*iter)->status() > 0  ) Kinemats->h_status_pos->Fill((*iter)->status());
 	if(!(*iter)->end_vertex() && ((*iter)->status() == 1 || (do_pythia && (*iter)->status() > 0 ))){ //only pick up final state particles
 		double px=(*iter)->momentum().px();
 		double py=(*iter)->momentum().py();
@@ -288,6 +290,7 @@ int HerwigJetSpectra::getKinematics(PHCompositeNode *topNode, EventKinematicPlot
 		float delta=pow(ET,2)-pow(pt,2) -pow(mass,2);
 		Kinemats->h_delta->Fill(delta);
 		final_state_particles.push_back((*iter));
+		
 	}
 	}
 		Kinemats->h_pt_total->Fill(pttot);
@@ -303,6 +306,29 @@ int HerwigJetSpectra::getKinematics(PHCompositeNode *topNode, EventKinematicPlot
 	//	JetCollection* ICPRjets9=new JetCollection("Itterative Cone with Progressive Removal", 0.9, 0.1);
 		JetCollection* ICPRjetsfull=new JetCollection("Itterative Cone with Progressive Removal", 1.0, 0.1);
 		std::vector<JetCollection*> ICPRjets {ICPRjets2, ICPRjets4, ICPRjets6, ICPRjetsfull};//{ ICPRjets1,ICPRjets2, ICPRjets3, ICPRjets4, ICPRjets5,  ICPRjets6, ICPRjets7, ICPRjets8, ICPRjets9, ICPRjetsfull};
+/*		JetCollection* SISjets2=new JetCollection("SIS Cone with Progressive Removal", 0.2, 0.1);
+		JetCollection* SISjets4=new JetCollection("SIS Cone with Progressive Removal", 0.4, 0.1);
+		JetCollection* SISjets6=new JetCollection("SIS Cone with Progressive Removal", 0.6, 0.1);
+		JetCollection* SISjetsfull=new JetCollection("SIS Cone with Progressive Removal", 1.0, 0.1);
+		std::vector<JetCollection*> SISjets {SISjets2, SISjets4, SISjets6, SISjetsfull};*/
+		
+		JetCollection* ktjets2=new JetCollection("kt with Progressive Removal", 0.2, 0.1);
+		JetCollection* ktjets4=new JetCollection("kt with Progressive Removal", 0.4, 0.1);
+		JetCollection* ktjets6=new JetCollection("kt with Progressive Removal", 0.6, 0.1);
+		JetCollection* ktjetsfull=new JetCollection("kt with Progressive Removal", 1.0, 0.1);
+		std::vector<JetCollection*> ktjets {ktjets2, ktjets4, ktjets6, ktjetsfull};
+		
+		JetCollection* antiktjets2=new JetCollection("anti-kt with Progressive Removal", 0.2, 0.1);
+		JetCollection* antiktjets4=new JetCollection("anti-kt with Progressive Removal", 0.4, 0.1);
+		JetCollection* antiktjets6=new JetCollection("anti-kt with Progressive Removal", 0.6, 0.1);
+		JetCollection* antiktjetsfull=new JetCollection("anti-kt with Progressive Removal", 1.0, 0.1);
+		std::vector<JetCollection*> antiktjets {antiktjets2, antiktjets4, antiktjets6, antiktjetsfull};
+
+		JetCollection* cambridgejets2=new JetCollection("cambridge with Progressive Removal", 0.2, 0.1);
+		JetCollection* cambridgejets4=new JetCollection("cambridge with Progressive Removal", 0.4, 0.1);
+		JetCollection* cambridgejets6=new JetCollection("cambridge with Progressive Removal", 0.6, 0.1);
+		JetCollection* cambridgejetsfull=new JetCollection("cambridge with Progressive Removal", 1.0, 0.1);
+		std::vector<JetCollection*> cambridgejets {cambridgejets2, cambridgejets4, cambridgejets6, cambridgejetsfull};
 		
 		std::vector<std::thread> thread_vector;
 		for(auto j: ICPRjets){
@@ -311,19 +337,53 @@ int HerwigJetSpectra::getKinematics(PHCompositeNode *topNode, EventKinematicPlot
 	//		fastjetID(final_state_particles, j, 1, j->jetR, 0.1);
 		  //will do a new threads to include all the jets
 		}
+//		for(auto j:SISjets) thread_vector.push_back(std::thread(&HerwigJetSpectra::fastjetID, this, final_state_particles,j, 3, j->jetR, 0.1));
+		for(auto j:ktjets) thread_vector.push_back(std::thread(&HerwigJetSpectra::fastjetID, this, final_state_particles,j, 4, j->jetR, 0.1));
+		for(auto j:antiktjets) thread_vector.push_back(std::thread(&HerwigJetSpectra::fastjetID, this, final_state_particles,j, 5, j->jetR, 0.1));
+		for(auto j:cambridgejets) thread_vector.push_back(std::thread(&HerwigJetSpectra::fastjetID, this, final_state_particles,j, 6, j->jetR, 0.1));
 		for(int i=0; i<(int) thread_vector.size(); i++) thread_vector[i].join();
  	
 		for(auto j:ICPRjets){
 			for(auto i:j->Identified_jets){ 
-			float e2c=getE2C(i->jet_particles, h_E2C_IC[j->jetR]);
-			float e3c=getE3C(i->jet_particles, h_E3C_IC[j->jetR]);
-			h_E2CT_IC[j->jetR]->Fill(e2c);
-			h_E3CT_IC[j->jetR]->Fill(e3c);
+				float e2c=getE2C(i->jet_particles, h_E2C_IC[j->jetR]);
+				float e3c=getE3C(i->jet_particles, h_E3C_IC[j->jetR]);
+				h_E2CT_IC[j->jetR]->Fill(e2c);
+				h_E3CT_IC[j->jetR]->Fill(e3c);
 				}
 			}
-	
-			
-	}
+/*		for(auto j:SISjets){
+			for(auto i:j->Identified_jets){
+				float e2c=getE2C(i->jet_particles, h_E2C_SIS[j->jetR]);
+				float e3c=getE3C(i->jet_particles, h_E3C_SIS[j->jetR]);
+				h_E3CT_SIS[j->jetR]->Fill(e2c);
+				h_E3CT_SIS[j->jetR]->Fill(e3c);
+			}
+		}	*/
+		for(auto j:ktjets){
+			for(auto i:j->Identified_jets){
+				float e2c=getE2C(i->jet_particles, h_E2C_kt[j->jetR]);
+				float e3c=getE3C(i->jet_particles, h_E3C_kt[j->jetR]);
+				h_E2CT_kt[j->jetR]->Fill(e2c);
+				h_E3CT_kt[j->jetR]->Fill(e3c);
+			}
+		}	
+		for(auto j:antiktjets){
+			for(auto i:j->Identified_jets){
+				float e2c=getE2C(i->jet_particles, h_E2C_antikt[j->jetR]);
+				float e3c=getE3C(i->jet_particles, h_E3C_antikt[j->jetR]);
+				h_E2CT_antikt[j->jetR]->Fill(e2c);
+				h_E3CT_antikt[j->jetR]->Fill(e3c);
+			}
+		}	
+		for(auto j:cambridgejets){
+			for(auto i:j->Identified_jets){
+				float e2c=getE2C(i->jet_particles, h_E2C_cambridge[j->jetR]);
+				float e3c=getE3C(i->jet_particles, h_E3C_cambridge[j->jetR]);
+				h_E2CT_cambridge[j->jetR]->Fill(e2c);
+				h_E3CT_cambridge[j->jetR]->Fill(e3c);
+			}
+		}	
+	}	
 	}
 	Kinemats->h_n_part->Fill(np);
 	Kinemats->h_n_part_orig->Fill(np_orig);
@@ -581,6 +641,7 @@ int HerwigJetSpectra::fastjetID( std::vector<HepMC::GenParticle*> final_states, 
 	// Optionally takes in method (default kt), R (default 0.4) and minimum p_t (default 0 GeV) 
 	int n_jets=0;
 	float max_prev=0;
+	
 	switch (method)
 	{
 		case 1:
@@ -633,19 +694,70 @@ int HerwigJetSpectra::fastjetID( std::vector<HepMC::GenParticle*> final_states, 
 			n_jets++;
 			}
 		break;
-		case 3:
-		{	//the seedless is in fastjet I think	
-				
+	/*	case 3:
+		{	//the seedless is in fastjet as a plugin
+			fastjet::JetDefinition::Plugin* plugin=new fastjet::SISConePlugin(R, 0.75); //generic set of overlap threshold
+			fastjet::JetDefinition jetdef (plugin);
+			runFastJet(final_states, jetdef, pt_min, jet_plot);
+			n_jets=jet_plot->Identified_jets.size();
 		}
-			break;
+			break;*/ //This is not working right now, so forget it for the time being
 		case 4:
 		{	//kt method
-			n_jets++;
+			fastjet::JetDefinition jetdef(fastjet::kt_algorithm, R);
+			runFastJet(final_states, jetdef, pt_min, jet_plot);
+			n_jets=jet_plot->Identified_jets.size();
 		}
 			break;
+		case 5:
+		{
+			//anti-kt method
+			fastjet::JetDefinition jetdef(fastjet::antikt_algorithm, R);
+			runFastJet(final_states, jetdef, pt_min, jet_plot);
+			n_jets=jet_plot->Identified_jets.size();
+		}
+		break;
+		case 6:
+		{
+			// Cambridge method
+			fastjet::JetDefinition jetdef(fastjet::cambridge_algorithm, R);
+			runFastJet(final_states, jetdef, pt_min, jet_plot);
+			n_jets=jet_plot->Identified_jets.size();
+		}
 	}
 	return n_jets;
 		
+}
+void HerwigJetSpectra::runFastJet(std::vector<HepMC::GenParticle*> finalstates, fastjet::JetDefinition jetdef, float pt_min, JetCollection* jets)
+{
+	std::vector<fastjet::PseudoJet> particles;
+	for(auto p:finalstates){
+		if(getPt(p) > pt_min){
+			fastjet::PseudoJet pj( p->momentum().px(), p->momentum().py(), p->momentum().pz(), p->momentum().e()); 
+			pj.set_user_index(p->barcode());
+			particles.push_back(pj);
+		}
+	}
+	if(particles.size() == 0 ) return;
+	fastjet::ClusterSequence cs(particles, jetdef);
+	auto js=cs.inclusive_jets();
+	jets->n_jets=js.size();
+	std::cout<<"Fastjet found " <<js.size() <<std::endl;
+	for(int j=0; j<(int) js.size(); j++)
+	{
+		jetobj* jet=new jetobj(jets->jet_id_method);
+		jet->pt=js[j].pt();
+		jet->mass=js[j].m();
+		jet->ET= js[j].e()/cosh(js[j].eta());
+		jet->eta=js[j].eta();
+		jet->eta=js[j].phi();
+		for(auto i:/*=0; i<*/js[j].constituents()/*; i++*/)
+			for(auto p:finalstates) 
+				if(i.user_index() == p->barcode()) 
+					jet->jet_particles.push_back(p);
+		jets->Identified_jets.push_back(jet);
+	}
+	return;
 }
 float HerwigJetSpectra::getPt(HepMC::GenParticle* p)
 {
@@ -863,6 +975,46 @@ void HerwigJetSpectra::Print(const std::string &what) const
 		h_E3C_IC.at(r)->Write();
 		h_E3CT_IC.at(r)->Write();
 	}
+/*	if(h_E2CT_SIS.at(r)->GetEntries() > 0 ){
+		h_E2C_SIS.at(r)->Scale(1/((float)h_E2CT_SIS.at(r)->GetEntries()));
+		h_E2C_SIS.at(r)->Write();
+		h_E2CT_SIS.at(r)->Write();
+	}
+	if((h_E3CT_SIS.at(r))->GetEntries() > 0 ){
+		h_E3C_SIS.at(r)->Scale(1/((float) h_E3CT_SIS.at(r)->GetEntries()));
+		h_E3C_SIS.at(r)->Write();
+		h_E3CT_SIS.at(r)->Write();
+	}*/
+	if(h_E2CT_kt.at(r)->GetEntries() > 0 ){
+		h_E2C_kt.at(r)->Scale(1/((float)h_E2CT_kt.at(r)->GetEntries()));
+		h_E2C_kt.at(r)->Write();
+		h_E2CT_kt.at(r)->Write();
+	}
+	if((h_E3CT_kt.at(r))->GetEntries() > 0 ){
+		h_E3C_kt.at(r)->Scale(1/((float) h_E3CT_kt.at(r)->GetEntries()));
+		h_E3C_kt.at(r)->Write();
+		h_E3CT_kt.at(r)->Write();
+	}
+	if(h_E2CT_antikt.at(r)->GetEntries() > 0 ){
+		h_E2C_antikt.at(r)->Scale(1/((float)h_E2CT_antikt.at(r)->GetEntries()));
+		h_E2C_antikt.at(r)->Write();
+		h_E2CT_antikt.at(r)->Write();
+	}
+	if((h_E3CT_antikt.at(r))->GetEntries() > 0 ){
+		h_E3C_antikt.at(r)->Scale(1/((float) h_E3CT_antikt.at(r)->GetEntries()));
+		h_E3C_antikt.at(r)->Write();
+		h_E3CT_antikt.at(r)->Write();
+	}
+	if(h_E2CT_cambridge.at(r)->GetEntries() > 0 ){
+		h_E2C_cambridge.at(r)->Scale(1/((float)h_E2CT_cambridge.at(r)->GetEntries()));
+		h_E2C_cambridge.at(r)->Write();
+		h_E2CT_cambridge.at(r)->Write();
+	}
+	if((h_E3CT_cambridge.at(r))->GetEntries() > 0 ){
+		h_E3C_cambridge.at(r)->Scale(1/((float) h_E3CT_cambridge.at(r)->GetEntries()));
+		h_E3C_cambridge.at(r)->Write();
+		h_E3CT_cambridge.at(r)->Write();
+	}
   }
   HerwigKin->h_pt->Write();
   HerwigKin->h_phi->Write();
@@ -898,6 +1050,8 @@ void HerwigJetSpectra::Print(const std::string &what) const
   HerwigKin->h_hits_orig->Write();
   HerwigKin->h_delta->Write();
   HerwigKin->h_pt_total->Write();
+  HerwigKin->h_status_pos->Write();
+  HerwigKin->h_status_all->Write();
   if(do_pythia){
 	  PythiaKin->h_pt->Write();
 	  PythiaKin->h_phi->Write();
@@ -927,6 +1081,8 @@ void HerwigJetSpectra::Print(const std::string &what) const
 	  PythiaKin->h_ET->Write();
 	  PythiaKin->h_ET_orig->Write();
 	  PythiaKin->h_delta->Write();
+	  PythiaKin->h_status_pos->Write();
+	  PythiaKin->h_status_all->Write();
 	//  PythiaKin->h_Jet_pt->Write();
 	 // PythiaKin->h_Jet_R->Write();
 	//  PythiaKin->h_Jet_npart->Write();

@@ -9,14 +9,14 @@ int Pythia_to_Herwig(TFile* herwig, TFile* pythia, std::string trig, std::string
 	SetsPhenixStyle();
 	float herwig_weight=1.0, pythia_weight=1.0;
 	std::cout<<std::stoi(trigval)<<std::endl;
-	if(std::stoi(trigval) == 10){
+/*	if(std::stoi(trigval) == 10){
 		herwig_weight=4253.0/33852000.0;
 		pythia_weight=0.198/41.973;
 	}
 	if(std::stoi(trigval) == 30) {
 		herwig_weight=2.2836/33852000.0;
 		pythia_weight=0.001/41.973;
-	}
+	}*/
 	TH1F* evts_h=(TH1F*) herwig->Get("event_Herwig");
 	TH1F* evts_pg=(TH1F*) herwig->Get("event_Pythia");
 	TH1F* evts_p=(TH1F*) pythia->Get("event_Pythia");
@@ -161,8 +161,8 @@ int Pythia_to_Herwig(TFile* herwig, TFile* pythia, std::string trig, std::string
 		l->AddEntry("", sphenix_label.c_str(), "");
 		l->AddEntry("", Form("2 #rightarrow 2 Monte Carlo %s, %s", trig.c_str(), evts.c_str()), "");
 		l->AddEntry("", labels.at(i).c_str(), "");
-		herwig_plots.at(i)->Draw("e1");
-		pythia_plots.at(i)->Draw("e1 same");
+		herwig_plots.at(i)->Draw("e2");
+		pythia_plots.at(i)->Draw("e2 same");
 	//	pythiag_plots.at(i)->Draw("e2 same");
 		l->Draw();
 		l1->Draw();
