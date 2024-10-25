@@ -155,7 +155,7 @@ set EventGenerator:EventHandler:LuminosityFunction:Energy 200.0*GeV
 #insert /Herwig/Analysis/Rivet:Analyses 0 XXX_2015_ABC123
 read snippets/HepMC.in
 #insert EventGenerator:AnalysisHandlers 0 /Herwig/Analysis/HepMCFile
-set /Herwig/Analysis/HepMC:PrintEvent 5000000
+set /Herwig/Analysis/HepMC:PrintEvent 50000000
 set /Herwig/Analysis/HepMC:Format GenEvent
 set /Herwig/Analysis/HepMCFile:Units GeV_mm
 #set /Herwig/Analsysis/Plot:EventNumber 12
