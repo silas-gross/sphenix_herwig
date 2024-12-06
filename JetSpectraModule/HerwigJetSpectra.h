@@ -77,7 +77,12 @@ class HerwigJetSpectra : public SubsysReco
 	std::cout <<"This is running on the "<<name<<" module with jet trigger at " <<trig<<std::endl;
 	h_e2c=new TH1F("e2c", "2 Point energy correlator averaged over all jets; R_{L}; E2C", 200, -0.01, 1.99);
 	h_e3c=new TH1F("e3c", "3 Point energy correlator averaged over all jets; R_{L}; E3C", 200, -0.01, 1.99);
-	h_e2c_q=new TH1F("e2c_q", "2 Point energy correlator averaged over alli quark jets; R_{L}; E2C", 200, -0.01, 1.99);
+	h_pt_q=new TH1F("h_pt_q", "p_{T} of quark initated jets; p_{T} [GeV/c]; N_{jets}", 100, -0.5, 99.5);
+	h_pt_g=new TH1F("h_pt_g", "p_{T} of gluon initated jets; p_{T} [GeV/c]; N_{jets}", 100, -0.5, 99.5);
+	h_n_q=new TH1F("h_n_q", "Number of quark jets per event ; N_{jets}; N_{event}", 20, -0.5, 19.5);
+	h_n_g=new TH1F("h_n_g", "Number of gluon jets per event ; N_{jets}; N_{event}", 20, -0.5, 19.5);
+	h_n_qg=new TH1F("h_n_qg", "Ratio of number of quark jets to gluon jets per event ; #frac{N_{q jets}}{N_{g jets}}; N_{event}", 50, -0.05, 4.95);
+	h_e2c_q=new TH1F("e2c_q", "2 Point energy correlator averaged over all quark jets; R_{L}; E2C", 200, -0.01, 1.99);
 	h_e3c_q=new TH1F("e3c_q", "3 Point energy correlator averaged over all quark jets; R_{L}; E3C", 200, -0.01, 1.99);
 	h_e2c_g=new TH1F("e2c_g", "2 Point energy correlator averaged over all gluon jets; R_{L}; E2C", 200, -0.01, 1.99);
 	h_e3c_g=new TH1F("e3c_g", "3 Point energy correlator averaged over all gluon jets; R_{L}; E3C", 200, -0.01, 1.99);
@@ -222,6 +227,7 @@ class HerwigJetSpectra : public SubsysReco
 		float phi;
 		float eta;
 	};*/
+	TH1F *h_pt_q, *h_pt_g, *h_n_q, *h_n_g, *h_n_qg;
 	TH1F *h_e2c, *h_e3c, *h_e2c_q, *h_e3c_q, *h_e2c_g, *h_e3c_g;
 	TH1F *h_e2c_2, *h_e3c_2, *h_e2c_4, *h_e3c_4, *h_e2c_6, *h_e3c_6;
 	TH1F *h_e2ct, *h_e3ct, *h_e2ct_2, *h_e3ct_2, *h_e2ct_4, *h_e3ct_4, *h_e2ct_6, *h_e3ct_6;

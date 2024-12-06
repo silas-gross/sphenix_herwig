@@ -140,7 +140,7 @@ int HerwigJetSpectra::getKinematics(PHCompositeNode *topNode, EventKinematicPlot
 		}
 		if(verbosity>0) std::cout<<"Begin processing event"<<std::endl;
 		PHHepMCGenEvent* origvtx=phg->get(0);
-	//	std::cout<<"The kinematics weight histogram has a name that is " <<Kinemats->h_weight->GetName() <<std::endl;
+	//	std::cout<<"The kinematics weight histogram has a name that is " <<Kinemats->h_weight->GetName() <<std::endl
 		if(ev->weights().size() > 0 )
 			 for(auto w:ev->weights())
 				 Kinemats->h_weight->Fill(w);
@@ -153,6 +153,7 @@ int HerwigJetSpectra::getKinematics(PHCompositeNode *topNode, EventKinematicPlot
 		HepMC::GenVertex* ov=pb->end_vertex();
 		if(verbosity>1) std::cout<<"looking into the originating partons" <<std::endl;
 		float jetptlead=0;
+		int n_q=0, n_g=0;
 		for(HepMC::GenVertex::particles_out_const_iterator iter=ov->particles_out_const_begin(); iter !=ov->particles_out_const_end(); ++iter)
 		{
 				Kinemats->h_status_orig->Fill((*iter)->status());
@@ -231,8 +232,20 @@ int HerwigJetSpectra::getKinematics(PHCompositeNode *topNode, EventKinematicPlot
 				h_e2ct_2->Fill(et2_2);
 				h_e2ct_4->Fill(et2_4);
 				h_e2ct_6->Fill(et2_6);
-				if(abs(Jet->originating_parton->pdg_id()) == 21) getE2C(Jet->jet_particles, h_e2c_g);
-				else if (abs(Jet->originating_parton->pdg_id()) < 9 ) getE2C(Jet->jet_particles, h_e2c_q);
+				if(abs(Jet->originating_parton->pdg_id()) == 21){
+					if(Jet->pt > 0 ){
+					h_pt_g->Fill(Jet->pt);
+					n_g++;
+					getE2C(Jet->jet_particles, h_e2c_g);
+					}
+				}
+				else if (abs(Jet->originating_parton->pdg_id()) < 9 ){
+					if(Jet->pt > 0 ){
+					h_pt_q->Fill(Jet->pt);
+					n_q++;
+					getE2C(Jet->jet_particles, h_e2c_q);
+					}
+				}
 				float et3=getE3C(Jet->jet_particles, h_e3c);
 				float et3_2=getE3C(r02, h_e3c_2);
 				float et3_4=getE3C(r04, h_e3c_4);
@@ -259,6 +272,12 @@ int HerwigJetSpectra::getKinematics(PHCompositeNode *topNode, EventKinematicPlot
 		//Now need to get the produced particles and differentiate from the end particles
 		std::vector<HepMC::GenParticle*> final_state_particles;
 		float pttot=0;
+		h_n_q->Fill(n_q);
+		h_n_g->Fill(n_g);
+		if(n_q != 0 && n_g !=0 ) {
+			float gq_rat=(float)n_q/(float)n_g;
+			h_n_qg->Fill(gq_rat);
+		}
 		for(HepMC::GenEvent::particle_const_iterator iter=ev->particles_begin(); iter !=ev->particles_end(); ++iter){
 			Kinemats->h_status_all->Fill((*iter)->status());
 			if( (*iter)->status() > 0  ) Kinemats->h_status_pos->Fill((*iter)->status());
@@ -294,7 +313,7 @@ int HerwigJetSpectra::getKinematics(PHCompositeNode *topNode, EventKinematicPlot
 	}
 	}
 		Kinemats->h_pt_total->Fill(pttot);
-	
+	/*
 	//	JetCollection* ICPRjets1=new JetCollection("Itterative Cone with Progressive Removal", 0.1, 0.1);
 		JetCollection* ICPRjets2=new JetCollection("Itterative Cone with Progressive Removal", 0.2, 0.1);
 	//	JetCollection* ICPRjets3=new JetCollection("Itterative Cone with Progressive Removal", 0.3, 0.1);
@@ -305,12 +324,12 @@ int HerwigJetSpectra::getKinematics(PHCompositeNode *topNode, EventKinematicPlot
 	//	JetCollection* ICPRjets8=new JetCollection("Itterative Cone with Progressive Removal", 0.8, 0.1);
 	//	JetCollection* ICPRjets9=new JetCollection("Itterative Cone with Progressive Removal", 0.9, 0.1);
 		JetCollection* ICPRjetsfull=new JetCollection("Itterative Cone with Progressive Removal", 1.0, 0.1);
-		std::vector<JetCollection*> ICPRjets {ICPRjets2, ICPRjets4, ICPRjets6, ICPRjetsfull};//{ ICPRjets1,ICPRjets2, ICPRjets3, ICPRjets4, ICPRjets5,  ICPRjets6, ICPRjets7, ICPRjets8, ICPRjets9, ICPRjetsfull};
+		std::vector<JetCollection*> ICPRjets {ICPRjets2, ICPRjets4, ICPRjets6, ICPRjetsfull};//{ ICPRjets1,ICPRjets2, ICPRjets3, ICPRjets4, ICPRjets5,  ICPRjets6, ICPRjets7, ICPRjets8, ICPRjets9, ICPRjetsfull};*/
 /*		JetCollection* SISjets2=new JetCollection("SIS Cone with Progressive Removal", 0.2, 0.1);
 		JetCollection* SISjets4=new JetCollection("SIS Cone with Progressive Removal", 0.4, 0.1);
 		JetCollection* SISjets6=new JetCollection("SIS Cone with Progressive Removal", 0.6, 0.1);
 		JetCollection* SISjetsfull=new JetCollection("SIS Cone with Progressive Removal", 1.0, 0.1);
-		std::vector<JetCollection*> SISjets {SISjets2, SISjets4, SISjets6, SISjetsfull};*/
+		std::vector<JetCollection*> SISjets {SISjets2, SISjets4, SISjets6, SISjetsfull};
 		
 		JetCollection* ktjets2=new JetCollection("kt with Progressive Removal", 0.2, 0.1);
 		JetCollection* ktjets4=new JetCollection("kt with Progressive Removal", 0.4, 0.1);
@@ -351,14 +370,14 @@ int HerwigJetSpectra::getKinematics(PHCompositeNode *topNode, EventKinematicPlot
 				h_E3CT_IC[j->jetR]->Fill(e3c);
 				}
 			}
-/*		for(auto j:SISjets){
+		for(auto j:SISjets){
 			for(auto i:j->Identified_jets){
 				float e2c=getE2C(i->jet_particles, h_E2C_SIS[j->jetR]);
 				float e3c=getE3C(i->jet_particles, h_E3C_SIS[j->jetR]);
 				h_E3CT_SIS[j->jetR]->Fill(e2c);
 				h_E3CT_SIS[j->jetR]->Fill(e3c);
 			}
-		}	*/
+		}	
 		for(auto j:ktjets){
 			for(auto i:j->Identified_jets){
 				float e2c=getE2C(i->jet_particles, h_E2C_kt[j->jetR]);
@@ -382,7 +401,7 @@ int HerwigJetSpectra::getKinematics(PHCompositeNode *topNode, EventKinematicPlot
 				h_E2CT_cambridge[j->jetR]->Fill(e2c);
 				h_E3CT_cambridge[j->jetR]->Fill(e3c);
 			}
-		}	
+		}	*/
 	}	
 	}
 	Kinemats->h_n_part->Fill(np);
@@ -945,6 +964,11 @@ void HerwigJetSpectra::Print(const std::string &what) const
   JetKin->h_pt_R->Write();
   h_e2c->Write();
   h_e3c->Write();
+  h_pt_q->Write();
+  h_pt_g->Write();
+  h_n_q->Write();
+  h_n_g->Write();
+  h_n_qg->Write();
   h_e2c_q->Write();
   h_e3c_q->Write();
   h_e2c_g->Write();
