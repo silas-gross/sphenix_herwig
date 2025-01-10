@@ -15,6 +15,7 @@
 		float R;
 		float phi;
 		float eta;
+		float E_width;
 	};
 	struct JetCollection{
 		JetCollection(std::string method="raw",float R=0.4,float pt_min=0.0):

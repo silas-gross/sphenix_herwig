@@ -154,6 +154,7 @@ int HerwigJetSpectra::getKinematics(PHCompositeNode *topNode, EventKinematicPlot
 		if(verbosity>1) std::cout<<"looking into the originating partons" <<std::endl;
 		float jetptlead=0;
 		int n_q=0, n_g=0;
+		std::vector <jetobj*> Jets;
 		for(HepMC::GenVertex::particles_out_const_iterator iter=ov->particles_out_const_begin(); iter !=ov->particles_out_const_end(); ++iter)
 		{
 				Kinemats->h_status_orig->Fill((*iter)->status());
@@ -223,6 +224,11 @@ int HerwigJetSpectra::getKinematics(PHCompositeNode *topNode, EventKinematicPlot
 				}	
 				std::cout<<"Done with calc on the jet, recording it now" <<std::endl;
 				Jet->mass=mj;
+				Jet->E_width=0.;
+				for(auto p:Jet->jet_particles){
+					Jet->E_width+=getR(p, seed)*p->momentum().e()/ej;
+				}
+				JetKin->h_e_width->Fill(Jet->E_width);
 				//calculate energy correlators, divide out at end
 				float et2=getE2C(Jet->jet_particles, h_e2c, ej);
 				float et2_2=getE2C(r02, h_e2c_2, ej);
@@ -266,6 +272,7 @@ int HerwigJetSpectra::getKinematics(PHCompositeNode *topNode, EventKinematicPlot
 				JetKin->h_Jet_R->Fill(Jet->R);
 				JetKin->h_Jet_npart->Fill(Jet->jet_particles.size());
 				if(Jet->pt > jetptlead) jetptlead=Jet->pt;
+				Jets.push_back(Jet);
 				delete Jet;
 		}
 		if(jetptlead > 0 ) Kinemats->h_Jet_pt_lead->Fill(jetptlead);
@@ -277,6 +284,40 @@ int HerwigJetSpectra::getKinematics(PHCompositeNode *topNode, EventKinematicPlot
 		if(n_q != 0 && n_g !=0 ) {
 			float gq_rat=(float)n_q/(float)n_g;
 			h_n_qg->Fill(gq_rat);
+			h_n_qg_pt->Fill(jetptlead, gq_rat);
+		}
+		for(int i=0; i<(int)Jets.size()-1; i++){
+			for(int j=i+1; j<(int)Jets.size(); j++){
+				float phi1=Jets[i]->phi;
+				float phi2=Jets[j]->phi;
+				float dphi=std::abs(phi1-phi2); 
+				if(dphi > 3.1415926) dphi+=-3.1415926;
+				if(dphi > 2.8 ){
+					float pt1 = Jets[i]->pt;
+					float pt2 = Jets[j]->pt;
+					float Aj = std::abs(pt1-pt2)/(pt1+pt2);
+					float xj = std::min(pt1, pt2)/std::max(pt1, pt2);
+					auto part1 = Jets[i]->originating_parton->pdg_id();
+					auto part2 = Jets[j]->originating_parton->pdg_id();
+					if(part1 == 21 || part2 == 21 ){
+						if(abs(part1) < 9 || abs(part2) < 9 ){
+							h_qg_Aj->Fill(Aj);
+							h_qg_pt->Fill(std::max(pt1,pt2));
+							h_qg_xj->Fill(xj);
+						} 
+					}
+					else if(part1 == 21 && part2 == 21){
+						h_gg_Aj->Fill(Aj);
+						h_gg_pt->Fill(std::max(pt1,pt2));
+						h_gg_xj->Fill(xj);
+					}
+					else if(abs(part1) < 9 && abs(part2) < 9 ){ 
+						h_qq_Aj->Fill(Aj);
+						h_qq_pt->Fill(std::max(pt1,pt2));
+						h_qq_xj->Fill(xj);
+					}
+				}
+			}
 		}
 		for(HepMC::GenEvent::particle_const_iterator iter=ev->particles_begin(); iter !=ev->particles_end(); ++iter){
 			Kinemats->h_status_all->Fill((*iter)->status());
@@ -962,6 +1003,7 @@ void HerwigJetSpectra::Print(const std::string &what) const
   h_e2c_g->Scale(1/(float) JetKin->h_Jet_pt->GetEntries());
   h_e3c_g->Scale(1/(float) JetKin->h_Jet_pt->GetEntries());
   JetKin->h_pt_R->Write();
+  JetKin->h_e_width->Write();
   h_e2c->Write();
   h_e3c->Write();
   h_pt_q->Write();
@@ -969,6 +1011,16 @@ void HerwigJetSpectra::Print(const std::string &what) const
   h_n_q->Write();
   h_n_g->Write();
   h_n_qg->Write();
+  h_n_qg_pt->Write();
+  h_qg_Aj->Write();
+  h_qg_xj->Write();
+  h_qg_pt->Write();
+  h_gg_Aj->Write();
+  h_gg_xj->Write();
+  h_gg_pt->Write();
+  h_qq_Aj->Write();
+  h_qq_xj->Write();
+  h_qq_pt->Write();
   h_e2c_q->Write();
   h_e3c_q->Write();
   h_e2c_g->Write();

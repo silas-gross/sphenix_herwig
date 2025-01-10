@@ -22,6 +22,7 @@ struct JetKinematicPlots{
 	std::string gen=Generator+TypeLabel;
 	TH1F* h_Jet_pt=new TH1F(Form("jet_pt_%s_%s",  gen.c_str(), r_str.c_str()), Form("p_{T} of identified jets in final state %s %f; p_{T} [GeV]; Counts", gen_label.c_str(), R), 100, -0.5, 49.5);
 	TH1F* h_Jet_et=new TH1F(Form("jet_et_%s_%s",  gen.c_str(), r_str.c_str()), Form("E_{T} of identified jets in final state %s %f; E_{T} [GeV]; Counts", gen_label.c_str(), R), 100, -0.5, 49.5);
+	TH1F* h_e_width=new TH1F(Form("jet_e_width_%s_%s",  gen.c_str(), r_str.c_str()), Form("Energy width of identified jets in final state %s %f; #sum E_{particle} R/E_{jet}; Counts", gen_label.c_str(), R), 100, -2.0,2.0 );
 	TH1F* h_Jet_m=new TH1F(Form("jet_m_%s_%s",  gen.c_str(), r_str.c_str()), Form("Mass of identified jets in final state %s %f; |m| [GeV]; Counts", gen_label.c_str(), R), 100, -0.5, 49.5);
 	TH1F* h_Jet_npart=new TH1F(Form("jet_npart_%s_%s", gen.c_str(), r_str.c_str()), Form("Number of final state partons at R, averaged over number of jets %s %f; R; N_{Part}", gen_label.c_str(), R), 100, -0.02, 1.8); 
 	TH1F* h_Jet_R=new TH1F(Form("jet_R_%s_%s",  gen.c_str(), r_str.c_str()), Form("R of identified jets in final state, measured from max seperation of originating parton %s of size %f; R; Counts", gen_label.c_str(), R), 100, -0.1, 9.9);

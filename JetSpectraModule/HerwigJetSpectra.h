@@ -82,6 +82,16 @@ class HerwigJetSpectra : public SubsysReco
 	h_n_q=new TH1F("h_n_q", "Number of quark jets per event ; N_{jets}; N_{event}", 20, -0.5, 19.5);
 	h_n_g=new TH1F("h_n_g", "Number of gluon jets per event ; N_{jets}; N_{event}", 20, -0.5, 19.5);
 	h_n_qg=new TH1F("h_n_qg", "Ratio of number of quark jets to gluon jets per event ; #frac{N_{q jets}}{N_{g jets}}; N_{event}", 50, -0.05, 4.95);
+	h_n_qg_pt=new TH2F("h_n_qg_pt", "Ratio of number of quark jets to gluon jets as a functio of lead p_{T} per event ; p_{T} [GeV/c]; #frac{N_{q jets}}{N_{g jets}}; N_{event}", 100, -0.5, 99.5, 50, -0.05, 4.95);
+	h_qg_Aj=new TH1F("h_qg_Aj", "A_{jj} for quark-gluon dijets ; A_{jj}; N_{event}", 50, -0.05, 1);
+	h_qg_pt=new TH1F("h_qg_pt", "p_{T} leading for quark-gluon dijets ; p_{T} [GeV/c]; N_{event}", 100, -0.05, 99.5);
+	h_qg_xj=new TH1F("h_qg_xj", "x_{j} for quark-gluon dijets ; x_{j}; N_{event}", 50, -0.05, 1);
+	h_gg_Aj=new TH1F("h_gg_Aj", "A_{jj} for gluon-gluon dijets ; A_{jj}; N_{event}", 50, -0.05, 1);
+	h_gg_pt=new TH1F("h_gg_pt", "p_{T} leading for gluon-gluon dijets ; p_{T} [GeV/c]; N_{event}", 100, -0.05, 99.5);
+	h_gg_xj=new TH1F("h_gg_xj", "x_{j} for gluon-gluon dijets ; x_{j}; N_{event}", 50, -0.05, 1);
+	h_qq_Aj=new TH1F("h_qq_Aj", "A_{jj} for quark-quark dijets ; A_{jj}; N_{event}", 50, -0.05, 1);
+	h_qq_pt=new TH1F("h_qq_pt", "p_{T} leading for quark-quark dijets ; p_{T} [GeV/c]; N_{event}", 100, -0.05, 99.5);
+	h_qq_xj=new TH1F("h_qq_xj", "x_{j} for quark-quark dijets ; x_{j}; N_{event}", 50, -0.05, 1);
 	h_e2c_q=new TH1F("e2c_q", "2 Point energy correlator averaged over all quark jets; R_{L}; E2C", 200, -0.01, 1.99);
 	h_e3c_q=new TH1F("e3c_q", "3 Point energy correlator averaged over all quark jets; R_{L}; E3C", 200, -0.01, 1.99);
 	h_e2c_g=new TH1F("e2c_g", "2 Point energy correlator averaged over all gluon jets; R_{L}; E2C", 200, -0.01, 1.99);
@@ -228,6 +238,10 @@ class HerwigJetSpectra : public SubsysReco
 		float eta;
 	};*/
 	TH1F *h_pt_q, *h_pt_g, *h_n_q, *h_n_g, *h_n_qg;
+	TH1F *h_qg_Aj, *h_qg_xj, *h_qg_pt;
+	TH1F *h_gg_Aj, *h_gg_xj, *h_gg_pt;
+	TH1F *h_qq_Aj, *h_qq_xj, *h_qq_pt;
+	TH2F *h_n_qg_pt;
 	TH1F *h_e2c, *h_e3c, *h_e2c_q, *h_e3c_q, *h_e2c_g, *h_e3c_g;
 	TH1F *h_e2c_2, *h_e3c_2, *h_e2c_4, *h_e3c_4, *h_e2c_6, *h_e3c_6;
 	TH1F *h_e2ct, *h_e3ct, *h_e2ct_2, *h_e3ct_2, *h_e2ct_4, *h_e3ct_4, *h_e2ct_6, *h_e3ct_6;
