@@ -1,0 +1,16 @@
+//////////////////////////////////////////////////////////////////////////////////////////////////
+//												//
+//												//
+//				Herwig Spectra Evalutor						//
+//												//
+//				Author: Skaydi							//
+//				First Commit: 28 Jan 2025					//	
+//				Most recent : 28 Jan 2025					//
+//				version: 0.1							//
+//												//
+//	Parent Evaluator Module to test Herwig output, seperate HepMC and DST modes		//
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+#include "HerwigSpectraEvaluator.h"
+
